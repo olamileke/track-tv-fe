@@ -100,17 +100,19 @@ export class AuthService {
 
     const URL=this.config.baseURL+'/api/logout?api_token='+this.config.apiToken;
 
-    return this.http.post(URL, this.headers).pipe(this.handleError());
+    return this.http.post(URL, this.headers).pipe(catchError(this.handleError()));
 
   }
 
+  // ERROR HANDLER
+
   handleError() {
 
-    return (error:any):Observable<any> => {
+     return (error:any):Observable<any> => {
 
       console.log(error);
 
-      if(error.status == 0) {
+      if(error.status == 500) {
 
         this.notification.showErrorMsg('Internal Server Error', '500');
       }

@@ -42,7 +42,7 @@ export class TvService {
 
   // FETCHING THE DETAILS OF A PARTICULAR TV SERIES
 
-  getShowDetail(id:number):any {
+  getShowDetail(id:number):Observable<any> {
 
     const URL=`https://api.themoviedb.org/3/tv/${id}?api_key=${this.config.apiKey}`;
 
@@ -68,7 +68,7 @@ export class TvService {
  
   // FETCHING THE POPULAR TV SERIES
 
-  getPopularShows(tab:string) {
+  getPopularShows(tab:string):Observable<any> {
 
   	const URL=`https://api.themoviedb.org/3/tv/popular?api_key=${this.config.apiKey}`;
 
@@ -96,7 +96,7 @@ export class TvService {
 
   // FETCHING THE TOP RATED TV SHOWS
 
-  getTopRatedShows(tab:string) {
+  getTopRatedShows(tab:string):Observable<any> {
 
     const URL=`https://api.themoviedb.org/3/tv/top_rated?api_key=${this.config.apiKey}`;
 
@@ -119,7 +119,7 @@ export class TvService {
 
   /// FETCHING TV SHOWS FILTERED ACCORDING TO GENRE
 
-  getByGenre(id:number, tab:string) {
+  getByGenre(id:number, tab:string):Observable<any> {
 
     const URL=`https://api.themoviedb.org/3/discover/tv?with_genres=${id}&api_key=${this.config.apiKey}`;
 
@@ -168,7 +168,7 @@ export class TvService {
 
   handleError(tab?:string) {
 
-    return (error:any):any  => {
+    return (error:any):Observable<any>  => {
 
       console.log(error);
 
@@ -183,6 +183,8 @@ export class TvService {
       }
 
       this.setErrorProperty(tab);
+
+      return of(error);
 
     }
   }

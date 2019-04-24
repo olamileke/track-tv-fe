@@ -195,7 +195,7 @@ export class HeaderComponent implements OnInit {
 
   logout() {
 
-     this.auth.logout().subscribe(() => {
+     this.auth.logout().subscribe((res:any) => {
 
          this.auth.unSetUserData();
 
