@@ -1,0 +1,283 @@
+@import url("https://fonts.googleapis.com/css?family=Raleway");
+@import url("https://fonts.googleapis.com/css?family=Quicksand");
+@import url("https://fonts.googleapis.com/css?family=Nanum+Gothic");
+@import url(https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
+
+:host
+{	
+	height:100%;
+	width:15%;
+}
+
+:host.fixed
+{
+	position:fixed;
+	top:0;
+	min-height:100vw;
+	padding-top:25px;
+}
+
+ul 
+{
+	padding-left:2px;
+}
+
+ul li
+{
+	list-style-type:none;
+	margin-bottom:30px;
+}
+
+li.active a
+{
+	color:green;
+}
+
+li div
+{
+	display:flex;
+	flex-flow:column;
+	font-size:1.3em;
+	color:#fff;
+}
+
+img
+{
+	margin:4px 0 0 15px;
+	width:60px;
+	height:60px;
+	border-radius:50%;
+}
+
+
+a.active
+{
+	color:green !important;
+}
+
+ul a, li.genre
+{
+	text-decoration:none;
+	color:rgba(0,0,0,0.5);
+	font-family:'Raleway', sans-serif;
+}
+
+li.genre
+{
+	cursor:pointer;
+}
+
+li.genre.show
+{
+	margin-bottom:8px !important;
+}
+
+li.genre i
+{
+	position:relative;
+	top:0.5px;
+	margin:0 3px 0 0;
+}
+
+div.genres-list
+{
+	position:relative;
+	left:2%;
+	font-size:0.92em;
+	flex-flow:column;
+	display:none;
+	transition:all 1s linear;
+}
+
+div.genres-list.show
+{
+	margin-bottom:10px;
+	display:flex;
+}
+
+div.genres-list a
+{
+	margin-bottom:5px;
+}
+
+ul a.not-active:hover
+{
+	color:orange;
+}
+
+@media(max-width:991px)
+{
+	:host
+	{
+		width:21%;
+	}
+}
+
+
+@media(min-width:501px) and (max-width:768px)
+{ 
+	:host
+	{
+		position:absolute;
+		left:44%;
+		top:110px;
+		height:unset;
+		padding:0px 25px;
+		opacity:0;
+		z-index:1;
+		border:1px solid rgba(0,0,0,0.06);
+		border-radius: 5px;
+		background:#fff;
+		width:350px;
+		transition:all 1s ease-out;
+	}
+
+	:host:after
+	{
+		content:'';
+		position:absolute;
+		border-left:15px solid transparent;
+		border-top:15px solid transparent;
+		border-right:15px solid transparent;
+		border-bottom:15px solid #fff;
+		top:-30px;
+		left:80%;
+	}
+
+	:host.active
+	{
+		opacity:1;
+		top:86px;
+	}
+
+	ul li
+	{
+		margin-bottom:10px;
+	}
+
+	ul a
+	{
+		font-size:0.9em;
+	}
+
+	li.settings
+	{
+		margin-bottom:0;
+	}
+
+	li.genre
+	{
+		position:absolute;
+		top:18px;
+		left:220px;
+		font-size:0.9em;
+	}
+
+	li.genre i
+	{
+		display:none;
+	}
+
+	div.genres-list
+	{
+		display:flex;
+		flex-flow:row;
+		flex-wrap:wrap;
+		position:absolute;
+		top:50px;
+		left:150px;
+		width:250px;
+		color:#000 !important;
+	}
+
+	div.genres-list a
+	{
+		font-size:0.9em !important;
+		margin:0 10px 12px 0;
+	}
+}
+
+@media(max-width:500px) 
+{
+	:host
+	{
+		position:fixed;
+		top:0;
+		left:-80vw;
+		height:100vh;
+		width:80vw;
+		display:flex;
+		justify-content: center;
+		background:#3cb371;
+		border-right:1px solid rgba(0,0,0,0.4);
+		z-index:1;
+		border:1px solid rgba(0,0,0,0.6);
+		transition:left 0.5s ease-out;
+		border:none;
+	}
+
+	:host.active
+	{
+		left:0;
+	}
+
+	div.genres-list
+	{
+		top:0;
+		left:20%;
+		padding:7px;
+		border:1px solid rgba(0,0,0,0.45);
+		border-radius:5px;
+		z-index:1;
+		width:150px;
+		text-align:center;
+		background:#fff;
+	}
+
+	div.genres-list a.not-active
+	{
+		color:rgba(0,0,0,0.7);		
+	}
+
+
+	li:first-child
+	{
+		border-bottom:1px solid #fff;
+		text-align: center;
+		padding-bottom:10px;
+		font-family: 'Raleway', sans-serif;
+	}
+
+	li.active a
+	{
+		color:#F79862;
+	}
+
+	li
+	{
+		position:relative;
+		left:10%;
+		width: 80%;
+		color:#fff;
+	}
+
+	ul a, li.genre
+	{
+		color:#fff;
+		font-family:'Raleway', sans-serif;
+	}
+
+	ul
+	{
+		position:relative;
+		top:20px;
+		width:100%;
+	}
+
+	img
+	{
+		position:relative;
+		margin:0 0 20px 0;
+		left:calc((100% - 70px)/2);
+	}
+}

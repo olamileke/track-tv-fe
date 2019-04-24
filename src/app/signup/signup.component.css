@@ -1,0 +1,233 @@
+@import url("https://fonts.googleapis.com/css?family=Quicksand");
+@import url("https://fonts.googleapis.com/css?family=Raleway");
+@import url("https://fonts.googleapis.com/css?family=Muli");
+@import url('https://use.fontawesome.com/releases/v5.8.1/css/all.css');
+
+div.container
+{
+	position:fixed;
+	top:0;
+	left:0;
+	width:100vw;
+	height:100vh;
+	background:url('../../assets/signup/signup-background.png');
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+p.title
+{
+	position:absolute;
+	top:0;
+	left:50px;
+	font-family:'Raleway', sans-serif;
+	font-size:1.5em;
+}
+
+p.title a
+{
+	color:#000;
+	text-decoration: none;
+}
+
+div.main
+{
+	margin-top:-10vh;
+	width:650px;
+	height:400px;
+	background:#fff;
+	border-radius: 3px;
+	border:1px solid rgba(0,0,0,0.08);
+	display: flex;
+}
+
+
+div.info
+{
+	width:210px;
+	border-radius:3px 0 0 3px; 
+	display: flex;
+	flex-flow:column;
+	align-items: center;
+	color:rgba(0,0,0,0.8);
+	padding:90px 30px 0 30px;
+	border:1px solid rgba(0,0,0,0.06);
+	border-right: none;
+	box-sizing: border-box;
+	font-family:'Raleway', sans-serif;
+	background:url('../../assets/signup/signup-background.png');
+}
+
+div.info p
+{
+	font-size:1.5em;
+	margin:10px 0;
+}
+
+div.info span
+{
+	font-family:'Quicksand', sans-serif;
+	line-height: 1.55;
+	text-align: center;
+}
+
+div.info i.fa-smile
+{
+	font-size:2em;
+	color:rgba(0,0,0,0.6);
+}
+
+form
+{
+	position:relative;
+	text-align:center;
+	width:440px;
+	display:flex;
+	flex-flow:column;
+	align-items: center;
+	padding:15px 0 0 0;
+	box-sizing: border-box;
+	/*justify-content: center;*/
+}
+
+form i.toggle
+{
+	position:absolute;
+	top:52%;
+	left:82.5%;
+	color:rgba(0,0,0,0.7);
+	display:none;
+	cursor:pointer;
+}
+
+form i.toggle.show
+{
+	display:block;
+}
+
+form p
+{
+	margin:0 0 5px 0;
+	font-family:'Quicksand', sans-serif;
+	color:rgba(0,0,0,0.8);
+}
+
+form p + a
+{
+	color:#3cb371;
+	font-family:'Quicksand',sans-serif;
+	text-decoration:none;
+}
+
+form p.heading
+{
+	color:rgba(0,0,0,0.7);
+	font-size:1.3em;
+	margin:20px 0;
+}
+
+input, button
+{
+	width:80%;
+	margin-bottom:20px;
+	padding:10px 8px;
+	box-sizing: border-box;
+	border:1px solid rgba(0,0,0,0.09 );
+	border-radius: 3px;
+	color:rgba(0,0,0,0.7);
+	font-family:"Trebuchet MS",sans-serif;
+}
+
+input:focus, button:focus
+{
+	outline:none;
+}
+
+.empty
+{
+	border:1px solid #FFB2B2;
+}
+
+button
+{
+	background:#3cb371;
+	border:1px solid #3cb371;
+	color:#fff;
+	width:50%;
+	padding:0 4px;
+	height:32px;
+	font-family:'Quicksand', sans-serif;
+	font-size:1.03em;
+	border-radius:3px;
+	cursor:pointer;
+}
+
+div.loader
+{
+	position:relative;
+	left:calc((100% - 10px)/2);
+	width:10px;
+	height:10px;
+	border:2px solid #fff;
+	border-right-color:transparent;
+	border-radius:50%;
+	animation:animate 1s both infinite linear;
+}
+
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+	/*border:1px solid rgba(0,0,0,0.09 );*/
+}
+
+
+@keyframes animate
+{
+	from
+	{
+		transform:rotate(0deg);
+	}	
+	to
+	{
+		transform:rotate(360deg);
+	}
+}
+
+@media(max-width:670px)
+{
+	div.main
+	{
+		margin-top:20px;
+		width:440px;
+	}
+
+	div.info
+	{
+		display: none;
+	}
+
+	form
+	{
+		width:100%;
+	}
+}
+
+
+@media(max-width:460px)
+{
+	div.main
+	{
+		width:95vw;
+	}
+
+	p.title
+	{
+		left:2.5vw;
+	}
+}
+
+

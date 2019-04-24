@@ -1,0 +1,44 @@
+ 
+<div class='container'>
+	
+	<div class='title'>
+		<a routerLink=''>TrackTv</a>
+		<p></p>
+	</div>
+
+	<div class='overlay' #overlay>
+		<img bind-src=imgsrc class='top'>
+	</div>
+
+	<form #loginForm="ngForm" (ngSubmit)="onSubmit()">
+		<!-- <img src="../../assets/Login/tinylogo.jpg"> -->
+
+		<p class='heading'>TrackTv</p> 
+
+		<img src="../../assets/Login/tinylogo.jpg">
+
+		<input type="email" [(ngModel)]=user.email #email="ngModel" [class.empty]="email.touched && email.invalid" ngModel email="true" name="email" placeholder="Email" autofocus required>
+
+		<i class='far fa-eye toggle' #eye (click)="toggleShowPassword()"></i>
+
+		<input type="password" (input)="displayShowButton($event.target.value)" [(ngModel)]=user.password #password="ngModel" #passwordinput [class.empty]="password.touched && password.invalid" name="password" placeholder="Password" required>
+
+		<p class='login-check'> <input type="checkbox" name="loggedin" (click)="toggleRemember()"> stay logged in </p>
+ 
+		<button type="submit" [disabled]="!loginForm.form.valid" #loginbtn>
+			<div [hidden]="loading">Login</div>
+
+			<div class='loader' [hidden]="!loading"></div>
+		</button>
+
+
+		<div class='options'>
+
+			<a routerLink="/signup">Create Account</a>
+			<a routerLink="/signup">Forgot Password</a>
+
+		</div>
+
+	</form>
+
+</div>

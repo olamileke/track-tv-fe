@@ -1,0 +1,16 @@
+
+<div class='no-subscriptions' *ngIf='!hasSubscriptions && !load'>
+	
+	<i class='em em-anguished'></i>
+	<p>You do not have any subscriptions</p>
+</div>
+
+
+<div *ngFor='let show of TvShows'>
+	<app-tv-show [TvShow]="show" [subscription]=true></app-tv-show>
+</div>
+
+ 
+<div class='loader' *ngIf='load'>
+	
+</div> 

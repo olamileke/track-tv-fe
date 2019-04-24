@@ -1,0 +1,148 @@
+@import url("https://fonts.googleapis.com/css?family=Raleway");
+@import url("https://fonts.googleapis.com/css?family=Quicksand");
+
+:host
+{
+	position:absolute;
+	top:25vh;
+	left:calc((100vw - 400px)/2);
+	background:#fff;
+	z-index:10;
+	width:400px;
+	min-height:170px;
+	border-radius: 6px;
+	box-shadow:0 5px 20px rgba(0,0,0,0.3);
+	display:flex;
+	align-items: center;
+	border:1px solid rgba(0,0,0,0.7);
+	padding:10px 20px;
+	box-sizing:border-box;
+}
+
+div.img
+{
+	width:120px;
+	height:120px;
+	margin-right:20px;
+}
+
+img
+{
+	width:100%;
+	height:100%;
+	object-fit:cover;
+	border-radius: 50%;
+}
+
+div.info
+{
+	position:relative;
+	display:flex;
+	height:150px;
+	width:calc(100% - (150px));
+	flex-flow:column;
+	text-align: center;
+	font-family:'Quicksand', sans-serif;
+	justify-content: space-around;
+	font-size:0.85em;
+	color:rgba(0,0,0,0.7);
+}
+
+div.info.uploaded
+{
+	justify-content: space-around;
+}
+
+div.info p
+{
+	margin-top:10px;
+	lin-height:1.7;
+}
+
+div.loader-parent
+{
+	margin-top:16px;
+}
+
+div.loader
+{
+	height:12px;
+	width:100%;
+	border-radius:2px;
+	border:1px solid rgba(0,0,0,0.06);
+	background:#FFBF00;
+}
+
+div.buttons
+{
+	position:relative;
+	top:-4px;
+	float:right;
+}
+
+div.buttons.uploaded
+{
+	top:-9px;
+}
+
+button
+{
+	padding:6px;
+	background:none;
+	outline:none;
+	border:none;
+	font-family:'Quicksand', sans-serif;
+	border-radius: 4px;
+	cursor:pointer;
+}
+
+button.select
+{
+	margin-right:20px;
+	background:#3CB371;
+	color:#fff;
+	border:1px solid rgba(0,0,0,0.06);
+}
+
+button.upload
+{
+	border:1px solid rgba(0,0,0,0.3);
+}
+
+
+@media(max-width:768px)
+{
+	:host
+	{
+		justify-content: center;
+	}
+
+	div.img
+	{
+		position:relative;
+		top:5px;
+		width:100px;
+		height:100px;
+	}
+}
+
+
+@media(max-width:410px)
+{
+	:host
+	{
+		width:310px;
+		left:calc((100vw - 310px)/2);
+	}
+
+	div.img
+	{
+		width:70px;
+		height:70px;
+	}
+
+	div.info
+	{
+		width:calc(100% - (100px));
+	}
+}

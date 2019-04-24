@@ -1,0 +1,279 @@
+@import url("https://fonts.googleapis.com/css?family=Quicksand");
+@import url("https://fonts.googleapis.com/css?family=Raleway");
+@import url("https://fonts.googleapis.com/css?family=Muli");
+@import url("https://fonts.googleapis.com/css?family=Nanum+Gothic");
+@import url('https://use.fontawesome.com/releases/v5.8.1/css/all.css');
+
+div.container
+{
+	position:fixed;
+	top:0;
+	left:0;
+	width:100vw;
+	height:100vh;
+}
+
+div.title
+{
+	position:absolute; 
+	top:15px;
+	left:30px;
+	font-family:'Raleway', sans-serif;
+	font-size:1.5em;
+}
+
+div.title a
+{
+	text-decoration: none;
+	color:#fff;
+}
+
+div.title p
+{
+	position:relative;
+	left:calc((100% - 0px)/2);
+	background: orange;
+	height:2px;
+	margin:4px 0 0 0;
+	width:0px;
+}
+
+div.title:hover p
+{
+	left:0;
+	width:100%;
+	transition:all 0.2s ease-in;		
+}
+
+div.overlay
+{
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100vh;
+}
+
+div.overlay img
+{
+	position:absolute;
+	width:100%;
+	height:100%;
+	object-fit: cover;
+	opacity: 0;
+	 -webkit-transition: all 2s ease-in-out !important;
+	 -moz-transition: all 2s ease-in-out !important;
+	 -o-transition: all 2s ease-in-out !important;
+	 transition: all 2s ease-in-out !important;
+}
+
+div.overlay img.top
+{
+	opacity:1;
+}
+
+form
+{
+	position:absolute;
+	top:calc((100vh - 422px)/2);
+	left:calc(100vw - 450px);
+	background:linear-gradient(to bottom, rgba(0,0,0,0.25), rgba(0,0,0,0.4));
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	justify-content: center;
+	width:340px;
+	padding:5px 30px 5px 30px;
+	box-sizing:border-box;
+	border-radius:5px;
+}
+
+form img
+{
+	border-radius: 50%;
+	width:60px;
+	height:60px;
+	display:none;
+}
+
+form p.heading
+{
+	font-family:'Nanum Gothic', sans-serif;
+	color:#fff;
+	font-size:2em;
+	margin-top:20px;
+}
+
+i.toggle
+{	
+	position:absolute;
+	top:41.3%;
+	left:86%;
+	color:rgba(0,0,0,0.9);
+	display:none;
+	cursor:pointer;
+}
+
+i.toggle.show
+{
+	display:block;
+}
+
+form p.login-check
+{
+	margin:0 0 20px 0;
+	display:flex;
+	font-family:'Quicksand', sans-serif;
+	color:#fff;
+}
+
+form input[type="checkbox"]
+{
+	margin-right:12px;
+}
+
+form input[type="text"], input[type="email"], [type="password"], button
+{
+	width:100%;
+	margin-bottom:30px;
+	padding:10px 8px;
+	border:1px solid rgba(0,0,0,0.12);
+	border-radius:4px;
+	font-family:"Trebuchet MS", sans-serif;
+}
+
+
+form button
+{
+	background:#4EA24E;
+	color:#fff;
+	border:1px solid rgba(0,0,0,0.17);
+	border-radius:4px;
+	margin-bottom:20px;
+	font-family:'Quicksand', sans-serif;
+	height:38px; 
+	cursor:pointer;
+}
+
+
+input:focus
+{
+	outline:none;
+}
+
+.empty
+{
+	border:1px solid #FF4D4D !important;
+}
+
+div.options
+{
+	display: flex;
+	margin-top:10px;
+	flex-flow:column;
+}
+
+form a
+{
+	color:#4EA24E;
+	font-family: 'Quicksand', sans-serif;
+	margin-bottom:20px;
+	margin-right:13px;
+	text-decoration: none;
+	color:#fff;
+}
+
+div.loader
+{
+	position:relative;
+	left:calc((100% - 10px)/2);
+	width:10px;
+	height:10px;
+	border:2px solid #fff;
+	border-right-color:transparent;
+	border-radius:50%;
+	animation:animate 1s both infinite linear;
+}
+
+@keyframes animate
+{
+	from
+	{
+		transform:rotate(0deg);
+	}	
+	to
+	{
+		transform:rotate(360deg);
+	}
+}
+
+
+@media(max-width:991px)
+{
+	form
+	{
+		left:calc(100vw - 380px);
+	}
+}
+
+
+@media(max-width:768px)
+{	
+	div.overlay
+	{
+		display:none;
+	}
+
+	form
+	{
+		top:5vh;
+		left:15vw;
+		width:70vw;
+		background:none;
+		padding:0;
+		height:fit-content;
+	}
+
+	form p.heading
+	{
+		display:none;
+	}
+
+	form img
+	{
+		display:block;
+		width:80px;
+		height:80px;
+		margin-bottom:30px;
+	}
+
+	form a
+	{
+		color:#4EA24E
+	}
+
+	form p.login-check
+	{
+		color:rgba(0,0,0,0.7);
+	}
+
+	input:focus
+	{
+		border:1px solid #fff;
+	}
+
+	i.toggle
+	{
+		top:44%;
+		left:95%;
+	}
+}
+
+
+@media(max-width:610px)
+{
+	i.toggle
+	{
+		left:93%;
+	}
+}

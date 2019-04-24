@@ -1,0 +1,72 @@
+
+<p class='title' [hidden]='showSearch' #title>
+	<a routerLink='/' (click)='emitHomeEvent()'>TrackTv</a>
+</p>
+
+
+<div *ngIf='!mediumScreen && !smallScreen' #search class='search'>
+	<input type="text" name="" placeholder='Find your favourite Tv Series' (input)='searchTvSeries($event.target.value)'> 
+	<i class='fa fa-search'></i>
+	<img [src]="imgsrc" (click)='toggleOptions()'>
+
+	<ul class='searchResults' #searchContainer>
+		<li *ngFor='let tv of searchResults'>
+			<a routerLink='show/{{tv.id}}/{{ getSlug(tv.name) }}'>
+				<img src="http://image.tmdb.org/t/p/w1280{{ tv.poster_path }}">
+				<div>
+					<p>{{ tv.name }}</p>
+					<span>{{ tv.vote_average }}/10</span>
+				</div>
+			</a>
+		</li>
+	</ul>
+
+	<ul class='options' *ngIf='showOptions'>
+		<li><i class='fa fa-picture-o'></i> Change display picture</li>
+		<li (click)='logout()'><i class='fa fa-sign-out'></i>  Logout</li>
+	</ul>
+
+</div>
+
+
+<div *ngIf='mediumScreen && !showSearch' class='medium-nav'> 
+	<div (click)='toggleSearch()'>
+		<img src="../../assets/Header/search.png" (click)='toggleSearch()'>
+		<p>Search</p> 
+	</div>
+ 	
+	<div (click)='emitSideBarEvent()'>
+		<img src="../assets/Users/harry.jpg">
+		<p>{{ name |slice:0:13 }}<i class='fa fa-caret-down'></i> </p>
+	</div>
+</div>
+
+<div *ngIf='smallScreen && !showSearch' class='small-nav'>
+	<img src="../../assets/Header/search.png" (click)='toggleSearch()'>
+
+	<div class='navtoggle' (click)='emitSideBarEvent("navtoggle")'>
+		<span [class.active]='active_on_small_screen'></span>
+	</div>
+</div>
+ 
+<div class='search-container' *ngIf='showSearch'>
+	<input type="text" name="" placeholder='Find your favourite Tv Series' (input)='searchTvSeries($event.target.value)'> 
+	<i class='fa fa-search'></i>
+	<i class='fa fa-angle-left' (click)='toggleSearch()'></i>
+
+	<ul class='searchResults' #searchContainer>
+		<li *ngFor='let tv of searchResults'>
+			<a routerLink='show/{{tv.id}}/{{ getSlug(tv.name) }}'>
+				<img src="http://image.tmdb.org/t/p/w1280{{ tv.poster_path }}">
+				<div>
+					<p>{{ tv.name }}</p>
+					<span>{{ tv.vote_average }}/10</span>
+				</div>
+			</a>
+		</li>
+
+		<!-- <span class='arrow'></span> -->
+	</ul>
+</div>
+
+

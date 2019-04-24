@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
+@import url('https://afeld.github.io/emoji-css/emoji.css');
+
+:host
+{
+	position:relative;
+	box-shadow:-5px -4px 10px rgba(0,0,0,0.06);
+	width:85%;
+	padding:3.5% 0 0 2%;
+	box-sizing:border-box;
+	display:flex;
+	justify-content: center;
+	flex-wrap:wrap;
+}
+
+:host.sidebarFixed 
+{
+	left:15%;
+}
+
+div.no-subscriptions
+{
+	margin:15vh auto;
+	display:flex;
+	flex-flow:column;
+	align-items: center;
+	font-family:'Quicksand', sans-serif;
+	font-size:1.2em;
+	color:rgba(0,0,0,0.6);
+}
+
+div.no-subscriptions i.em
+{
+	font-size:3.2em;
+}
+
+div.loader
+{
+	position:relative;
+	top:calc((100% - 120px)/2);
+	width:40px;
+	height:40px;
+	border-radius:50%;
+	border:3px solid rgba(250, 190, 88, 1);
+	border-left-color:transparent;
+	animation:animate 1.5s linear infinite;
+}
+
+@keyframes animate
+{
+	from
+	{
+		transform:rotate(0deg);
+	}
+
+	to
+	{
+		transform:rotate(360deg);
+	}
+}
+
+@media(max-width:991px)
+{
+	:host
+	{
+		width:79%;
+	}
+
+	:host.sidebarFixed 
+	{
+		left:21%;
+	}
+
+}
+
+@media(max-width:768px)
+{
+	:host
+	{
+		box-shadow:none;
+		width:100%;
+		left:0;
+		padding-left:0;
+	}
+}

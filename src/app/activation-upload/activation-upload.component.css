@@ -1,0 +1,26 @@
+
+div.loader
+{
+	position:relative;
+	top:calc((100vh - 120px)/2);
+	margin:0 auto;
+	border-radius: 50%;
+	border:4px solid orange;
+	border-left-color:transparent;
+	width:45px;
+	height:45px;
+	animation:animate 1.5s linear infinite;
+}
+
+@keyframes animate
+{
+	from
+	{
+		transform:rotate(0deg);
+	}
+
+	to
+	{
+		transform:rotate(360deg);
+	}
+}

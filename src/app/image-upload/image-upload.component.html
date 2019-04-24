@@ -1,0 +1,24 @@
+
+<div class='img'>
+	<img [src]='imgsrc'>
+</div>
+
+<div class='info' #info>
+	
+	<p *ngIf='!imgLoader' class='msg'>Hey <b>{{ name }}</b>, and welcome once more to TrackTv. Before 
+		you go on however, you would need to add a display picture
+	</p>
+
+
+	<div class='loader-parent' *ngIf='imgLoader'>
+		<div class='loader'  [ngStyle]="{'width':trackFile.message}"></div>
+		<p *ngIf='trackFile.message == "100%"' class='uploaded'>{{ image.name }} has been set as your display picture</p>
+	</div>
+
+	<input type="file" #fileupload (change)='imageSelect($event.target)' hidden>
+
+	<div class='buttons' #buttons>
+		<button class='select' (click)='openDialog()'>Select</button>
+		<button class='upload' (click)='upload()' [disabled]='!imgSelected'>Upload</button>
+	</div>
+</div> 

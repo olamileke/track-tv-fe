@@ -1,0 +1,78 @@
+
+div.tv-small
+{
+	position:relative;
+	width:350px;
+	height:280px;
+	margin-bottom:30px;
+}
+
+.subscription
+{
+	margin-bottom:55px !important;
+}
+
+img
+{
+	width:100%;
+	height:100%;
+	object-fit:cover;
+}
+
+div.overlay
+{
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background:rgba(0,0,0,0.05);
+}
+
+div.info
+{
+	position:absolute;
+	top:210px;
+	left:2%;
+	height:70px;
+	width:96%;
+	background:rgba(255, 255, 255, 0.95);
+	display:flex;
+	flex-flow:column;
+	justify-content: center;
+	padding:0 10px;
+	box-sizing:border-box;
+	box-shadow:0 -10px 10px rgba(0,0,0,0.06);
+	font-family:'Raleway', sans-serif;
+	color:0.6;
+}
+
+div.info p
+{
+	margin:0;
+}
+
+
+@media(max-width:412px)
+{
+	div.popularity
+	{
+		font-family:'Quicksand', sans-serif;
+		width:45px;
+		left:calc((100% - 45px)/2);
+	}
+
+	.popular
+	{
+		margin-bottom:80px !important;
+	}
+}
+
+
+@media(max-width:360px)
+{
+	div.tv-small
+	{
+		width:315px;
+	}
+}

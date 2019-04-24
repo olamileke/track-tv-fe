@@ -1,0 +1,57 @@
+
+<a routerLink='show/{{ TvShow.id }}/{{ getSlug(TvShow.name) }}'>
+	<div class='tvshow' [ngClass]="{'popular':showPopularity, 'subscription':subscription}" *ngIf='!below_412px'>  
+		
+		<div class='picture'>
+			<img [src]=TvShow.imgpath>
+		</div>
+
+		<div class='content'>
+			<p class='name'>{{ TvShow.name }}</p>
+			<p class='date'>{{ TvShow.airdate }}</p> 
+			<p class='rating'>{{ TvShow.rating }}/10</p>
+			<p class='overview'>{{ TvShow.overview | slice:0:180 }}...</p>
+			<p class='genres'>{{ TvShow.genres }} </p>
+			<ng-template #ended>
+				 <div class='production'><p></p>Ended</div>
+			</ng-template>
+
+			<div *ngIf='TvShow.in_production; else ended' class='production'>
+				<p></p>In Production
+			</div>
+
+			<div class='popularity' *ngIf='showPopularity'>
+				<span> {{ TvShow.popularity}} </span>
+				<p>Popularity Score</p>
+			</div>
+
+
+			<div *ngIf='TvShow.timesubscribed' class='timesubscribed'>
+				You subscribed {{ TvShow.timesubscribed }}
+			</div>
+		</div>
+	</div>
+
+
+	<div class='tv-small' [ngClass]="{'popular':showPopularity, 'subscription':subscription}" *ngIf='below_412px'>		
+		<img [src]=TvShow.imgpath>
+
+		<div class='overlay'></div>
+
+		<div class='info'>
+			<p>{{ TvShow.name }}</p>
+			<p>{{ TvShow.rating }}/10</p>
+			<p>{{ TvShow.genres }}</p>
+		</div>
+
+		<div class='popularity' *ngIf='showPopularity'>
+			<span> {{ TvShow.popularity}} </span>
+			<p>Popularity Score</p>
+		</div>
+
+		<div *ngIf='TvShow.timesubscribed' class='timesubscribed'>
+			You subscribed {{ TvShow.timesubscribed }}
+		</div>
+	</div>
+
+</a> 

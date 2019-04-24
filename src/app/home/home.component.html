@@ -1,0 +1,49 @@
+
+<div class='container' *ngIf="!loggedin">
+	
+	<img src='assets/Home/home-background.jpg'>
+
+	<div class='main'>
+		
+		<div>
+			<p>TvTracker</p>
+			<span>Stay up to date with your favourite Tv Series</span>
+			<a routerLink='/signup' #signupbtn>Get Started</a>
+		</div> 
+	</div> 
+ 
+	<div class='navtoggle' (click)='toggleNav()'>
+		<span #hamburger></span>
+	</div>
+ 
+	<ul class='nav' #nav>
+		<li> 
+			<a routerLink="/signup">Signup</a>
+			<p></p>
+		</li>
+		<li>
+			<a routerLink="/login">Login</a>
+			<p></p>			 
+		</li>
+	</ul>
+</div>
+
+
+<div class='loggedin-container' *ngIf="loggedin" #loggedin>
+	<app-header (displaySideBar)='toggleSideBar()' (clickHome)='toggleTab($event)'></app-header>
+
+	<div class='overlay' #overlay (click)='closeSidebar()'></div>
+
+	<div class='image-upload-overlay' #imageOverlay></div>
+
+	<div class='loggedin-main' #loggedinmain >
+		<app-sidebar (toggleTab)='toggleTab($event)' *ngIf='is_sidebar_visible' [class.active]='smallScreen'></app-sidebar>
+		<app-subscriptions *ngIf="conditions.subscriptions"></app-subscriptions>
+		<app-popular *ngIf="conditions.popular"></app-popular>
+		<app-top-rated *ngIf="conditions.toprated"></app-top-rated>
+		<app-explore *ngIf="conditions.explore"></app-explore>
+		<app-genre *ngIf="conditions.genre" [genre]='genre' [genreId]='genreId'></app-genre>
+
+		<app-image-upload *ngIf="imageUpload" (closeImgUpload)='closeImageUpload($event)'></app-image-upload>
+	</div>
+</div>

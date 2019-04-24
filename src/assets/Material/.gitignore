@@ -1,0 +1,32 @@
+# project files should be checked into the repository, unless a significant
+# proportion of contributors will probably not be using SublimeText
+# *.sublime-project
+
+# sftp configuration file
+sftp-config.json
+
+.sass-cache
+*.css.map
+
+# OS generated files #
+.DS_Store
+ehthumbs.db
+Thumbs.db
+
+# IDE #
+.idea/
+*.swp
+.settings/
+.vscode/
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+
+# Node Files #
+/node_modules/
+/bower_components/
+npm-debug.log
+/npm-debug.log.*
+
+# Dist folders
+dist/

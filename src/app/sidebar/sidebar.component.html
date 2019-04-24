@@ -1,0 +1,51 @@
+
+<ul>
+	<li *ngIf='below_500_px'>
+		<div>
+			<img [src]="imgsrc">
+			{{ name }}
+		</div>
+	</li>	
+	<li [class.active]="tabs.subscriptions">
+		<a (click)="emitToggleEvent('subscriptions')" href='/#/subscriptions' [class.not-active]="!tabs.subscriptions">Subscriptions </a>
+	<li [class.active]="tabs.popular">
+		<a (click)="emitToggleEvent('popular')" href='/#/popular' [class.not-active]="!tabs.popular">Popular</a>
+	</li>
+	<li [class.active]="tabs.toprated">
+		<a (click)="emitToggleEvent('toprated')" href='/#/topRated' [class.not-active]="!tabs.toprated">Top Rated</a>
+	</li>
+    <li [class.active]="tabs.explore">
+		<a (click)="emitToggleEvent('explore')" href='/#/explore' [class.not-active]="!tabs.explore">Explore</a>
+	</li>
+	<li class='genre' (click)='toggleGenresDisplay()' #clickgenre>
+		By Genre <i class='fa fa-caret-right' #caret></i>
+	</li> 
+
+	<div class='genres-list' #genreslist> 
+		<a href="/#/genre-action" [class.not-active]="!genres.action" [class.active]='genres.action' (click)="emitToggleEvent('genres-action')">Action</a>
+
+		<a href="/#/genre-animation" [class.not-active]="!genres.animation" [class.active]='genres.animation' (click)="emitToggleEvent('genres-animation')">Animation</a>
+
+		<a href="/#/genre-comedy" [class.not-active]="!genres.comedy" [class.active]='genres.comedy' (click)="emitToggleEvent('genres-comedy')">Comedy</a>
+
+		<a href="/#/genre-crime" [class.not-active]="!genres.crime" [class.active]='genres.crime' (click)="emitToggleEvent('genres-crime')">Crime</a>
+
+		<a href="/#/genre-documentary" [class.not-active]="!genres.documentary" [class.active]='genres.documentary' (click)="emitToggleEvent('genres-documentary')">Documentary</a>
+
+		<a href="/#/genre-drama" [class.not-active]="!genres.drama" [class.active]='genres.drama' (click)="emitToggleEvent('genres-drama')">Drama</a>
+
+		<a href="/#/genre-family" [class.not-active]="!genres.family" [class.family]='genres.action' (click)="emitToggleEvent('genres-family')">Family</a>
+		<a href="/#/genre-kids" [class.not-active]="!genres.kids" [class.active]='genres.kids' (click)="emitToggleEvent('genres-kids')">Kids</a>
+
+		<a href="/#/genre-mystery" [class.not-active]="!genres.mystery" [class.active]='genres.mystery' (click)="emitToggleEvent('genres-mystery')">Mystery</a>
+
+		<a href="/#/genre-news" [class.not-active]="!genres.news" [class.active]='genres.news' (click)="emitToggleEvent('genres-news')">News</a>
+		<a href="/#/genre-reality" [class.not-active]="!genres.reality" [class.active]='genres.reality' (click)="emitToggleEvent('genres-reality')">Reality</a>
+
+		<a href="/#/genre-sci-fi" [class.not-active]="!genres.scifi" [class.active]='genres.scifi' (click)="emitToggleEvent('genres-scifi')">Sci-Fi</a>
+
+		<a href="/#/genre-talk" [class.not-active]="!genres.talk" [class.active]='genres.talk' (click)="emitToggleEvent('genres-talk')">Talk</a>
+
+		<a href="/#/genre-politics" [class.not-active]="!genres.politics" [class.active]='genres.politics' (click)="emitToggleEvent('genres-politics')">Politics & War</a>
+	</div> 
+</ul>

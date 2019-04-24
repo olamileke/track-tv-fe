@@ -1,0 +1,66 @@
+
+div.loggedin-container
+{
+	width:100vw;
+	min-height:100vh;
+	border:1px solid #fff;
+	box-sizing:border-box;
+	overflow-x:hidden;
+	padding:0 6vw 0 6vw;
+	transition:background 0.5s ease-out;
+}
+
+div.loggedin-container.active
+{
+	background:rgba(0,0,0,0.25);
+}
+
+div.overlay, div.image-upload-overlay
+{
+	position:fixed;
+	top:0;
+	left:0;
+	width:100vw;
+	height:100vh;
+	opacity:0;
+	transition:opacity 0.5s ease-out;
+	background:rgba(0,0,0,0.25);
+	z-index:-1;
+}
+
+div.image-upload-overlay
+{
+	background:rgba(0,0,0,0.6);		
+}
+ 
+div.overlay.active, div.image-upload-overlay.active
+{
+	opacity:1;
+	z-index:1;
+}
+
+div.loggedin-main
+{
+	padding-top:3vh;
+	display: flex;	
+	min-height:87vh;
+	transition:background 0.5s ease-out;
+}
+
+div.loggedin-main.sidebar-visible
+{
+	background:rgba(0,0,0,0.65);
+}
+
+@media(max-width:768px)
+{
+	div.loggedin-container
+	{
+		padding:0
+	}
+
+	div.loggedin-main.sticky-header
+	{
+		margin-top:68px;
+	}
+}

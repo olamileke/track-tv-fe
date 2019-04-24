@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css?family=Heebo');
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+
+a
+{
+	color:#000;
+	text-decoration: none;
+}
+
+ div.tvshow
+ {
+ 	position:relative;
+ 	width:400px;
+ 	height:250px;
+ 	border:1px solid rgba(0,0,0,0.03);
+ 	margin:0 80px 25px 0;
+ 	display:flex;
+ 	z-index:-3;
+ } 
+
+.subscription
+ {
+ 	margin-bottom:55px;
+ }
+
+ p
+ {
+ 	margin:0;
+ }
+
+ div.picture
+ {
+ 	width:38%;
+ }
+
+ div.picture img
+ {
+ 	height:100%;
+ 	width:100%;
+ 	object-fit:cover;
+ }
+
+ div.content
+ {
+ 	width:62%;
+ 	padding:10px 0 0 10px;
+ 	font-family:'Quicksand', sans-serif;
+ 	font-size:0.9em;
+ }
+
+ .date
+ {
+ 	margin-top:5px;
+ 	font-size:0.9em;
+ }
+
+ .rating
+ {
+ 	margin-top:8px;
+ }
+
+ .name
+ {
+ 	font-family:'Heebo', sans-serif;
+ 	font-size:1.2em;
+ }
+
+ .overview
+ {
+ 	margin-top:7px;
+ 	width:90%;
+ 	font-size:0.9em;
+ }
+
+ .genres
+ {
+ 	margin-top:5px;
+ 	font-size:0.9em;
+ 	width:90%;
+ }
+
+ .production
+ {
+ 	margin-top:7px;
+ 	font-size:0.9em;
+ 	display:flex;
+ }
+
+ .production p
+ {
+ 	width:4px;
+ 	height:4px;
+ 	margin:6px 5px 0 0;
+ 	color:#000;
+ 	background:#000;
+ 	border-radius: 50%;
+ }
+
+ div.popularity
+ {
+ 	position:absolute;
+ 	left:calc(100% + (13px));
+ 	top:20%;
+ 	font-size:0.8em;
+ 	color:rgba(250, 190, 88, 1);
+ 	display: flex;
+ 	flex-flow: column;
+ 	align-items: center;
+ }
+
+ div.popularity span
+ {
+ 	font-size:1.1em;
+ 	/*border:1px solid orange;*/
+ 	margin-bottom:5px;
+ 	/*border-radius: 50%;*/
+ }
+
+ div.popularity p
+ {
+ 	text-align:center;
+ }
+
+ div.timesubscribed
+ {
+ 	position:absolute;
+ 	top:107%;
+ 	left:0;
+ 	width:100%;
+ 	text-align: center;
+ 	color:rgba(250, 190, 88, 1);
+ 	font-family:'Quicksand', sans-serif;
+ }
+
+
+ @media(max-width:768px)
+ {
+ 	div.tvshow
+ 	{
+ 		margin-right:0 !important;
+ 	}
+
+ 	div.popularity
+ 	{
+ 		top:106%;
+ 		left:calc((100% - 55px)/2);
+ 	}
+
+ 	.popular
+ 	{
+ 		margin-bottom:60px !important;
+ 	}
+ }
+
+
+ @media(max-width:412px)
+{
+	/*iv.tvshow
+	{
+		height:350px;
+		width:350px;
+		flex-flow:column;
+	}
+
+	div.picture
+	{
+		height:50%;
+		width:100%;
+	}*/
+}

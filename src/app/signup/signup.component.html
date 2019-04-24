@@ -1,0 +1,40 @@
+
+<div class='container'>
+	
+	<p class='title'>
+		<a routerLink='/'>TrackTv</a>
+	</p>
+
+	<div class='main'>
+		
+		<div class='info'>
+			<i class='far fa-smile'></i>
+			<p>Welcome!</p>
+
+			<span>Kindly fill this form and click Submit to create your account</span>
+		</div>
+		<form #signupForm="ngForm" (ngSubmit)="onSubmit()">
+			<p class='heading'>Create Account</p>
+
+			<input type="text" placeholder='Full Name' [(ngModel)]=user.name 
+			name="name" #name="ngModel" [class.empty]="name.touched && name.invalid" autofocus required>
+
+
+			<input type="email" placeholder='Email' [(ngModel)]=user.email #email="ngModel" ngModel email="true" [class.empty]="email.touched && name.invalid" name="email" required>
+
+			<i class='far fa-eye toggle' #eye (click)="toggleShowPassword()"></i>
+
+			<input type="password" (input)="displayShowButton($event.target.value)" [(ngModel)]=user.password name="password" #password="ngModel" [class.empty]="password.touched && password.invalid" #passwordinput placeholder='Password' required>
+
+			<button type="submit" [disabled]="!signupForm.form.valid" #signupbtn>
+				<div *ngIf="!loading">Submit</div>
+
+				<div class='loader' *ngIf="loading"></div>
+			</button>
+
+			<p class='acctinfo'>Already have an account?</p>
+			<a routerLink="/login">Login</a>
+		</form>
+	</div>
+
+</div>

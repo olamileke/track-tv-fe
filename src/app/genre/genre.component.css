@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css?family=Ubuntu');
+ 
+:host
+{
+	position:relative;
+	box-shadow:-5px -4px 10px rgba(0,0,0,0.06);
+	width:85%;
+	padding:5% 0 0 2%;
+	box-sizing:border-box;
+	display:flex;
+	justify-content: center;
+	flex-wrap:wrap;
+}
+
+:host.sidebarFixed
+{
+	left:15%;
+}
+
+p.title
+{
+	position:absolute;
+	top:0;
+	left:4%;
+	font-size:1.3em;
+	color:RGBA(0,0,0,0.5);
+	font-family:'Ubuntu', sans-serif;
+}
+
+div.loader
+{
+	position:relative;
+	top:calc((100% - 120px)/2);
+	width:40px;
+	height:40px;
+	border-radius:50%;
+	border:3px solid rgba(250, 190, 88, 1);
+	border-left-color:transparent;
+	animation:animate 1.5s linear infinite;
+}
+
+@keyframes animate
+{
+	from
+	{
+		transform:rotate(0deg);
+	}
+
+	to
+	{
+		transform:rotate(360deg);
+	}
+}
+
+
+@media(max-width:1322px)
+{
+	p.title
+	{
+		width:100px;
+		text-align:center;
+		left:calc((100% - 100px)/2);
+	}
+}
+
+
+@media(max-width:991px)
+{
+	:host
+	{
+		width:79%;
+	}
+
+	:host.sidebarFixed 
+	{
+		left:21%;
+	}
+}
+
+@media(max-width:768px)
+{
+	:host
+	{
+		box-shadow:none;
+		width:100%;
+		left:0;
+		padding-left:0;
+	}
+}

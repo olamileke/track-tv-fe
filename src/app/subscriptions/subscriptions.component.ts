@@ -1,0 +1,169 @@
+import { Component, OnInit, HostListener, ElementRef, Renderer2 } from '@angular/core';
+
+import { HttpClient } from '@angular/common/http';
+
+import { catchError } from 'rxjs/operators';
+
+import { ConfigService } from '../config.service';
+
+import { TvService } from '../tv.service';
+
+import { TvShow } from '../tv-show';
+
+@Component({
+  selector: 'app-subscriptions',
+  templateUrl: './subscriptions.component.html',
+  styleUrls: ['./subscriptions.component.css']
+})
+export class SubscriptionsComponent implements OnInit {
+
+  // METHOD SETTING THE APPROPRIATE STYLING WHEN THE SIDEBAR BECOMES FIXED
+
+  @HostListener('window:scroll', ['$event'])
+  scrollHandler() {
+
+  	this.config.scrollHandler(this.renderer, this.elRef); 
+  }
+
+  TvShows:TvShow[]=[];
+
+  hasSubscriptions:boolean;
+
+  load:boolean=true;
+
+  below_412px:boolean=false;
+
+  timestamps;
+
+  constructor(private elRef:ElementRef, private renderer:Renderer2,
+              private config:ConfigService, private http:HttpClient, private tv:TvService) { }
+
+  ngOnInit() {
+
+    this.config.scrollHandler(this.renderer, this.elRef);  
+
+
+    if(screen.width <= 412) {
+
+      this.below_412px=true;
+    }
+
+
+    // INTERVAL TO CHECK IF THERE WAS A PROBLEM FETCHING TV DATA AND REMOVING THE LOADER IF THERE IS AN ERROR
+
+    const interval=setInterval(() => 
+    {
+        if(this.tv.errorsubscription) {
+
+            this.load=false;
+
+            clearInterval(interval);
+        }
+
+    }, 500)
+
+    // CHECKING IF THE USER HAS TV SHOWS HE HAS SUBSCRIBED TO 
+    // IF HE DOES HAVE TV SHOWS THAT HE HAS SUBSCRIBED TO , I AM THEN MAKING THE CALL
+    // TO THE API TO FETCH THAT PARTICULAR TV SHOWS
+    // IF HE DOES NOT HAVE ANY SUBSCRIBED TO TV SERIES, DISPLAY A MESSAGE
+
+    const URL=`http://localhost:8000/api/getsubscriptions?api_token=${this.config.apiToken}`;
+
+     if(this.tv.subscribedTvShows.length == 0) {
+
+       this.http.get(URL).pipe(catchError(this.tv.handleError('subscription'))).subscribe((res:any) => {
+
+             const ids=Object.keys(res);
+
+             this.timestamps=Object.values(res);
+
+             if(ids.length > 0) {
+
+               this.hasSubscriptions=true;
+
+               for(let i=0; i < ids.length; i++) {
+
+                   // MAKING THE CALL TO THE API FOR DETAILS ABOUT THE PARTICULAR TV SHOW
+
+                   this.tv.getShowDetail(parseInt(ids[i])).subscribe((res:any) => {
+
+                        this.setTvShows(res, i);
+                   })
+               }
+
+               this.load=false;
+
+               this.setSpacing();
+
+               clearInterval(interval);
+
+             } 
+             else {
+
+               this.hasSubscriptions=false;
+
+               this.load=false;
+
+               clearInterval(interval);               
+
+             }
+
+         });
+
+     }
+     else {
+
+         this.TvShows=this.tv.subscribedTvShows;
+
+         this.hasSubscriptions=true;
+
+         this.load=false;
+     }
+
+
+  }
+
+
+  setSpacing():void {
+
+      if(this.TvShows.length % 2 !== 0) {
+
+        this.renderer.setProperty
+      }
+  }
+
+
+   // SETTING THE FETCHED TV SHOW DATA INTO THE TV SHOWS ARRAY
+
+  setTvShows(res:any, i:number) {
+
+     this.tv.getShowDetail(res.id).subscribe((res:any) => { 
+
+         if(!this.below_412px) {
+
+              var tvshow=new TvShow(res.id, res.name,res.overview,
+              `http://image.tmdb.org/t/p/w1280${res.poster_path}`,
+               this.tv.getAirDateString(res.first_air_date),
+               res.vote_average, this.tv.constructGenresString(res.genres),
+                res.in_production,'');
+
+               tvshow.timesubscribed=this.timestamps[i];
+          }
+          else {
+
+              var tvshow=new TvShow(res.id, res.name,res.overview,
+              `http://image.tmdb.org/t/p/w1280${res.backdrop_path}`,
+               this.tv.getAirDateString(res.first_air_date),
+               res.vote_average, this.tv.constructGenresString(res.genres),
+                res.in_production,'');
+
+               tvshow.timesubscribed=this.timestamps[i];
+          }
+
+          this.TvShows.push(tvshow);
+
+          this.tv.subscribedTvShows.push(tvshow);
+
+       })          
+  }
+}
