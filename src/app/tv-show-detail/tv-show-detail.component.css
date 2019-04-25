@@ -1,10 +1,10 @@
 
 div.container
 {
-	width:100vw;
+	position:;
+	width:100%;
 	min-height:100vh;
 	border:1px solid #fff;
 	box-sizing:border-box;
-	padding:0 6vw 0 6vw;
 	transition:background 0.5s ease-out;
 }

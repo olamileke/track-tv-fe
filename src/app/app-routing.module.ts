@@ -21,6 +21,8 @@ const routes:Routes=[
 					  {path:'', component:HomeComponent},
 					  {path:'signup', component:SignupComponent, canActivate:[GuestGuard]},
 					  {path:'login', component:LoginComponent, canActivate:[GuestGuard]},
+					  {path:':tab', component:HomeComponent, canActivate:[AuthGuard]},
+					  {path:'genre/:genre', component:HomeComponent, canActivate:[AuthGuard]},
 					  {path:'account/activate/:token', component:ActivationUploadComponent, canActivate:[GuestGuard]},
 					  {path:'show/:id/:name', component:TvShowDetailComponent, canActivate:[AuthGuard]}
 ]

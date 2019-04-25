@@ -3,49 +3,60 @@
 	<li *ngIf='below_500_px'>
 		<div>
 			<img [src]="imgsrc">
-			{{ name }}
+			<p (click)='showOptions()'>{{ name }} <i class='fa fa-caret-down'></i></p>
+
+			<ul class='options' *ngIf='toggleOptions'>
+				<li>Change Picture</li>
+				<li (click)='logout()'>Logout</li>
+			</ul>
 		</div>
 	</li>	
 	<li [class.active]="tabs.subscriptions">
-		<a (click)="emitToggleEvent('subscriptions')" href='/#/subscriptions' [class.not-active]="!tabs.subscriptions">Subscriptions </a>
+		<a (click)="emitToggleEvent('subscriptions')" routerLink='/subscriptions' [class.not-active]="!tabs.subscriptions">Subscriptions </a>
 	<li [class.active]="tabs.popular">
-		<a (click)="emitToggleEvent('popular')" href='/#/popular' [class.not-active]="!tabs.popular">Popular</a>
+		<a (click)="emitToggleEvent('popular')" routerLink='/popular' [class.not-active]="!tabs.popular">Popular</a>
 	</li>
 	<li [class.active]="tabs.toprated">
-		<a (click)="emitToggleEvent('toprated')" href='/#/topRated' [class.not-active]="!tabs.toprated">Top Rated</a>
+		<a (click)="emitToggleEvent('toprated')" routerLink='/topRated' [class.not-active]="!tabs.toprated">Top Rated</a>
 	</li>
-    <li [class.active]="tabs.explore">
-		<a (click)="emitToggleEvent('explore')" href='/#/explore' [class.not-active]="!tabs.explore">Explore</a>
+    <li [class.active]="tabs.explore"> 
+		<a (click)="emitToggleEvent('explore')" routerLink='/explore' [class.not-active]="!tabs.explore">Explore</a>
+	</li>
+	<li *ngIf='mediumScreen' [ngStyle]="editStyles">
+		Change Display Picture
+	</li>
+	<li *ngIf='mediumScreen' [ngStyle]="editStyles" (click)='logout()'>
+		Logout
 	</li>
 	<li class='genre' (click)='toggleGenresDisplay()' #clickgenre>
 		By Genre <i class='fa fa-caret-right' #caret></i>
 	</li> 
 
 	<div class='genres-list' #genreslist> 
-		<a href="/#/genre-action" [class.not-active]="!genres.action" [class.active]='genres.action' (click)="emitToggleEvent('genres-action')">Action</a>
+		<a routerLink="/genre/action" [class.not-active]="!genres.action" [class.active]='genres.action' (click)="emitToggleEvent('genre/action')">Action</a>
 
-		<a href="/#/genre-animation" [class.not-active]="!genres.animation" [class.active]='genres.animation' (click)="emitToggleEvent('genres-animation')">Animation</a>
+		<a routerLink="/genre/animation" [class.not-active]="!genres.animation" [class.active]='genres.animation' (click)="emitToggleEvent('genre/animation')">Animation</a>
 
-		<a href="/#/genre-comedy" [class.not-active]="!genres.comedy" [class.active]='genres.comedy' (click)="emitToggleEvent('genres-comedy')">Comedy</a>
+		<a routerLink="/genre/comedy" [class.not-active]="!genres.comedy" [class.active]='genres.comedy' (click)="emitToggleEvent('genre/comedy')">Comedy</a>
 
-		<a href="/#/genre-crime" [class.not-active]="!genres.crime" [class.active]='genres.crime' (click)="emitToggleEvent('genres-crime')">Crime</a>
+		<a routerLink="/genre/crime" [class.not-active]="!genres.crime" [class.active]='genres.crime' (click)="emitToggleEvent('genre/crime')">Crime</a>
 
-		<a href="/#/genre-documentary" [class.not-active]="!genres.documentary" [class.active]='genres.documentary' (click)="emitToggleEvent('genres-documentary')">Documentary</a>
+		<a routerLink="/genre/documentary" [class.not-active]="!genres.documentary" [class.active]='genres.documentary' (click)="emitToggleEvent('genre/documentary')">Documentary</a>
 
-		<a href="/#/genre-drama" [class.not-active]="!genres.drama" [class.active]='genres.drama' (click)="emitToggleEvent('genres-drama')">Drama</a>
+		<a routerLink="/genre/drama" [class.not-active]="!genres.drama" [class.active]='genres.drama' (click)="emitToggleEvent('genre/drama')">Drama</a>
 
-		<a href="/#/genre-family" [class.not-active]="!genres.family" [class.family]='genres.action' (click)="emitToggleEvent('genres-family')">Family</a>
-		<a href="/#/genre-kids" [class.not-active]="!genres.kids" [class.active]='genres.kids' (click)="emitToggleEvent('genres-kids')">Kids</a>
+		<a routerLink="/genre/family" [class.not-active]="!genres.family" [class.family]='genres.action' (click)="emitToggleEvent('genre/family')">Family</a>
+		<a routerLink="/genre/kids" [class.not-active]="!genres.kids" [class.active]='genres.kids' (click)="emitToggleEvent('genre/kids')">Kids</a>
 
-		<a href="/#/genre-mystery" [class.not-active]="!genres.mystery" [class.active]='genres.mystery' (click)="emitToggleEvent('genres-mystery')">Mystery</a>
+		<a routerLink="/genre/mystery" [class.not-active]="!genres.mystery" [class.active]='genres.mystery' (click)="emitToggleEvent('genre/mystery')">Mystery</a>
 
-		<a href="/#/genre-news" [class.not-active]="!genres.news" [class.active]='genres.news' (click)="emitToggleEvent('genres-news')">News</a>
-		<a href="/#/genre-reality" [class.not-active]="!genres.reality" [class.active]='genres.reality' (click)="emitToggleEvent('genres-reality')">Reality</a>
+		<a routerLink="/genre/news" [class.not-active]="!genres.news" [class.active]='genres.news' (click)="emitToggleEvent('genre/news')">News</a>
+		<a routerLink="/genre/reality" [class.not-active]="!genres.reality" [class.active]='genres.reality' (click)="emitToggleEvent('genre/reality')">Reality</a>
 
-		<a href="/#/genre-sci-fi" [class.not-active]="!genres.scifi" [class.active]='genres.scifi' (click)="emitToggleEvent('genres-scifi')">Sci-Fi</a>
+		<a routerLink="/genre/sci-fi" [class.not-active]="!genres.scifi" [class.active]='genres.scifi' (click)="emitToggleEvent('genre/scifi')">Sci-Fi</a>
 
-		<a href="/#/genre-talk" [class.not-active]="!genres.talk" [class.active]='genres.talk' (click)="emitToggleEvent('genres-talk')">Talk</a>
+		<a routerLink="/genre/talk" [class.not-active]="!genres.talk" [class.active]='genres.talk' (click)="emitToggleEvent('genre/talk')">Talk</a>
 
-		<a href="/#/genre-politics" [class.not-active]="!genres.politics" [class.active]='genres.politics' (click)="emitToggleEvent('genres-politics')">Politics & War</a>
+		<a routerLink="/genre/politics" [class.not-active]="!genres.politics" [class.active]='genres.politics' (click)="emitToggleEvent('genre/politics')">Politics & War</a>
 	</div> 
 </ul>

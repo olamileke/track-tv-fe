@@ -1,4 +1,9 @@
 
 <div class='container'>
-	<app-header></app-header>
+	<app-header [class.shadow]='displayShadow' (displaySideBar)='toggleSideBar()'></app-header>
+	<app-sidebar (toggleTab)='toggleTab()' *ngIf='is_sidebar_visible' [class.active]='smallScreen'></app-sidebar>
+
+	<div class='overlay' #overlay (click)='closeSidebar()'></div>
+
+	<div class='main' #main></div>
 </div>

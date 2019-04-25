@@ -125,7 +125,7 @@ export class LoginComponent implements OnInit{
 		{
 			this.loading=false;
 
-      this.router.navigate(['/']);
+      this.router.navigate(['/subscriptions']);
 
       this.notification.showSuccessMsg('Login successful');  
       

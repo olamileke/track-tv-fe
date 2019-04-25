@@ -21,6 +21,12 @@
 	background:;
 }
 
+:host.shadow
+{
+	box-shadow:0 10px 10px rgba(0,0,0,0.06);
+	padding:0 6vw 15px 6vw;
+}
+
 p.title
 { 
 	/*display: none;*/
@@ -120,7 +126,7 @@ ul.options
 	top:75%;
 	left:calc(100% - 210px);
 	width:200px;
-	border:1px solid rgba(0,0,0,0.09);
+	border:1px solid rgba(0,0,0,0.13);
 	font-family:'Quicksand', sans-serif;
 	align-items: center;
 	background:#fff;
@@ -136,7 +142,18 @@ ul.options li
 	padding:7px 4px;
 	text-align: center;
 	cursor:pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
+
+ul.options img
+{
+	width:18px;
+	height:18px;
+	margin:4px 5px 0 0;
+}
+
 
 ul.options i
 {

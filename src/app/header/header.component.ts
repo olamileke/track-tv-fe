@@ -197,11 +197,15 @@ export class HeaderComponent implements OnInit {
 
      this.auth.logout().subscribe((res:any) => {
 
-         this.auth.unSetUserData();
+        if(res.status === undefined) {
 
-         this.router.navigate(['/login']);
+           this.auth.unSetUserData();
 
-         this.notification.showSuccessMsg('Logged out successfully');
+           this.router.navigate(['/login']);
+
+           this.notification.showSuccessMsg('Logged out successfully');
+
+          }
      })
   }
 

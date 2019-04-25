@@ -8,6 +8,8 @@ import { InteractionsService } from '../interactions.service';
 
 import { ConfigService } from '../config.service';
 
+import { ActivatedRoute } from '@angular/router';
+
 import { SubscriptionsComponent } from '../subscriptions/subscriptions.component';
 
 import { TopRatedComponent } from '../top-rated/top-rated.component';
@@ -24,7 +26,7 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css', './home-loggedin.component.css']
+  styleUrls: ['./home.component.css', './home-loggedin.component.css', '../css/overlay.css']
 })
 export class HomeComponent implements OnInit {
 
@@ -66,7 +68,8 @@ export class HomeComponent implements OnInit {
   smallScreen:boolean=false;
  
   constructor(private renderer:Renderer2, private userservice:UserService,
-              private auth:AuthService, private interactions:InteractionsService, private config:ConfigService) { }
+              private auth:AuthService, private interactions:InteractionsService,
+              private config:ConfigService, private router:ActivatedRoute) { }
 
   ngOnInit() {
  
@@ -82,19 +85,11 @@ export class HomeComponent implements OnInit {
     },1500);
 
 
-    // LOADING THE PROPER COMPONENT WHEN THE USER RELOADS THE PAGE WHEN HE IS LOGGED IN
+    // KNOWING WHICH COMPONENT TO DISPLAY
 
-    let component=document.URL.split('/#/')[1];
+    const tab=this.router.snapshot.paramMap.get('tab') === null ? this.router.snapshot.paramMap.get('genre') : this.router.snapshot.paramMap.get('tab');
 
-    if(component === undefined) {
-
-      this.conditions.subscriptions=true;
-    }
-    else{
-
-      this.determineComponent(component);
-
-    }
+    this.determineComponent(tab);
 
     if(screen.width <= 768 && screen.width > 500) {
 
@@ -107,15 +102,13 @@ export class HomeComponent implements OnInit {
 
   determineComponent(component:string):boolean{
 
-     if(component.includes('genre')) {
-
-         const subgenre=component.split('-')[1];
+     if(document.URL.includes('genre')) {
 
          this.conditions.genre=true;
 
-         this.genre=subgenre.charAt(0).toUpperCase() + subgenre.slice(1).toLowerCase();
+         this.genre=component.charAt(0).toUpperCase() + component.slice(1).toLowerCase();
 
-         this.genreId=this.genres[subgenre.toLowerCase()];
+         this.genreId=this.genres[component.toLowerCase()];
 
          return true;
      }
@@ -191,7 +184,7 @@ export class HomeComponent implements OnInit {
 
     if(String(tab).includes('genre'))
     {
-        const subgenre=String(tab).split('-')[1];
+        const component=String(tab).split('/')[1];
 
          this.conditions.genre=false;
          this.conditions.subscriptions=false;
@@ -199,9 +192,9 @@ export class HomeComponent implements OnInit {
          this.conditions.toprated=false;
          this.conditions.explore=false;
 
-         this.genre=subgenre.charAt(0).toUpperCase() + subgenre.slice(1).toLowerCase();
+         this.genre=component.charAt(0).toUpperCase() + component.slice(1).toLowerCase();
 
-         this.genreId=parseInt(this.genres[subgenre]);
+         this.genreId=parseInt(this.genres[component]);
 
          setTimeout(() => {
               
@@ -228,37 +221,9 @@ export class HomeComponent implements OnInit {
 
   toggleSideBar():boolean{
 
-    if(screen.width <= 768 && screen.width > 500) {
+    this.is_sidebar_visible=this.interactions.toggleSideBarVisible(this.is_sidebar_visible, this.renderer, this.loggedinmain.nativeElement);
 
-       if(!this.is_sidebar_visible) {
-
-         this.is_sidebar_visible=!this.is_sidebar_visible;
-
-
-         // ADDING THE TRANSPARENT BACKGROUND TO THE BODY CONTENT WHEN THE SIDEBAR BECOMES VISIBLE BETWEEN 
-         // 501px and 768px
-
-        this.renderer.addClass(this.loggedinmain.nativeElement, 'sidebar-visible');
-
-         return true;
-       }
-
-        this.is_sidebar_visible=!this.is_sidebar_visible;
-
-        this.renderer.removeClass(this.loggedinmain.nativeElement, 'sidebar-visible');
-
-        return false;
-    }
-
-    // TOGGLING THE BURSTING OUT OF THE SIDEBAR WHEN ON A SCREEN BELOW 500px
-
-    if(screen.width <= 500) {
-
-      this.smallScreen=!this.smallScreen;
-
-      this.overlay.nativeElement.classList.toggle('active');
-      
-    }
+    this.smallScreen=this.interactions.toggleSideBarSmall(this.smallScreen, this.overlay.nativeElement);
 
     return true;
   }
@@ -268,10 +233,9 @@ export class HomeComponent implements OnInit {
 
   closeSidebar() {
 
-    this.smallScreen=false;
-
-    this.renderer.removeClass(this.overlay.nativeElement, 'active');
+   this.smallScreen=this.interactions.closeSidebar(this.smallScreen, this.renderer, this.overlay.nativeElement);
   }
+  
 
   // CLOSING THE IMAGE UPLOAD COMPONENT
 

@@ -2,6 +2,12 @@ import { Component, OnInit, Output, EventEmitter, HostListener, ElementRef, Rend
 
 import { ConfigService } from '../config.service';
 
+import { AuthService } from '../auth.service';
+
+import { Router } from '@angular/router';
+
+import { NotificationsService } from '../notifications.service';
+
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -39,6 +45,12 @@ export class SidebarComponent implements OnInit{
 
   below_500_px:boolean=false;
 
+  mediumScreen:boolean=false;
+
+  toggleOptions:boolean=false;
+
+  editStyles={fontSize:'0.9em',fontFamily:'Raleway',color:'rgba(0,0,0,0.5)',width:'100px'};
+
   @ViewChild('genreslist') genreslist;
 
   @ViewChild('caret') caret;
@@ -47,11 +59,13 @@ export class SidebarComponent implements OnInit{
 
   imgsrc:string;
 
-  constructor(private elRef:ElementRef, private renderer:Renderer2, private config:ConfigService) { }
+  constructor(private elRef:ElementRef, private renderer:Renderer2,
+              private config:ConfigService, private auth:AuthService,
+              private notification:NotificationsService, private router:Router) { }
 
   ngOnInit() {
 
-    let tab=document.URL.split('/#/')[1];
+    let tab=document.URL.split('4200/')[1];
 
     // SETTING THE ACTIVE TAB WHEN THE USER RELOADS THE PAGE (WHEN LOGGED IN)
 
@@ -63,6 +77,8 @@ export class SidebarComponent implements OnInit{
     this.imgsrc=this.config.profileImage;
 
     if(screen.width <= 768 && screen.width > 500) {
+
+      this.mediumScreen=true;
 
       const val=-1 * ((768 - screen.width)/2);
 
@@ -113,7 +129,7 @@ export class SidebarComponent implements OnInit{
 
        if(String(tab).includes('genre'))
        {
-          let subgenre=String(tab).split('-')[1];
+          let subgenre=String(tab).split('/')[1];
 
 
           for(let i=0; i < Object.keys(this.genres).length; i++) {
@@ -181,6 +197,30 @@ export class SidebarComponent implements OnInit{
       this.renderer.addClass(this.caret.nativeElement, 'fa-caret-right');
 
       this.hideGenres=!this.hideGenres;
+    }
+
+    // LOGGING THE USER OUT OF THE APPLICATION
+
+    logout() {
+
+        this.auth.logout().subscribe((res:any) => {
+
+           if(res.status === undefined) {
+
+             this.auth.unSetUserData();
+
+             this.router.navigate(['/login']);
+
+             this.notification.showSuccessMsg('Logged out successfully');
+
+           }
+       })
+    }
+
+
+    showOptions() {
+
+      this.toggleOptions=!this.toggleOptions;
     }
 
 }

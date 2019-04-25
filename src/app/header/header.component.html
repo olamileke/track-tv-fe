@@ -1,6 +1,6 @@
 
 <p class='title' [hidden]='showSearch' #title>
-	<a routerLink='/' (click)='emitHomeEvent()'>TrackTv</a>
+	<a routerLink='/subscriptions' (click)='emitHomeEvent()'>TrackTv</a>
 </p>
 
 
@@ -22,7 +22,7 @@
 	</ul>
 
 	<ul class='options' *ngIf='showOptions'>
-		<li><i class='fa fa-picture-o'></i> Change display picture</li>
+		<li><img src="https://img.icons8.com/cotton/32/000000/gender-neutral-user.png" width='18px' height='1px'> Change display picture</li>
 		<li (click)='logout()'><i class='fa fa-sign-out'></i>  Logout</li>
 	</ul>
 
@@ -36,7 +36,7 @@
 	</div>
  	
 	<div (click)='emitSideBarEvent()'>
-		<img src="../assets/Users/harry.jpg">
+		<img [src]="imgsrc">
 		<p>{{ name |slice:0:13 }}<i class='fa fa-caret-down'></i> </p>
 	</div>
 </div>

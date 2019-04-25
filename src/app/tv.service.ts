@@ -55,12 +55,15 @@ export class TvService {
 
   constructGenresString(genres):string {
 
-    if(genres.length >= 2) {
+    if(genres !== undefined) {
 
-      return `${genres[0].name}, ${genres[1].name}`;
-    }
+      if(genres.length >= 2) {
 
-    return genres[0].name;
+        return `${genres[0].name}, ${genres[1].name}`;
+      }
+
+      return genres[0].name;
+     }
   }
 
 
