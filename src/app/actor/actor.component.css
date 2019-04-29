@@ -1,0 +1,13 @@
+:host
+{
+	margin-right:15px;
+	display:flex;
+	flex-flow:column;
+}
+
+img
+{
+	width:65px;
+	height:65px;
+	object-fit:cover;
+}

@@ -27,6 +27,8 @@ export class HeaderComponent implements OnInit {
 
   @Output() clickHome=new EventEmitter();
 
+  @Output() tvShow=new EventEmitter();
+
   @ViewChild('searchContainer') searchContainer;
 
   searchResults;
@@ -208,5 +210,17 @@ export class HeaderComponent implements OnInit {
           }
      })
   }
+
+
+  // EMITTING AN EVENT TO LOAD THE NEW TV SHOW WHEN WE ARE ON THE TV SHOW DETAIL VIEW
+
+  emitTvShow(id) {
+
+     this.tvShow.emit(id);
+
+     this.searchResults=[];
+
+     this.renderer.removeClass(this.searchContainer.nativeElement, 'active');
+   }
 
 }

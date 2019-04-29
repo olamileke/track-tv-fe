@@ -36,6 +36,9 @@ import { ExploreComponent } from './explore/explore.component';
 import { GenreComponent } from './genre/genre.component';
 import { TvShowDetailComponent } from './tv-show-detail/tv-show-detail.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
+import { ErrorComponent } from './error/error.component';
+import { SimilarShowComponent } from './similar-show/similar-show.component';
+import { ActorComponent } from './actor/actor.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +56,10 @@ import { ImageUploadComponent } from './image-upload/image-upload.component';
     ExploreComponent,
     GenreComponent,
     TvShowDetailComponent,
-    ImageUploadComponent
+    ImageUploadComponent,
+    ErrorComponent,
+    SimilarShowComponent,
+    ActorComponent
   ],
   imports: [
     BrowserModule,

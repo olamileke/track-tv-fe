@@ -1,10 +1,230 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC');
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+@import url('https://fonts.googleapis.com/css?family=Hind+Siliguri');
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
+@import url('https://fonts.googleapis.com/css?family=Ubuntu');
+@import url(https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
+
 
 div.container
 {
-	position:;
 	width:100%;
 	min-height:100vh;
 	border:1px solid #fff;
 	box-sizing:border-box;
 	transition:background 0.5s ease-out;
+}
+
+div.main
+{
+	min-height:calc(100vh - 51px);
+	width:100%;
+	padding:20px 6vw;
+	display:flex;
+}
+
+div.main.sidebar-visible
+{
+	background:rgba(0,0,0,0.65);
+}
+
+div.content
+{
+	width:55%;
+	margin-right:50px;	
+}
+
+div.content img
+{
+	width:100%;
+	height:400px;
+	object-fit: cover;
+	border-radius: 3px;
+}
+
+div.content i
+{
+	color:gold;
+	margin:0 3px 0 10px;
+}
+
+div.content p
+{
+	margin:0;
+	padding-left:5px;
+	font-family:'Quicksand', sans-serif;
+}
+
+div.content a
+{
+	text-decoration:none;
+	font-size:0.95em;
+	color:rgba(0,0,0,0.75);
+}
+
+div.content p.title
+{
+	position:relative;
+	width:100%;
+	font-family:'Noto Sans TC', sans-serif;
+	font-size:1.3em;
+	margin:7px 0 5px 0;
+}
+
+
+p.title button
+{
+	position:absolute;
+	left:calc(100% - 150px);
+	border-radius: 4px;
+	padding:5px 6px;
+	background:#50C878;
+	color:#fff;
+	font-size:0.7em;
+	font-family:'Quicksand', sans-serif;
+	border:none;
+	outline:none;
+}
+
+p.title span
+{
+	position:absolute;
+	top:3px;
+	left:calc(100% - 150px);
+	padding:5px;
+	border-radius: 7px;
+	background:#50C878;
+	font-family:'Quicksand', sans-serif;
+	color:#fff;
+	font-size:0.7em;
+}
+
+p.date
+{
+	margin-bottom:7px !important;
+	color:rgba(0,0,0,0.75);
+	font-size:0.97em;
+}
+
+p.overview
+{
+	margin-top:7px !important;
+	color:rgba(0,0,0,0.75);
+	font-size:0.92em;
+}
+
+div. 	
+{
+	display:flex;
+	flex-flow:column;
+}
+
+div.next_episode
+{
+	position:relative;
+	top:10px;
+	width:300px;
+	display:flex;
+	flex-flow: column;
+	/*align-items: center;*/
+	padding-bottom:26px;
+	border-bottom:1px solid rgba(0,0,0,0.1);
+}
+
+div.next_episode.infoUnavailable
+{
+	padding-bottom:0;		
+}
+
+
+div.next_episode span:nth-child(1)
+{
+	font-family:'Hind Siliguri', sans-serif;
+	font-size:1.4em;
+	color:rgba(0,0,0,0.8);
+	margin-bottom:5px;
+}
+
+div.next_episode span.countdown
+{
+	font-family:'Raleway', sans-serif;
+	font-size:1.3em;
+	color:rgba(0,0,0,0.6);
+}
+
+div.next_episode button
+{
+	position:relative;
+	top:10px;
+	background:none;
+	padding:6px;
+	width:150px;
+	box-sizing:border-box;
+	outline:none;
+	border:1px solid rgba(0,0,0,0.25);
+	color:rgba(0,0,0,0.8);
+	font-family:'Quicksand', sans-serif;
+	border-radius: 5px;
+}
+
+div.next_episode p
+{
+	font-family:'Hind Siliguri', sans-serif;
+	color:rgba(0,0,0,0.8);
+	font-size:1.3em;
+	line-height:1.2;
+}
+
+p.featuring
+{
+	position:relative;
+	top:20px;
+	color:rgba(0,0,0,0.7);
+	font-size:1.1em;
+	font-family:'Noto Sans TC', sans-serif !important;
+}
+
+div.cast
+{	
+	position:relative;
+	top:25px;
+	border-bottom:1px solid rgba(0,0,0,0.1);
+	display: flex;
+	flex-wrap:wrap;
+}
+
+
+/*div.episodeDate
+{
+	position:absolute;
+	top:15%;
+	padding:9px 5px;
+	border:1px solid rgba(0,0,0,0.06);
+	font-family:'Ubuntu', sans-serif;
+	font-size:0.9em;
+	background:#fff;
+}
+
+div.episodeDate:after
+{
+	position:absolute;
+	top:100%;
+	left:10%;
+	content:'';
+	border:7px solid rgba(0,0,0,0.06);
+	border-bottom-color:transparent;
+	border-left-color:transparent;
+	border-right-color:transparent;
+}*/
+
+div.similarShows
+{
+	padding-top:7px;
+}
+
+div.similarShows p
+{
+	font-family:'Hind Siliguri', sans-serif !important;
+	color:rgba(0,0,0,0.7);
+	font-size:1.2em;
 }

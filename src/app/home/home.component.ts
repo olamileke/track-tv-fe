@@ -8,7 +8,7 @@ import { InteractionsService } from '../interactions.service';
 
 import { ConfigService } from '../config.service';
 
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { SubscriptionsComponent } from '../subscriptions/subscriptions.component';
 
@@ -69,7 +69,7 @@ export class HomeComponent implements OnInit {
  
   constructor(private renderer:Renderer2, private userservice:UserService,
               private auth:AuthService, private interactions:InteractionsService,
-              private config:ConfigService, private router:ActivatedRoute) { }
+              private config:ConfigService, private activatedroute:ActivatedRoute, private router:Router) { }
 
   ngOnInit() {
  
@@ -87,7 +87,7 @@ export class HomeComponent implements OnInit {
 
     // KNOWING WHICH COMPONENT TO DISPLAY
 
-    const tab=this.router.snapshot.paramMap.get('tab') === null ? this.router.snapshot.paramMap.get('genre') : this.router.snapshot.paramMap.get('tab');
+    const tab=this.activatedroute.snapshot.paramMap.get('tab') === null ? this.activatedroute.snapshot.paramMap.get('genre') : this.activatedroute.snapshot.paramMap.get('tab');
 
     this.determineComponent(tab);
 
@@ -104,18 +104,40 @@ export class HomeComponent implements OnInit {
 
      if(document.URL.includes('genre')) {
 
-         this.conditions.genre=true;
+         if(this.checkObject(this.genres, component.toLowerCase())) {
 
-         this.genre=component.charAt(0).toUpperCase() + component.slice(1).toLowerCase();
+            this.conditions.genre=true;
 
-         this.genreId=this.genres[component.toLowerCase()];
+            this.genre=component.charAt(0).toUpperCase() + component.slice(1).toLowerCase();
 
-         return true;
+            this.genreId=this.genres[component.toLowerCase()];
+
+          }
+           
+           return true;
+
      }
 
-     this.conditions[component.toLowerCase()]=true;
+     if(this.checkObject(this.conditions, component.toLowerCase())) {
+
+         this.conditions[component.toLowerCase()]=true;
+     }
 
      return true;
+  }
+
+  // CHECKING IF A PROPERTY IS PRESENT IN AN OBJECT
+
+  checkObject(obj:any, prop:string):boolean {
+
+    if(obj.hasOwnProperty(prop)) {
+
+      return true;
+    }
+
+    this.router.navigate(['/error/404']);
+
+    return false;
   }
 
 

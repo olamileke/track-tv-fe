@@ -42,27 +42,42 @@ export class TvService {
 
   // FETCHING THE DETAILS OF A PARTICULAR TV SERIES
 
-  getShowDetail(id:number):Observable<any> {
+  getShowDetail(id:number, append?:boolean):Observable<any> {
 
-    const URL=`https://api.themoviedb.org/3/tv/${id}?api_key=${this.config.apiKey}`;
+    let URL=`https://api.themoviedb.org/3/tv/${id}?api_key=${this.config.apiKey}`;
+
+    if(append) {
+
+      URL=`https://api.themoviedb.org/3/tv/${id}?api_key=${this.config.apiKey}&append_to_response=similar,credits`;
+    }
+
+    console.log(URL);
 
     return this.http.get(URL).pipe(catchError(this.handleError()));
 
   }
 
-
   // CREATING THE GENRES STRING 
 
-  constructGenresString(genres):string {
+  constructGenresString(genres):any {
+
+    const genresarray=[];
 
     if(genres !== undefined) {
 
       if(genres.length >= 2) {
 
-        return `${genres[0].name}, ${genres[1].name}`;
+        for(let i=0 ; i < 2; i++) {
+
+            genresarray.push(genres[i].name);
+         }
+
+         return genresarray;
       }
 
-      return genres[0].name;
+      genresarray.push(genres[0].name);
+
+      return genresarray;
      }
   }
 

@@ -11,11 +11,11 @@
 
 	<ul class='searchResults' #searchContainer>
 		<li *ngFor='let tv of searchResults'>
-			<a routerLink='show/{{tv.id}}/{{ getSlug(tv.name) }}'>
+			<a routerLink='/show/{{tv.id}}/{{ getSlug(tv.name) }}' (click)='emitTvShow(tv.id)'>
 				<img src="http://image.tmdb.org/t/p/w1280{{ tv.poster_path }}">
 				<div>
 					<p>{{ tv.name }}</p>
-					<span>{{ tv.vote_average }}/10</span>
+					<span><i class='fa fa-star'></i> {{ tv.vote_average }}/10</span>
 				</div>
 			</a>
 		</li>

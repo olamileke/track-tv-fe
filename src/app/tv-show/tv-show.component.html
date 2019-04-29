@@ -11,7 +11,9 @@
 			<p class='date'>{{ TvShow.airdate }}</p> 
 			<p class='rating'>{{ TvShow.rating }}/10</p>
 			<p class='overview'>{{ TvShow.overview | slice:0:180 }}...</p>
-			<p class='genres'>{{ TvShow.genres }} </p>
+			<p class='genres'>
+				<a routerLink="/genre/{{genre}}" *ngFor="let genre of TvShow.genres">{{ genre }} </a>
+			</p>
 			<ng-template #ended>
 				 <div class='production'><p></p>Ended</div>
 			</ng-template>

@@ -1,9 +1,54 @@
 
 <div class='container'>
-	<app-header [class.shadow]='displayShadow' (displaySideBar)='toggleSideBar()'></app-header>
+	<app-header [class.shadow]='displayShadow' (displaySideBar)='toggleSideBar()' (tvShow)='fetchShowDetails($event)'></app-header>
 	<app-sidebar (toggleTab)='toggleTab()' *ngIf='is_sidebar_visible' [class.active]='smallScreen'></app-sidebar>
 
 	<div class='overlay' #overlay (click)='closeSidebar()'></div>
 
-	<div class='main' #main></div>
+	<div class='main' #main>
+		
+		<div class='content' *ngIf='fetchedTvShow'>
+			
+			<img [src]='TvShow.imgpath'>
+			<div class='details'>
+				<p class='title'>{{ TvShow.name }}
+				   <button *ngIf='TvShow.in_production'>subscribe</button>
+				   <span *ngIf='!TvShow.in_production'>ended</span>
+				</p>
+				<p class='date'>{{ TvShow.airdate }} <span><i class='fa fa-star'></i>{{ TvShow.rating}}/10</span></p>
+				<p>
+					<a routerLink='/genre/{{ genre | lowercase }}' *ngFor='let genre of TvShow.genres'>{{ genre }} , </a>
+				</p>
+				<p class='overview'>
+					{{ TvShow.overview }}
+				</p>
+			</div>
+
+			<p class='featuring'>Featuring</p>
+
+			<div class='cast'>				
+				
+				<app-actor [actor]='actor' *ngFor='let actor of cast'></app-actor>				
+
+			</div>
+
+		</div>
+
+		<div class='sidebar' *ngIf='fetchedTvShow'>			
+
+			<div class='next_episode' *ngIf='TvShow.in_production' [class.infoUnavailable]='!hasNextEpisode()'>
+				<span *ngIf='hasNextEpisode()'>Next Episode in</span>
+				<span class='countdown' #nextepisodedate *ngIf='hasNextEpisode()'>{{ countdown }}</span>
+				<button *ngIf='hasNextEpisode()'>View Info</button>
+
+				<p *ngIf='!hasNextEpisode()'>Next episode information unavailable</p>
+			</div>	
+
+			<div class='similarShows'>
+				<p>Similar Shows</p>
+
+				<app-similar-show (click)='fetchShowDetails(show.id)' *ngFor='let show of similarShows' [TvShow]='show'></app-similar-show>
+			</div>
+		</div>
+	</div>
 </div>

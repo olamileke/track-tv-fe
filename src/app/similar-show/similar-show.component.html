@@ -1,0 +1,10 @@
+
+<a routerLink='/show/{{ TvShow.id }}/{{ getSlug(TvShow.original_name) }}'>
+	<img src="http://image.tmdb.org/t/p/w1280{{ TvShow.poster_path }}">
+
+	<div>
+		{{ TvShow.original_name }}
+		<p>{{ TvShow.vote_average }}/10</p>
+	</div>
+
+</a>

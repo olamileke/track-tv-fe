@@ -17,6 +17,8 @@ import { ActivationUploadComponent } from './activation-upload/activation-upload
 
 import { TvShowDetailComponent } from './tv-show-detail/tv-show-detail.component';
 
+import { ErrorComponent } from './error/error.component';
+
 const routes:Routes=[
 					  {path:'', component:HomeComponent},
 					  {path:'signup', component:SignupComponent, canActivate:[GuestGuard]},
@@ -24,7 +26,8 @@ const routes:Routes=[
 					  {path:':tab', component:HomeComponent, canActivate:[AuthGuard]},
 					  {path:'genre/:genre', component:HomeComponent, canActivate:[AuthGuard]},
 					  {path:'account/activate/:token', component:ActivationUploadComponent, canActivate:[GuestGuard]},
-					  {path:'show/:id/:name', component:TvShowDetailComponent, canActivate:[AuthGuard]}
+					  {path:'show/:id/:name', component:TvShowDetailComponent, canActivate:[AuthGuard]},
+					  {path:'**', component:ErrorComponent}
 ]
 
 @NgModule({
