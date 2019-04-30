@@ -8,10 +8,6 @@ a
 	margin-bottom:20px;
 }
 
-i.fa-star
-{
-	color:gold;
-}
 
 img
 {
@@ -31,5 +27,29 @@ div
 p
 {
 	margin:0;
-	margin-bottom:8px;
+	margin:2px 0 3px 0;
+}
+
+
+@media(max-width:768px)
+{
+	a
+	{
+		flex-flow:column;
+		align-items: center;
+		width:100px;
+	}
+
+	img
+	{
+		width:65px;
+		height:65px;
+		border-radius:3px;
+		margin:0;
+	}
+
+	div
+	{
+		text-align:center;
+	}
 }

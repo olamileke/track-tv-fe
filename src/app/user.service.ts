@@ -41,6 +41,26 @@ export class UserService {
   	return this.http.post<User[]>(URL, data, this.headers);
   }
 
+  // SUBSCRIBING TO A TV SHOW  
+
+  subscribe(data:any) {
+
+    const URL=this.config.baseURL+"/api/subscribe?api_token="+this.config.apiToken;
+
+    return this.http.post<any>(URL, data, this.headers).pipe(catchError(this.handleError()));
+
+  } 
+
+
+  // CHECKING IF THE USER HAS SUBSCRIBED TO A TV SHOW
+
+  hasSubscribed(id:number) {
+
+     const URL=this.config.baseURL+`/api/hassubscribed/${id}?api_token=`+this.config.apiToken;
+
+     return this.http.post(URL, this.headers).pipe(catchError(this.handleError()));
+  }
+
 
   // RETURNING THE PROPER HTTP HEADERS TO USE FOR THE POST REQUEST
 
@@ -103,23 +123,25 @@ export class UserService {
   }
 
 
- handleError() {
+  // ERROR HANDLER FOR API CALLS TO THE BACKEND  
 
-    return (error:any):any => {
+   handleError() {
 
-      this.errorupload=true;
+      return (error:any):any => {
 
-      if(error.status == 413) {
+        this.errorupload=true;
 
-        this.notification.showErrorMsg('The uploaded image is too large');
-      }
+        if(error.status == 413) {
 
-      if(error.status == 406) {
+          this.notification.showErrorMsg('The uploaded image is too large');
+        }
 
-        this.notification.showErrorMsg('File format is not supported');
+        if(error.status == 406) {
+
+          this.notification.showErrorMsg('File format is not supported');
+        }
       }
     }
-  }
 
 
 }

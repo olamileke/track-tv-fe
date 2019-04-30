@@ -6,6 +6,10 @@ import { HeaderComponent } from '../header/header.component';
 
 import { InteractionsService } from '../interactions.service';
 
+import { NotificationsService } from '../notifications.service';
+
+import { UserService } from '../user.service';
+
 import { TvService } from '../tv.service';
 
 import { interval } from 'rxjs';
@@ -25,6 +29,8 @@ export class TvShowDetailComponent implements OnInit {
 
   @ViewChild('nextepisodedate') episodeCountdown; 
 
+  @ViewChild('actionbtn') actionbtn;
+
   TvShow:any={};
 
   next_episode:any;
@@ -39,14 +45,21 @@ export class TvShowDetailComponent implements OnInit {
 
   episodeDate:string;
 
+  hasSubscribed:boolean=false;
+
+  isTodayNextEpisode:boolean=false;
+
   similarShows=[];
 
   similarCount:number;
 
+  showInfo:any={};
+
   cast;
 
   constructor(private route:ActivatedRoute, private renderer:Renderer2,
-              private interactions:InteractionsService, private tv:TvService) { }
+              private interactions:InteractionsService, private tv:TvService,
+              private userservice:UserService, private notification:NotificationsService) { }
 
   displayShadow:boolean=true;
 
@@ -66,6 +79,17 @@ export class TvShowDetailComponent implements OnInit {
 
     this.fetchShowDetails(parseInt(id));
 
+    this.hasSubscribed=false;
+
+    this.userservice.hasSubscribed(parseInt(id)).subscribe((res:any) => {
+
+        console.log(res);
+        if(res.data) {
+
+            this.hasSubscribed=true;
+        }
+    });
+
   	if(screen.width <= 500) {
 
       this.is_sidebar_visible=true;
@@ -73,9 +97,22 @@ export class TvShowDetailComponent implements OnInit {
 
   }
 
+
   // GRABBING THE DETAILS OF THE PARTICULAR TV SERIES TO DISPLAY
 
   fetchShowDetails(id) {
+
+     this.fetchedTvShow=false;
+
+     this.isTodayNextEpisode=false;
+
+     this.countdown='';
+
+     // ENSURING THAT WHEN THIS VIEW IS DISPLAYED, WE ARE STARTING AT THE TOP OF THE SCREEN
+
+    document.body.scrollTop = 0; // For Safari
+
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 
      this.tv.getShowDetail(id, true).subscribe((res:any) => {
 
@@ -96,6 +133,8 @@ export class TvShowDetailComponent implements OnInit {
 
          this.getCountdown(this.next_episode);
 
+         this.setShowInfo(res);
+
          this.fetchedTvShow=true;
 
          console.log(res);
@@ -103,16 +142,47 @@ export class TvShowDetailComponent implements OnInit {
 
   }
 
+  // KNOWING HOW MANY SIMILAR TV SHOWS WE ARE TO DISPLAY
+
   determineSimilarCount() {
 
-    if(!this.TvShow.in_production) {
+    if(screen.width > 991) {
 
-       this.similarCount=7;
+      if(!this.TvShow.in_production) {
+
+         this.similarCount=7;
+      }
+      else {
+
+        this.similarCount=5;
+      }
+
     }
     else {
 
-      this.similarCount=5;
+      this.similarCount=10;
     }
+  }
+
+
+  // SETTING THE showInfo object to post to the backend when the user subscribes to the tv show
+
+  setShowInfo(res) {
+
+      if(res.in_production) {
+
+        this.showInfo.show_id=res.id;
+
+        this.showInfo.name=res.original_name;
+
+        this.showInfo.imagepath=`http://image.tmdb.org/t/p/w1280${res.poster_path}`;
+
+        this.showInfo.next_episode_air_date=res.next_episode_to_air.air_date;
+
+        this.showInfo.next_episode_number=res.next_episode_to_air.episode_number;
+
+        this.showInfo.next_episode_season=res.next_episode_to_air.season_number;
+      }
   }
 
   // SETTING THE SHOW DETAILS IN THE SIMILAR SHOWS PROPERTY
@@ -132,8 +202,6 @@ export class TvShowDetailComponent implements OnInit {
           this.similarShows.push(shows[val]);
 
           i++;
-
-          console.log(this.similarShows);
        }
 
      }
@@ -144,7 +212,7 @@ export class TvShowDetailComponent implements OnInit {
 
   setCast(cast) {
 
-     this.cast=cast.slice(0,4);
+     this.cast=cast.slice(0,8);
   }
 
   // OBTAINING THE COUNTDOWN STRING TO DISPLAY
@@ -172,7 +240,14 @@ export class TvShowDetailComponent implements OnInit {
 
     const montharray=['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-    this.episodeDate=`${day} ${montharray[month - 1]}, ${year}`;    
+    this.episodeDate=`${day} ${montharray[month - 1]}, ${year}`; 
+
+    const date=new Date();
+
+    if(date.getDate() == day && date.getMonth() == month - 1 && date.getFullYear() == year) {
+
+       this.isTodayNextEpisode=true;
+    }   
 
     return this.getInterval(`${day} ${montharray[month - 1]}, ${year}`);    
 
@@ -207,12 +282,26 @@ export class TvShowDetailComponent implements OnInit {
   }
 
 
+  // SUBSCRIBE TO A TV SHOW
+
+  subscribe() {
+
+      this.userservice.subscribe(JSON.stringify(this.showInfo)).subscribe((res:any) => {
+
+        console.log(res);
+
+        this.notification.showSuccessMsg('Subscribed successfully');
+
+        this.renderer.setProperty(this.actionbtn.nativeElement, 'innerHTML', '<i class="fa fa-check"></i>subscribed');
+      })
+  }
+
 
    // TOGGLING THE DISPLAY OF THE SIDEBAR
 
   toggleSideBar():boolean {
 
-    this.is_sidebar_visible=this.interactions.toggleSideBarVisible(this.is_sidebar_visible, this.renderer, this.main.nativeElement);
+    this.is_sidebar_visible=this.interactions.toggleSideBarVisible(this.is_sidebar_visible, this.renderer, this.overlay.nativeElement);
 
     this.smallScreen=this.interactions.toggleSideBarSmall(this.smallScreen, this.overlay.nativeElement);
 
@@ -234,11 +323,14 @@ export class TvShowDetailComponent implements OnInit {
 
     if(this.next_episode !== null) {
 
+
+
       return true;
     }
 
     return false;
   }
+
 
   // TOGGLING THE DISPLAY OF THE DIV WITH THE NEXT EPISODE DATE WHEN YOU HOVER ON/OFF OF THE COUNTDOWN
 

@@ -22,4 +22,23 @@ export class SimilarShowComponent implements OnInit {
 
     return slug;
   }
+
+
+  getString(name:string):string {
+
+      if(screen.width > 991) {
+
+          return name;
+      }
+      else {
+
+        if(name.length > 23) {
+
+           return name.slice(0,21) + '...';
+
+          }
+      }
+
+      return name;
+  }
 }

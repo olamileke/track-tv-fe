@@ -13,6 +13,7 @@ div.container
 	border:1px solid #fff;
 	box-sizing:border-box;
 	transition:background 0.5s ease-out;
+	/*overflow-x:hidden;*/
 }
 
 div.main
@@ -39,7 +40,7 @@ div.content img
 	width:100%;
 	height:400px;
 	object-fit: cover;
-	border-radius: 3px;
+	border-radius:3px;
 }
 
 div.content i
@@ -51,7 +52,6 @@ div.content i
 div.content p
 {
 	margin:0;
-	padding-left:5px;
 	font-family:'Quicksand', sans-serif;
 }
 
@@ -77,13 +77,20 @@ p.title button
 	position:absolute;
 	left:calc(100% - 150px);
 	border-radius: 4px;
-	padding:5px 6px;
+	padding:5px 6px 5px 7px;
 	background:#50C878;
 	color:#fff;
 	font-size:0.7em;
 	font-family:'Quicksand', sans-serif;
 	border:none;
 	outline:none;
+	cursor:pointer;
+}
+
+p.title i.fa-check
+{
+	color:#fff;
+	margin:0 3px 0 0;
 }
 
 p.title span
@@ -113,7 +120,7 @@ p.overview
 	font-size:0.92em;
 }
 
-div. 	
+div.sidebar 	
 {
 	display:flex;
 	flex-flow:column;
@@ -178,7 +185,7 @@ div.next_episode p
 p.featuring
 {
 	position:relative;
-	top:20px;
+	top:30px;
 	color:rgba(0,0,0,0.7);
 	font-size:1.1em;
 	font-family:'Noto Sans TC', sans-serif !important;
@@ -187,8 +194,9 @@ p.featuring
 div.cast
 {	
 	position:relative;
-	top:25px;
-	border-bottom:1px solid rgba(0,0,0,0.1);
+	top:35px;
+	border-top:1px solid rgba(0,0,0,0.1);
+	padding-top:15px;
 	display: flex;
 	flex-wrap:wrap;
 }
@@ -227,4 +235,82 @@ div.similarShows p
 	font-family:'Hind Siliguri', sans-serif !important;
 	color:rgba(0,0,0,0.7);
 	font-size:1.2em;
+}
+
+
+@media(max-width:991px)
+{
+	div.main
+	{
+		padding:20px 3vw 0 4.5vw;
+	}
+
+	div.next_episode
+	{
+		width:220px;
+		padding-right:20px;
+	}
+}
+
+
+@media(max-width:768px)
+{
+	div.main
+	{
+		padding:20px 2vw;
+		flex-flow:column;
+		box-sizing: border-box;
+	}	
+
+	div.content
+	{
+		width:100%;
+		margin:0;
+	}
+
+	div.content p
+	{
+		padding-left:5px;
+	}
+
+	div.sidebar
+	{
+		position:relative;
+		top:30px;
+		display:flex;
+		flex-flow: column;
+		align-items: center;
+	}
+
+	div.next_episode
+	{
+		display:none;
+	}
+
+	p.featuring
+	{
+		left:5px;
+		font-size:1.3em;
+	}
+
+	div.cast
+	{
+		border:none;
+	}
+
+	div.similarShows
+	{
+		position:relative;
+		display:flex;
+		flex-wrap:wrap;
+	}
+
+	div.similarShows p
+	{
+		color:rgba(0,0,0,0.5);
+		font-size:1.1em;
+		font-family:'Noto Sans TC', sans-serif !important;
+		width:100%;
+		padding:0 0 5px 5px;
+	}
 }

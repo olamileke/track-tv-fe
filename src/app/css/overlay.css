@@ -6,8 +6,8 @@ div.overlay, div.image-upload-overlay
 	width:100vw;
 	height:100vh;
 	opacity:0;
+	background:rgba(0,0,0,0.65);
 	transition:opacity 0.5s ease-out;
-	background:rgba(0,0,0,0.25);
 	z-index:-1;
 }
 
@@ -20,4 +20,20 @@ div.overlay.active, div.image-upload-overlay.active
 {
 	opacity:1;
 	z-index:1;
+}
+
+@media(min-width:501px) and (max-width:768px)
+{
+	div.overlay
+	{
+		top:68px;
+	}
+}
+
+@media(max-width:500px)
+{
+	div.overlay
+	{
+		background:rgba(0,0,0,0.25);
+	}
 }

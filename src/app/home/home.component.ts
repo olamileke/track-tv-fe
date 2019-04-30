@@ -186,7 +186,7 @@ export class HomeComponent implements OnInit {
 
     if(screen.width <= 768 && screen.width > 500) {
 
-      this.renderer.removeClass(this.loggedinmain.nativeElement, 'sidebar-visible');
+      this.renderer.removeClass(this.overlay.nativeElement, 'active');
 
       this.is_sidebar_visible=false;
     }
@@ -243,7 +243,7 @@ export class HomeComponent implements OnInit {
 
   toggleSideBar():boolean{
 
-    this.is_sidebar_visible=this.interactions.toggleSideBarVisible(this.is_sidebar_visible, this.renderer, this.loggedinmain.nativeElement);
+    this.is_sidebar_visible=this.interactions.toggleSideBarVisible(this.is_sidebar_visible, this.renderer, this.overlay.nativeElement);
 
     this.smallScreen=this.interactions.toggleSideBarSmall(this.smallScreen, this.overlay.nativeElement);
 

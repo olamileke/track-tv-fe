@@ -12,7 +12,10 @@
 			<img [src]='TvShow.imgpath'>
 			<div class='details'>
 				<p class='title'>{{ TvShow.name }}
-				   <button *ngIf='TvShow.in_production'>subscribe</button>
+				   <button *ngIf='TvShow.in_production' (click)='subscribe()' #actionbtn>
+				   		<div *ngIf='!hasSubscribed'>subscribe</div>
+				   		<div *ngIf='hasSubscribed'><i class='fa fa-check'></i> subscribed</div>
+				   </button>
 				   <span *ngIf='!TvShow.in_production'>ended</span>
 				</p>
 				<p class='date'>{{ TvShow.airdate }} <span><i class='fa fa-star'></i>{{ TvShow.rating}}/10</span></p>
@@ -24,7 +27,7 @@
 				</p>
 			</div>
 
-			<p class='featuring'>Featuring</p>
+			<p class='featuring'>Cast</p>
 
 			<div class='cast'>				
 				
@@ -37,8 +40,12 @@
 		<div class='sidebar' *ngIf='fetchedTvShow'>			
 
 			<div class='next_episode' *ngIf='TvShow.in_production' [class.infoUnavailable]='!hasNextEpisode()'>
-				<span *ngIf='hasNextEpisode()'>Next Episode in</span>
-				<span class='countdown' #nextepisodedate *ngIf='hasNextEpisode()'>{{ countdown }}</span>
+				<div *ngIf='hasNextEpisode()'>
+					<span *ngIf='!isTodayNextEpisode'>Next Episode in <br/></span>
+					<span *ngIf='!isTodayNextEpisode' class='countdown' #nextepisodedate>{{ countdown }}</span>
+
+					<span *ngIf='isTodayNextEpisode'>S{{ next_episode.season_number }} E{{ next_episode.episode_number }} coming out today!</span>
+				</div>
 				<button *ngIf='hasNextEpisode()'>View Info</button>
 
 				<p *ngIf='!hasNextEpisode()'>Next episode information unavailable</p>

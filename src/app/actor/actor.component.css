@@ -1,8 +1,11 @@
 :host
 {
-	margin-right:15px;
+	margin:0 5px 10px 0;
 	display:flex;
+	width:100px;
 	flex-flow:column;
+	align-items: center;
+	font-family:'Quicksand', sans-serif;
 }
 
 img
@@ -10,4 +13,21 @@ img
 	width:65px;
 	height:65px;
 	object-fit:cover;
+	margin-bottom:7px;
+	border-radius:2px;
+	z-index:-3;
+}
+
+span.character
+{
+	font-size:0.8em;
+	color:rgba(0,0,0,0.6);
+	text-align: center;
+}
+
+span.actor
+{
+	font-size:0.8em;
+	text-align:center;
+	/*color:rgba;*/
 }
