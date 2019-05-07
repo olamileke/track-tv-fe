@@ -1,0 +1,10 @@
+		
+<img src="http://image.tmdb.org/t/p/w1280{{ episode.still_path }}" *ngIf='hasImage()'>
+<p>{{ episode.name }}</p>
+<span class='season'>Season {{ episode.season_number }} Episode {{ episode.episode_number }}</span>
+
+<div>
+	{{ episode.overview }}
+</div>
+
+<p class='air_date'>Airing {{ getDateString(episode.air_date) }}</p>

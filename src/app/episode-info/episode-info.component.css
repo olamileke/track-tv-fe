@@ -1,0 +1,54 @@
+
+:host
+{
+	position:fixed;
+	top:17vh;
+	left:calc((100vw - 400px)/2);
+	width:400px;
+	background:#fff;
+	z-index:10;
+	display:flex;
+	flex-flow:column;
+	align-items: center;
+	padding:10px 0 15px 0;
+	box-shadow:0 5px 20px rgba(0,0,0,0.3);
+	border-radius:4px;
+	border:1px solid rgba(0,0,0,0.7);
+}
+
+img
+{
+	width:95%;
+	height:140px;
+	object-fit:cover;
+}
+
+p
+{
+	margin:7px 0 2px 0;
+	font-family:'Hind Siliguri', sans-serif;
+	font-size:1.1em;
+}
+
+p.air_date
+{
+	font-family:'Quicksand', sans-serif;
+	font-size:0.9em;
+	color:rgba(0,0,0,0.7);
+}
+
+span
+{
+	margin-bottom:8px;
+	font-family:'Raleway', sans-serif;
+}
+
+div
+{
+	width:80%;
+	font-family:'Quicksand', sans-serif;
+	font-size:0.9em;
+	color:rgba(0,0,0,0.7);
+	text-align: center;
+	margin-bottom:4px;
+}

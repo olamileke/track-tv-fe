@@ -13,7 +13,12 @@ div.container
 	border:1px solid #fff;
 	box-sizing:border-box;
 	transition:background 0.5s ease-out;
-	/*overflow-x:hidden;*/
+}
+
+div.container.hidden
+{
+	overflow: hidden;
+	height:100vh;
 }
 
 div.main
@@ -69,6 +74,11 @@ div.content p.title
 	font-family:'Noto Sans TC', sans-serif;
 	font-size:1.3em;
 	margin:7px 0 5px 0;
+}
+
+button
+{
+	cursor:pointer;
 }
 
 
@@ -187,7 +197,7 @@ p.featuring
 	position:relative;
 	top:30px;
 	color:rgba(0,0,0,0.7);
-	font-size:1.1em;
+	font-size:1.25em;
 	font-family:'Noto Sans TC', sans-serif !important;
 }
 
@@ -198,7 +208,7 @@ div.cast
 	border-top:1px solid rgba(0,0,0,0.1);
 	padding-top:15px;
 	display: flex;
-	flex-wrap:wrap;
+ 	flex-wrap:wrap;
 }
 
 

@@ -1,5 +1,5 @@
 
-<div class='container'>
+<div class='container' #container>
 	<app-header [class.shadow]='displayShadow' (displaySideBar)='toggleSideBar()' (tvShow)='fetchShowDetails($event)'></app-header>
 	<app-sidebar (toggleTab)='toggleTab()' *ngIf='is_sidebar_visible' [class.active]='smallScreen'></app-sidebar>
 
@@ -37,6 +37,9 @@
 
 		</div>
 
+		<app-episode-info *ngIf='showEpisodeInfo' [episode]="next_episode"></app-episode-info>
+		<app-un-subscribe *ngIf='displayUnsubscribeDialog' [details]='details'></app-un-subscribe>
+
 		<div class='sidebar' *ngIf='fetchedTvShow'>			
 
 			<div class='next_episode' *ngIf='TvShow.in_production' [class.infoUnavailable]='!hasNextEpisode()'>
@@ -44,9 +47,9 @@
 					<span *ngIf='!isTodayNextEpisode'>Next Episode in <br/></span>
 					<span *ngIf='!isTodayNextEpisode' class='countdown' #nextepisodedate>{{ countdown }}</span>
 
-					<span *ngIf='isTodayNextEpisode'>S{{ next_episode.season_number }} E{{ next_episode.episode_number }} coming out today!</span>
+					<span *ngIf='isTodayNextEpisode'>S{{ next_episode.season_number }} E{{ next_episode.episode_number }} coming out today</span>
 				</div>
-				<button *ngIf='hasNextEpisode()'>View Info</button>
+				<button *ngIf='hasNextEpisode()' (click)='viewEpisodeInfo()'>View Info</button>
 
 				<p *ngIf='!hasNextEpisode()'>Next episode information unavailable</p>
 			</div>	

@@ -20,6 +20,8 @@ export class UserService {
 
   errorupload:boolean=false;
 
+  subscribedIDs=[];
+
   constructor(private http:HttpClient, private config:ConfigService, private notification:NotificationsService) { }
 
   // POSTING THE DATA TO THE BACKEND FOR SIGNUP
@@ -52,6 +54,16 @@ export class UserService {
   } 
 
 
+  // RETURN THE IDS OF THE TV SHOWS THAT THE USER HAS SUBSCRIBED TO
+
+  getSubsribedIDs(){
+
+    const URL=this.config.baseURL+"/api/getsubscribedids?api_token="+this.config.apiToken;
+
+    return this.http.get(URL);
+  }
+
+
   // CHECKING IF THE USER HAS SUBSCRIBED TO A TV SHOW
 
   hasSubscribed(id:number) {
@@ -59,7 +71,7 @@ export class UserService {
      const URL=this.config.baseURL+`/api/hassubscribed/${id}?api_token=`+this.config.apiToken;
 
      return this.http.post(URL, this.headers).pipe(catchError(this.handleError()));
-  }
+  }                                      
 
 
   // RETURNING THE PROPER HTTP HEADERS TO USE FOR THE POST REQUEST

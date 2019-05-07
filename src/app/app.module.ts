@@ -39,6 +39,8 @@ import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { ErrorComponent } from './error/error.component';
 import { SimilarShowComponent } from './similar-show/similar-show.component';
 import { ActorComponent } from './actor/actor.component';
+import { EpisodeInfoComponent } from './episode-info/episode-info.component';
+import { UnSubscribeComponent } from './un-subscribe/un-subscribe.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +61,9 @@ import { ActorComponent } from './actor/actor.component';
     ImageUploadComponent,
     ErrorComponent,
     SimilarShowComponent,
-    ActorComponent
+    ActorComponent,
+    EpisodeInfoComponent,
+    UnSubscribeComponent
   ],
   imports: [
     BrowserModule,

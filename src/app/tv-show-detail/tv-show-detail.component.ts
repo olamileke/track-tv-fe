@@ -31,6 +31,8 @@ export class TvShowDetailComponent implements OnInit {
 
   @ViewChild('actionbtn') actionbtn;
 
+  @ViewChild('container') container;
+
   TvShow:any={};
 
   next_episode:any;
@@ -43,11 +45,17 @@ export class TvShowDetailComponent implements OnInit {
 
   episodeTime:number;
 
+  details={};
+
   episodeDate:string;
 
   hasSubscribed:boolean=false;
 
+  displayUnsubscribeDialog:boolean=false;
+
   isTodayNextEpisode:boolean=false;
+
+  showEpisodeInfo:boolean=false;
 
   similarShows=[];
 
@@ -79,16 +87,7 @@ export class TvShowDetailComponent implements OnInit {
 
     this.fetchShowDetails(parseInt(id));
 
-    this.hasSubscribed=false;
-
-    this.userservice.hasSubscribed(parseInt(id)).subscribe((res:any) => {
-
-        console.log(res);
-        if(res.data) {
-
-            this.hasSubscribed=true;
-        }
-    });
+    this.checkSubscribed(parseInt(id));
 
   	if(screen.width <= 500) {
 
@@ -98,15 +97,40 @@ export class TvShowDetailComponent implements OnInit {
   }
 
 
+  // CHECKING IF THE USER HAS SUBSCRIBED TO THE TV SHOW ON DISPLAY
+
+  checkSubscribed(id:number):boolean{
+
+     if(this.userservice.subscribedIDs.length > 0) {
+
+         if(this.userservice.subscribedIDs.includes(id)) {
+
+           this.hasSubscribed=true;
+         }
+
+         return true;
+     }
+
+     this.userservice.hasSubscribed(id).subscribe((res:any) => {
+
+         this.hasSubscribed=res.data;
+     })
+  }
+
+
   // GRABBING THE DETAILS OF THE PARTICULAR TV SERIES TO DISPLAY
 
   fetchShowDetails(id) {
 
      this.fetchedTvShow=false;
 
+     this.hasSubscribed=false;
+
      this.isTodayNextEpisode=false;
 
      this.countdown='';
+
+     this.checkSubscribed(id);
 
      // ENSURING THAT WHEN THIS VIEW IS DISPLAYED, WE ARE STARTING AT THE TOP OF THE SCREEN
 
@@ -125,6 +149,10 @@ export class TvShowDetailComponent implements OnInit {
 
          this.next_episode=res.next_episode_to_air;
 
+         console.log(this.next_episode);
+
+         this.composeDetails(`http://image.tmdb.org/t/p/w1280${res.poster_path}`, res.original_name, id);
+
          this.determineSimilarCount();
 
          this.setSimilarShows(res.similar.results);
@@ -139,7 +167,18 @@ export class TvShowDetailComponent implements OnInit {
 
          console.log(res);
      })
+  }
 
+
+  // COMPOSING THE DETAILS OBJECT WHICH WILL BE INJECTED INTO THE CHILD UNSUBSCRIBE COMPONENT
+
+  composeDetails(imgpath:string, name:string, id:number) {
+
+     this.details['imgpath']=imgpath;
+
+     this.details['name']=name;
+
+     this.details['id']=id;
   }
 
   // KNOWING HOW MANY SIMILAR TV SHOWS WE ARE TO DISPLAY
@@ -169,7 +208,7 @@ export class TvShowDetailComponent implements OnInit {
 
   setShowInfo(res) {
 
-      if(res.in_production) {
+      if(res.in_production && this.next_episode !== null) {
 
         this.showInfo.show_id=res.id;
 
@@ -284,16 +323,30 @@ export class TvShowDetailComponent implements OnInit {
 
   // SUBSCRIBE TO A TV SHOW
 
-  subscribe() {
+  subscribe():boolean {
 
-      this.userservice.subscribe(JSON.stringify(this.showInfo)).subscribe((res:any) => {
+      if(!this.hasSubscribed){ 
 
-        console.log(res);
+        this.userservice.subscribe(JSON.stringify(this.showInfo)).subscribe((res:any) => {
 
-        this.notification.showSuccessMsg('Subscribed successfully');
+          this.notification.showSuccessMsg('Subscribed successfully');
 
-        this.renderer.setProperty(this.actionbtn.nativeElement, 'innerHTML', '<i class="fa fa-check"></i>subscribed');
-      })
+          this.hasSubscribed=true;
+
+          const id=this.route.snapshot.paramMap.get('id');
+
+          this.userservice.subscribedIDs.push(id);
+        })
+
+        return true;
+      }
+
+      this.displayUnsubscribeDialog=true;
+
+      this.renderer.addClass(this.overlay.nativeElement, 'episodeActive');
+      
+      this.renderer.removeClass(this.container.nativeElement, 'hidden');
+
   }
 
 
@@ -314,6 +367,15 @@ export class TvShowDetailComponent implements OnInit {
   closeSidebar() {
 
    this.smallScreen=this.interactions.closeSidebar(this.smallScreen, this.renderer, this.overlay.nativeElement);
+
+   this.closeNextEpisodeInfo();
+
+   this.closeUnSubscribeDialog();
+
+   this.renderer.removeClass(this.container.nativeElement, 'hidden');
+
+   this.renderer.removeClass(this.overlay.nativeElement, 'episodeActive');
+
   }
 
 
@@ -322,9 +384,7 @@ export class TvShowDetailComponent implements OnInit {
   hasNextEpisode():boolean {
 
     if(this.next_episode !== null) {
-
-
-
+      
       return true;
     }
 
@@ -337,6 +397,35 @@ export class TvShowDetailComponent implements OnInit {
   toggleDisplayDate() {
 
       // alert('leke');
+  }
+
+
+  // VIEWING THE NEXT EPISODE INFORMATION
+
+  viewEpisodeInfo() {
+
+    this.showEpisodeInfo=true;
+
+    this.renderer.addClass(this.overlay.nativeElement, 'episodeActive');
+
+    this.renderer.addClass(this.container.nativeElement, 'hidden');
+
+  }
+
+  // CLOSING THE NEXT EPISODE DIALOG
+
+  closeNextEpisodeInfo() {
+
+    this.showEpisodeInfo=false;
+
+  }
+
+
+  // CLOSING THE UNSUBSCRIBE DIALOG
+
+  closeUnSubscribeDialog() {
+
+     this.displayUnsubscribeDialog=false;
   }
 
 }
