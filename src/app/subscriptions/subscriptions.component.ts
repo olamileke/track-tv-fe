@@ -73,27 +73,21 @@ export class SubscriptionsComponent implements OnInit {
 
        this.http.get(URL).pipe(catchError(this.tv.handleError('subscription'))).subscribe((res:any) => {
 
-             const ids=Object.keys(res);
-
-             this.timestamps=Object.values(res);
-
-             if(ids.length > 0) {
+             if(res.length > 0) {
 
                this.hasSubscriptions=true;
 
-               for(let i=0; i < ids.length; i++) {
+               for(let i=0; i < res.length; i++) {
 
                    // MAKING THE CALL TO THE API FOR DETAILS ABOUT THE PARTICULAR TV SHOW
 
-                   this.tv.getShowDetail(parseInt(ids[i])).subscribe((res:any) => {
+                   this.tv.getShowDetail(parseInt(res[i])).subscribe((res:any) => {
 
                         this.setTvShows(res, i);
                    })
                }
 
                this.load=false;
-
-               this.setSpacing();
 
                clearInterval(interval);
 
@@ -124,15 +118,6 @@ export class SubscriptionsComponent implements OnInit {
   }
 
 
-  setSpacing():void {
-
-      if(this.TvShows.length % 2 !== 0) {
-
-        this.renderer.setProperty
-      }
-  }
-
-
    // SETTING THE FETCHED TV SHOW DATA INTO THE TV SHOWS ARRAY
 
   setTvShows(res:any, i:number) {
@@ -146,8 +131,6 @@ export class SubscriptionsComponent implements OnInit {
                this.tv.getAirDateString(res.first_air_date),
                res.vote_average, this.tv.constructGenresString(res.genres),
                 res.in_production,'');
-
-               tvshow.timesubscribed=this.timestamps[i];
           }
           else {
 
@@ -156,8 +139,6 @@ export class SubscriptionsComponent implements OnInit {
                this.tv.getAirDateString(res.first_air_date),
                res.vote_average, this.tv.constructGenresString(res.genres),
                 res.in_production,'');
-
-               tvshow.timesubscribed=this.timestamps[i];
           }
 
           this.TvShows.push(tvshow);

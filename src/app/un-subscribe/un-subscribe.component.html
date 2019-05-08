@@ -1,4 +1,9 @@
 
 <img src="{{ details.imgpath }}">
 
-<p>Are you sure you want to follow {{ details.name }}?</p>
+<p>Are you sure you want to unsubscribe from {{ details.name }}?</p>
+
+<div class='buttons'>
+	<button (click)='emitUnsubscribeEvent()'>Yes</button>
+	<button (click)='emitCloseEvent()'>No</button>
+</div>

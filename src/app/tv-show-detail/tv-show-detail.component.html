@@ -3,7 +3,9 @@
 	<app-header [class.shadow]='displayShadow' (displaySideBar)='toggleSideBar()' (tvShow)='fetchShowDetails($event)'></app-header>
 	<app-sidebar (toggleTab)='toggleTab()' *ngIf='is_sidebar_visible' [class.active]='smallScreen'></app-sidebar>
 
-	<div class='overlay' #overlay (click)='closeSidebar()'></div>
+	<div class='overlay' #overlay (click)='toggleSideBar()'></div>
+
+	<div class='dialog-overlay' #dialog_overlay (click)='closeDialog()'></div>
 
 	<div class='main' #main>
 		
@@ -11,17 +13,25 @@
 			
 			<img [src]='TvShow.imgpath'>
 			<div class='details'>
-				<p class='title'>{{ TvShow.name }}
+				<p class='title'>
+				   <span class='name'>{{ TvShow.name }}</span>
 				   <button *ngIf='TvShow.in_production' (click)='subscribe()' #actionbtn>
 				   		<div *ngIf='!hasSubscribed'>subscribe</div>
 				   		<div *ngIf='hasSubscribed'><i class='fa fa-check'></i> subscribed</div>
+				   		<div *ngIf='subloading' class='loader'>
+				   			<div></div>
+				   		</div>
 				   </button>
-				   <span *ngIf='!TvShow.in_production'>ended</span>
+				   <span *ngIf='!TvShow.in_production' class='ended'>ended</span>
 				</p>
 				<p class='date'>{{ TvShow.airdate }} <span><i class='fa fa-star'></i>{{ TvShow.rating}}/10</span></p>
 				<p>
 					<a routerLink='/genre/{{ genre | lowercase }}' *ngFor='let genre of TvShow.genres'>{{ genre }} , </a>
 				</p>
+				<div *ngIf='hasNextEpisode() && below_768px' class='countdown'>
+					<span *ngIf='!isTodayNextEpisode'>Next Episode in <b>{{ countdown }}</b> <button (click)='viewEpisodeInfo()'>View Info</button></span>
+					<span *ngIf='isTodayNextEpisode'>S{{ next_episode.season_number }} E{{ next_episode.episode_number }} coming out today <button (click)='viewEpisodeInfo()'>View Info</button></span>
+				</div>
 				<p class='overview'>
 					{{ TvShow.overview }}
 				</p>
@@ -29,20 +39,18 @@
 
 			<p class='featuring'>Cast</p>
 
-			<div class='cast'>				
-				
-				<app-actor [actor]='actor' *ngFor='let actor of cast'></app-actor>				
-
+			<div class='cast'>		
+				<app-actor [actor]='actor' *ngFor='let actor of cast'></app-actor>	
 			</div>
 
 		</div>
 
 		<app-episode-info *ngIf='showEpisodeInfo' [episode]="next_episode"></app-episode-info>
-		<app-un-subscribe *ngIf='displayUnsubscribeDialog' [details]='details'></app-un-subscribe>
+		<app-un-subscribe *ngIf='displayUnsubscribeDialog' [details]='details' (close)='closeDialog()' (unsubscribe)='unsubscribe($event)'></app-un-subscribe>
 
 		<div class='sidebar' *ngIf='fetchedTvShow'>			
 
-			<div class='next_episode' *ngIf='TvShow.in_production' [class.infoUnavailable]='!hasNextEpisode()'>
+			<div class='next_episode' *ngIf='TvShow.in_production && !below_768px' [class.infoUnavailable]='!hasNextEpisode()'>
 				<div *ngIf='hasNextEpisode()'>
 					<span *ngIf='!isTodayNextEpisode'>Next Episode in <br/></span>
 					<span *ngIf='!isTodayNextEpisode' class='countdown' #nextepisodedate>{{ countdown }}</span>
@@ -61,4 +69,6 @@
 			</div>
 		</div>
 	</div>
+
+	<img src="../assets/TvShowDetail/backbutton.png" class='back' (click)='goBack()'>
 </div>

@@ -26,16 +26,11 @@
 				<span> {{ TvShow.popularity}} </span>
 				<p>Popularity Score</p>
 			</div>
-
-
-			<div *ngIf='TvShow.timesubscribed' class='timesubscribed'>
-				You subscribed {{ TvShow.timesubscribed }}
-			</div>
 		</div>
 	</div>
 
 
-	<div class='tv-small' [ngClass]="{'popular':showPopularity, 'subscription':subscription}" *ngIf='below_412px'>		
+	<div class='tv-small' [ngClass]="{'popular':showPopularity}" *ngIf='below_412px'>		
 		<img [src]=TvShow.imgpath>
 
 		<div class='overlay'></div>

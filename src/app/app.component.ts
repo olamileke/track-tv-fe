@@ -14,7 +14,7 @@ export class AppComponent implements OnInit{
 
   ngOnInit(){ 
 
-  	this.userservice.getSubsribedIDs().subscribe((res:any) => {
+  	this.userservice.getSubscribedIDs().subscribe((res:any) => {
 
   		this.userservice.subscribedIDs=res[0];
   	})

@@ -29,7 +29,7 @@ export class InteractionsService {
 
   // TOGGLING THE DISPLAY OF THE SIDEBAR ON A SCREEN BETWEEN 501px AND 768px
 
-  toggleSideBarVisible(param:boolean, renderer:Renderer2, overlay:any):boolean{
+  toggleSideBarVisible(param:boolean, renderer:Renderer2, overlay:any, container:any):boolean{
 
     if(screen.width <= 768 && screen.width > 500) {
 
@@ -43,14 +43,18 @@ export class InteractionsService {
 
         renderer.addClass(overlay, 'active');
 
+        renderer.addClass(container, 'hidden');
+
          return param;
-       }
+      }
 
-        param=!param;
+      param=!param;
 
-        renderer.removeClass(overlay, 'active');
+      renderer.removeClass(overlay, 'active');
 
-        return param;
+      renderer.removeClass(container, 'hidden');
+
+      return param;
     }
 
     return param;

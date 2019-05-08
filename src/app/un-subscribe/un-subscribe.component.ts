@@ -1,4 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-un-subscribe',
@@ -9,9 +11,28 @@ export class UnSubscribeComponent implements OnInit {
 
   @Input() details;
 
-  constructor() { }
+  @Output() close=new EventEmitter();
+
+  @Output() unsubscribe=new EventEmitter();
+
+  constructor(private userservice:UserService) { }
 
   ngOnInit() {
+  }
+
+  // EMITTING THE EVENT TO CLOSE THE UNSUBSCRIBE DIALOG
+
+  emitCloseEvent():void{
+
+  	this.close.emit();
+  }
+
+
+  // EMITTING THE EVENT TO UNSUBSCRIBE 
+
+  emitUnsubscribeEvent() {
+
+      this.unsubscribe.emit(this.details.id);
   }
 
 }

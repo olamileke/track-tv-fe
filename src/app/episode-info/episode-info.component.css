@@ -28,6 +28,8 @@ p
 	margin:7px 0 2px 0;
 	font-family:'Hind Siliguri', sans-serif;
 	font-size:1.1em;
+	text-align: center;
+	line-height:1.25;
 }
 
 p.air_date
@@ -51,4 +53,14 @@ div
 	color:rgba(0,0,0,0.7);
 	text-align: center;
 	margin-bottom:4px;
+}
+
+
+@media(max-width:410px)
+{
+	:host
+	{
+		left:5vw;
+		width:90vw;
+	}
 }

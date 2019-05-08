@@ -37,7 +37,6 @@ export class TvService {
 
   errorgenre:boolean=false;
 
-
   constructor(private http:HttpClient, private config:ConfigService, private notification:NotificationsService) {}
 
   // FETCHING THE DETAILS OF A PARTICULAR TV SERIES

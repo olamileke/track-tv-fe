@@ -81,6 +81,11 @@ button
 	cursor:pointer;
 }
 
+p.title span.name
+{
+	/*width*/
+}
+
 
 p.title button
 {
@@ -97,13 +102,50 @@ p.title button
 	cursor:pointer;
 }
 
+div.loader
+{
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	display:flex;
+	border-radius: 4px;
+	align-items: center;
+	background:#50C878;
+	border:none;
+	justify-content: center;
+}
+
+div.loader div
+{
+	width:10px;
+	height:10px;
+	border:2px solid #fff;
+	border-right-color:transparent;
+	border-radius:50%;
+	animation:animate 1s both infinite linear;
+}
+
+@keyframes animate
+{
+	from
+	{
+		transform:rotate(0deg);
+	}	
+	to
+	{
+		transform:rotate(360deg);
+	}
+}
+
 p.title i.fa-check
 {
 	color:#fff;
 	margin:0 3px 0 0;
 }
 
-p.title span
+p.title span.ended
 {
 	position:absolute;
 	top:3px;
@@ -211,30 +253,6 @@ div.cast
  	flex-wrap:wrap;
 }
 
-
-/*div.episodeDate
-{
-	position:absolute;
-	top:15%;
-	padding:9px 5px;
-	border:1px solid rgba(0,0,0,0.06);
-	font-family:'Ubuntu', sans-serif;
-	font-size:0.9em;
-	background:#fff;
-}
-
-div.episodeDate:after
-{
-	position:absolute;
-	top:100%;
-	left:10%;
-	content:'';
-	border:7px solid rgba(0,0,0,0.06);
-	border-bottom-color:transparent;
-	border-left-color:transparent;
-	border-right-color:transparent;
-}*/
-
 div.similarShows
 {
 	padding-top:7px;
@@ -245,6 +263,15 @@ div.similarShows p
 	font-family:'Hind Siliguri', sans-serif !important;
 	color:rgba(0,0,0,0.7);
 	font-size:1.2em;
+}
+
+
+img.back
+{
+	position:fixed;
+	top:88vH;
+	left:85vw;
+	cursor:pointer;
 }
 
 
@@ -283,6 +310,40 @@ div.similarShows p
 		padding-left:5px;
 	}
 
+	p.title span.ended
+	{
+		left:calc(100% - 120px);
+	}	
+
+	p.title button
+	{
+		left:calc(100% - 135px);
+	}
+
+	div.countdown
+	{
+		position:relative;
+		top:5px;
+		padding-left:5px;
+		color:rgba(0,0,0,0.7);
+		font-family:'Quicksand';
+		font-size:0.9em;
+	}
+
+	div.countdown button
+	{
+		position:relative;
+		top:-2px;
+		left:12px;
+		padding:6px;
+		box-sizing:border-box;
+		background:#fff;
+		border:1px solid rgba(0,0,0,0.25);
+		color:rgba(0,0,0,0.8);
+		font-family:'Quicksand', sans-serif;
+		border-radius: 5px;
+	}
+
 	div.sidebar
 	{
 		position:relative;
@@ -290,11 +351,6 @@ div.similarShows p
 		display:flex;
 		flex-flow: column;
 		align-items: center;
-	}
-
-	div.next_episode
-	{
-		display:none;
 	}
 
 	p.featuring
@@ -322,5 +378,21 @@ div.similarShows p
 		font-family:'Noto Sans TC', sans-serif !important;
 		width:100%;
 		padding:0 0 5px 5px;
+	}
+}
+
+
+@media(max-width:500px)
+{
+	div.content img
+	{
+		height:43vh;
+	}	
+
+	p.title span.ended,
+	p.title button
+	{
+		top:1px;
+		left:calc(100% - 120px);
 	}
 }

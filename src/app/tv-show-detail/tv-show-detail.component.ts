@@ -10,6 +10,8 @@ import { NotificationsService } from '../notifications.service';
 
 import { UserService } from '../user.service';
 
+import { Location } from '@angular/common';
+
 import { TvService } from '../tv.service';
 
 import { interval } from 'rxjs';
@@ -24,6 +26,8 @@ import { TvShow } from '../tv-show';
 export class TvShowDetailComponent implements OnInit {
 
   @ViewChild('overlay') overlay; 
+
+  @ViewChild('dialog_overlay') dialog_overlay;
 
   @ViewChild('main') main;
 
@@ -43,13 +47,19 @@ export class TvShowDetailComponent implements OnInit {
 
   episodeInterval=interval(1000);
 
+  visitedIDs=[];
+
   episodeTime:number;
 
   details={};
 
   episodeDate:string;
 
+  below_768px:boolean=false;
+
   hasSubscribed:boolean=false;
+
+  subloading:boolean=false;;  
 
   displayUnsubscribeDialog:boolean=false;
 
@@ -59,6 +69,8 @@ export class TvShowDetailComponent implements OnInit {
 
   similarShows=[];
 
+  response:any;
+
   similarCount:number;
 
   showInfo:any={};
@@ -67,7 +79,7 @@ export class TvShowDetailComponent implements OnInit {
 
   constructor(private route:ActivatedRoute, private renderer:Renderer2,
               private interactions:InteractionsService, private tv:TvService,
-              private userservice:UserService, private notification:NotificationsService) { }
+              private userservice:UserService, private notification:NotificationsService, private location:Location) { }
 
   displayShadow:boolean=true;
 
@@ -82,6 +94,11 @@ export class TvShowDetailComponent implements OnInit {
     document.body.scrollTop = 0; // For Safari
 
     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+
+    if(screen.width <= 768) {
+
+      this.below_768px=true;
+    }
 
     const id=this.route.snapshot.paramMap.get('id');
 
@@ -130,6 +147,8 @@ export class TvShowDetailComponent implements OnInit {
 
      this.countdown='';
 
+     this.visitedIDs.push(id);
+
      this.checkSubscribed(id);
 
      // ENSURING THAT WHEN THIS VIEW IS DISPLAYED, WE ARE STARTING AT THE TOP OF THE SCREEN
@@ -147,9 +166,9 @@ export class TvShowDetailComponent implements OnInit {
 
          this.TvShow=tvshow;
 
-         this.next_episode=res.next_episode_to_air;
+         this.response=res;
 
-         console.log(this.next_episode);
+         this.next_episode=res.next_episode_to_air;
 
          this.composeDetails(`http://image.tmdb.org/t/p/w1280${res.poster_path}`, res.original_name, id);
 
@@ -327,15 +346,21 @@ export class TvShowDetailComponent implements OnInit {
 
       if(!this.hasSubscribed){ 
 
+        this.subloading=true;
+
         this.userservice.subscribe(JSON.stringify(this.showInfo)).subscribe((res:any) => {
 
           this.notification.showSuccessMsg('Subscribed successfully');
 
           this.hasSubscribed=true;
 
+          this.subloading=false;
+
           const id=this.route.snapshot.paramMap.get('id');
 
-          this.userservice.subscribedIDs.push(id);
+          this.userservice.subscribedIDs.push(parseInt(id));
+
+          this.tv.subscribedTvShows.push(this.composeTvShowObject(this.response));
         })
 
         return true;
@@ -343,10 +368,51 @@ export class TvShowDetailComponent implements OnInit {
 
       this.displayUnsubscribeDialog=true;
 
-      this.renderer.addClass(this.overlay.nativeElement, 'episodeActive');
+      this.renderer.addClass(this.dialog_overlay.nativeElement, 'episodeActive');
       
-      this.renderer.removeClass(this.container.nativeElement, 'hidden');
+      this.renderer.addClass(this.container.nativeElement, 'hidden');
 
+  }  
+
+  composeTvShowObject(res:any):any {
+
+    if(screen.width > 412) {
+
+      let tvshow=new TvShow(res.id, res.name,res.overview,`http://image.tmdb.org/t/p/w1280${res.poster_path}`,
+             this.tv.getAirDateString(res.first_air_date),
+             res.vote_average, this.tv.constructGenresString(res.genres),
+              res.in_production,'');
+
+       return tvshow;
+     }
+
+    let tvshow=new TvShow(res.id, res.name,res.overview,`http://image.tmdb.org/t/p/w1280${res.backdrop_path}`,
+           this.tv.getAirDateString(res.first_air_date),
+           res.vote_average, this.tv.constructGenresString(res.genres),
+            res.in_production,'');
+
+    return tvshow;
+  }
+
+
+  // UNSUBSCRIBING FROM A TV SHOW
+
+  unsubscribe(event:any) {
+
+       this.closeDialog();
+
+       this.subloading=true;
+
+       this.userservice.unsubscribe(parseInt(event)).subscribe((res:any) => {
+
+         this.notification.showSuccessMsg('Succesfully unsubscribed');
+
+         this.hasSubscribed=false;  
+
+         this.subloading=false;
+
+         this.userservice.deleteSubscriptionID(parseInt(event));
+    })
   }
 
 
@@ -354,7 +420,7 @@ export class TvShowDetailComponent implements OnInit {
 
   toggleSideBar():boolean {
 
-    this.is_sidebar_visible=this.interactions.toggleSideBarVisible(this.is_sidebar_visible, this.renderer, this.overlay.nativeElement);
+    this.is_sidebar_visible=this.interactions.toggleSideBarVisible(this.is_sidebar_visible, this.renderer, this.overlay.nativeElement, this.container.nativeElement);
 
     this.smallScreen=this.interactions.toggleSideBarSmall(this.smallScreen, this.overlay.nativeElement);
 
@@ -362,20 +428,17 @@ export class TvShowDetailComponent implements OnInit {
   }
 
 
-  // CLOSING THE SIDEBAR WHEN THE BODY IS CLICKED WHEN WE ARE ON A SMALL SCREEN
+  // CLOSING THE UNSUBSCRIBE AND VIEW NEXT EPISODE DIALOGS
 
-  closeSidebar() {
+  closeDialog() {
 
-   this.smallScreen=this.interactions.closeSidebar(this.smallScreen, this.renderer, this.overlay.nativeElement);
+     this.closeNextEpisodeInfo();
 
-   this.closeNextEpisodeInfo();
+     this.closeUnSubscribeDialog();
 
-   this.closeUnSubscribeDialog();
+     this.renderer.removeClass(this.dialog_overlay.nativeElement, 'episodeActive');
 
-   this.renderer.removeClass(this.container.nativeElement, 'hidden');
-
-   this.renderer.removeClass(this.overlay.nativeElement, 'episodeActive');
-
+     this.renderer.removeClass(this.container.nativeElement, 'hidden'); 
   }
 
 
@@ -391,22 +454,13 @@ export class TvShowDetailComponent implements OnInit {
     return false;
   }
 
-
-  // TOGGLING THE DISPLAY OF THE DIV WITH THE NEXT EPISODE DATE WHEN YOU HOVER ON/OFF OF THE COUNTDOWN
-
-  toggleDisplayDate() {
-
-      // alert('leke');
-  }
-
-
   // VIEWING THE NEXT EPISODE INFORMATION
 
   viewEpisodeInfo() {
 
     this.showEpisodeInfo=true;
 
-    this.renderer.addClass(this.overlay.nativeElement, 'episodeActive');
+    this.renderer.addClass(this.dialog_overlay.nativeElement, 'episodeActive');
 
     this.renderer.addClass(this.container.nativeElement, 'hidden');
 
@@ -426,6 +480,25 @@ export class TvShowDetailComponent implements OnInit {
   closeUnSubscribeDialog() {
 
      this.displayUnsubscribeDialog=false;
+  }
+
+
+  goBack() {
+
+      if(this.visitedIDs.length > 1) {
+
+        // alert(this.visitedIDs);
+
+        let index=this.visitedIDs.length - 2;
+
+        this.fetchShowDetails(this.visitedIDs[index]);
+
+        this.visitedIDs.splice(index,2);
+      }
+      else {
+
+        this.location.back();
+      }
   }
 
 }

@@ -13,12 +13,59 @@
 	align-items: center;
 	box-shadow:0 5px 20px rgba(0,0,0,0.3);
 	border:1px solid rgba(0,0,0,0.7);
-	padding:20px 0;
+	padding:10px 0 20px 0;
 }
 
 img
 {
-	width:80px;
-	height:80px;
+	width:65px;
+	height:65px;
 	object-fit:cover;
+	border-radius:50%;
+}
+
+p
+{
+	margin:7px 0 0 0;
+	width:80%;
+	font-family:'Raleway', sans-serif;
+	font-size:0.9em;
+	color:rgba(0,0,0,0.8);
+	text-align:center;
+	line-height:1.5;
+}
+
+
+div.buttons
+{
+	position:relative;
+	top:5px;
+	display:flex;
+	justify-content: space-between;
+	width:30%;
+}
+
+button
+{
+	background:none;
+	outline:none;
+	border:1px solid rgba(0,0,0,0.2);
+	border-radius:5px;
+	font-family:'Quicksand', sans-serif;
+	padding:6px 15px;
+	cursor:pointer;
+}
+
+@media(max-width:410px)
+{
+	:host
+	{
+		left:5vw;
+		width:90vw;
+	}
+
+	div.buttons
+	{
+		width:35%;
+	}
 }

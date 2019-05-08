@@ -13,8 +13,6 @@ export class TvShowComponent implements OnInit {
 
   @Input() showPopularity:boolean=false;
 
-  @Input() subscription:boolean=false;
-
   below_412px:boolean=false;
 
   constructor(private renderer:Renderer2, private elRef:ElementRef) { }

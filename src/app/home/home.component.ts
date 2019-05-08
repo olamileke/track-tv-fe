@@ -36,6 +36,8 @@ export class HomeComponent implements OnInit {
 
   @ViewChild('overlay') overlay;  
 
+  @ViewChild('loggedin') loggedInContainer;
+
   @ViewChild('imageOverlay') imageOverlay;
 
   @ViewChild( HeaderComponent ) header:HeaderComponent;
@@ -243,7 +245,7 @@ export class HomeComponent implements OnInit {
 
   toggleSideBar():boolean{
 
-    this.is_sidebar_visible=this.interactions.toggleSideBarVisible(this.is_sidebar_visible, this.renderer, this.overlay.nativeElement);
+    this.is_sidebar_visible=this.interactions.toggleSideBarVisible(this.is_sidebar_visible, this.renderer, this.overlay.nativeElement, this.loggedInContainer.nativeElement);
 
     this.smallScreen=this.interactions.toggleSideBarSmall(this.smallScreen, this.overlay.nativeElement);
 
@@ -256,6 +258,9 @@ export class HomeComponent implements OnInit {
   closeSidebar() {
 
    this.smallScreen=this.interactions.closeSidebar(this.smallScreen, this.renderer, this.overlay.nativeElement);
+
+   this.is_sidebar_visible=this.interactions.toggleSideBarVisible(this.is_sidebar_visible, this.renderer, this.overlay.nativeElement, this.loggedInContainer.nativeElement);
+
   }
   
 

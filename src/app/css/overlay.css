@@ -1,4 +1,4 @@
-div.overlay, div.image-upload-overlay
+div.overlay, div.image-upload-overlay, div.dialog-overlay
 {
 	position:fixed;
 	top:0;
@@ -22,7 +22,7 @@ div.overlay.active, div.image-upload-overlay.active
 	z-index:1;
 }
 
-div.overlay.episodeActive
+div.dialog-overlay.episodeActive
 {
 	z-index:1;
 	opacity:1;

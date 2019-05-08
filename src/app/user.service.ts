@@ -12,6 +12,8 @@ import { NotificationsService } from './notifications.service';
 
 import { map, catchError } from 'rxjs/operators';
 
+import { TvService } from './tv.service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -22,7 +24,8 @@ export class UserService {
 
   subscribedIDs=[];
 
-  constructor(private http:HttpClient, private config:ConfigService, private notification:NotificationsService) { }
+  constructor(private http:HttpClient, private config:ConfigService, 
+              private notification:NotificationsService, private tv:TvService) { }
 
   // POSTING THE DATA TO THE BACKEND FOR SIGNUP
 
@@ -54,13 +57,58 @@ export class UserService {
   } 
 
 
+  // UNSUBSCRIBING FROM A TV SHOW
+
+  unsubscribe(id:number) {
+
+    const URL=`${this.config.baseURL}/api/unsubscribe/${id}?api_token=${this.config.apiToken}`;
+
+    return this.http.post<any>(URL,this.headers).pipe(catchError(this.handleError()));
+  }
+
+
   // RETURN THE IDS OF THE TV SHOWS THAT THE USER HAS SUBSCRIBED TO
 
-  getSubsribedIDs(){
+  getSubscribedIDs(){
 
     const URL=this.config.baseURL+"/api/getsubscribedids?api_token="+this.config.apiToken;
 
     return this.http.get(URL);
+  }
+
+
+  // DELETING THE ID OF THE TV SHOW AFTER THE USER UNSUBSCRIBES
+
+  deleteSubscriptionID(id:number) {
+
+    for(let i=0; i < this.subscribedIDs.length; i++) {
+
+      if(this.subscribedIDs[i] == id) {
+
+        this.subscribedIDs.splice(i ,1);
+
+        break;
+      }
+    }
+
+    this.deleteSubscriptionObject(id);
+  }
+
+
+  // DELETING THE TV SHOW OBJECT FROM THE SUBSCRIPTIONS OBJECT
+
+  deleteSubscriptionObject(id:number) {
+
+    for(let i=0; i < this.tv.subscribedTvShows.length; i++) {
+
+       if(this.tv.subscribedTvShows[i].id == id) {
+
+         this.tv.subscribedTvShows.splice(i,1);
+
+         break;
+       }
+    }
+
   }
 
 
@@ -147,6 +195,8 @@ export class UserService {
 
           this.notification.showErrorMsg('The uploaded image is too large');
         }
+
+        console.log(error);
 
         if(error.status == 406) {
 
