@@ -240,6 +240,8 @@ export class TvShowDetailComponent implements OnInit {
         this.showInfo.next_episode_number=res.next_episode_to_air.episode_number;
 
         this.showInfo.next_episode_season=res.next_episode_to_air.season_number;
+
+        this.showInfo.about_episode=res.next_episode_to_air.overview;
       }
   }
 

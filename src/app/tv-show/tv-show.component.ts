@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, Renderer2, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, Output, ViewChild, Renderer2, ElementRef, EventEmitter } from '@angular/core';
 
 import { TvShow } from '../tv-show';
 
@@ -12,6 +12,14 @@ export class TvShowComponent implements OnInit {
   @Input() TvShow:TvShow;
 
   @Input() showPopularity:boolean=false;
+
+  @Input() subscription:boolean=false;
+
+  @Output() unsubscribe=new EventEmitter();
+
+  @Output() viewInfo=new EventEmitter();
+
+  details={};
 
   below_412px:boolean=false;
 
@@ -35,6 +43,42 @@ export class TvShowComponent implements OnInit {
     const slug=name.replace(/ /g, '-').toLowerCase();
 
     return slug;
+  }
+
+
+  getShowName(name:string):string {
+
+      if(name.length > 25) {
+
+        return name.slice(0,23) + '...';
+      }
+
+      return name;
+  }
+
+
+  openUnSubscribeDialog():void {
+
+    this.unsubscribe.emit(this.composeDetailsObject());
+  }
+
+
+  openViewInfoDialog():void {
+
+    const details={'id':this.TvShow.id, 'name':this.getSlug(this.TvShow.name)};
+
+    this.viewInfo.emit(details);
+  }
+
+  composeDetailsObject():any {
+
+     this.details['imgpath']=this.TvShow.imgpath;
+
+     this.details['name']=this.TvShow.name;
+
+     this.details['id']=this.TvShow.id;
+
+     return this.details;
   }
 
 }

@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css?family=Hind+Siliguri');
+
+:host
+{
+	position:fixed;
+	top:17vh;
+	left:calc((100vw - 400px)/2);
+	width:400px;
+	background:#fff;
+	z-index:10;
+	display:flex;
+	flex-flow:column;
+	align-items: center;
+	padding:10px 0 15px 0;
+	box-shadow:0 5px 20px rgba(0,0,0,0.3);
+	border-radius:4px;
+	border:1px solid rgba(0,0,0,0.7);
+	padding:15px 25px 10px 25px;
+	box-sizing:border-box;
+}
+
+p
+{
+	margin:0;
+}
+
+p.name
+{
+	font-family:'Hind Siliguri', sans-serif;
+	font-size:1.1em;
+}
+
+p.timesubscribed
+{
+	font-family:'Raleway', sans-serif;
+	margin-bottom:3px;
+	color:rgba(0,0,0,0.8);
+}
+
+div
+{
+	text-align:center;
+}
+
+
+div.info
+{
+	font-family:'Quicksand', sans-serif;
+	font-size:0.9em;
+	margin-bottom:4px;
+}
+
+div.info.extra
+{
+	margin-bottom:7px;
+}
+
+div.info p
+{
+	color:rgba(0,0,0,0.9);
+	margin:2px 0 1px 0;
+}
+
+div.info span
+{
+	color:rgba(0,0,0,0.8);
+}
+
+div.buttons
+{
+	width:100%;
+	display:flex;
+	justify-content: flex-end;
+}
+
+a,button
+{
+	padding:6px 4px;
+	font-family:'Quicksand', sans-serif;
+	border-radius:5px;
+	background:#fff;
+	outline:0;
+	cursor:pointer;
+}
+
+a
+{
+	text-decoration: none;
+	color:#fff;
+	background:#50C878;
+	margin-right:10px;
+	width:80px;
+	font-size:0.8em;
+	padding:6px 4px;
+	box-sizing:border-box;
+}
+
+button
+{
+	border:1px solid rgba(0,0,0,0.2);
+}

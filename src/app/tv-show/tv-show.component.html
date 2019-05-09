@@ -1,13 +1,13 @@
 
 <a routerLink='/show/{{ TvShow.id }}/{{ getSlug(TvShow.name) }}'>
-	<div class='tvshow' [ngClass]="{'popular':showPopularity, 'subscription':subscription}" *ngIf='!below_412px'>  
+	<div class='tvshow' [ngClass]="{'popular':showPopularity, 'subscribed':subscription}" *ngIf='!below_412px'>  
 		
 		<div class='picture'>
 			<img [src]=TvShow.imgpath>
 		</div>
 
 		<div class='content'>
-			<p class='name'>{{ TvShow.name }}</p>
+			<p class='name'>{{ getShowName(TvShow.name) }}</p>
 			<p class='date'>{{ TvShow.airdate }}</p> 
 			<p class='rating'>{{ TvShow.rating }}/10</p>
 			<p class='overview'>{{ TvShow.overview | slice:0:180 }}...</p>
@@ -52,3 +52,8 @@
 	</div>
 
 </a> 
+
+<div class='subscription' *ngIf='subscription && !below_412px'>
+	<img src="../../assets/Subscriptions/detail-icon.png" style='width:16px; height:16px;margin-bottom:4px' (click)='openViewInfoDialog()'>
+	<img src="../../assets/Subscriptions/trash.png" style='width:18px; height:18px;' (click)='openUnSubscribeDialog()'>
+</div>

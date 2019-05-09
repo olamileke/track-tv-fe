@@ -38,7 +38,7 @@
 
 	<div class='loggedin-main' #loggedinmain >
 		<app-sidebar (toggleTab)='toggleTab($event)' *ngIf='is_sidebar_visible' [class.active]='smallScreen'></app-sidebar>
-		<app-subscriptions *ngIf="conditions.subscriptions"></app-subscriptions>
+		<app-subscriptions (toggleOverlay)='toggleImageOverlay($event)' *ngIf="conditions.subscriptions"></app-subscriptions>
 		<app-popular *ngIf="conditions.popular"></app-popular>
 		<app-top-rated *ngIf="conditions.toprated"></app-top-rated>
 		<app-explore *ngIf="conditions.explore"></app-explore>

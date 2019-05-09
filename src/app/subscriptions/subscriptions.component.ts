@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, Output, HostListener, ElementRef, Renderer2, EventEmitter } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 
@@ -29,7 +29,19 @@ export class SubscriptionsComponent implements OnInit {
 
   hasSubscriptions:boolean;
 
+  displayUnsubscribeDialog:boolean=false;
+
+  displayViewInfo:boolean=false;
+
+  @Output() toggleOverlay=new EventEmitter();
+
   load:boolean=true;
+
+  details={};
+
+  subscribedInfo=[];
+
+  currentlyViewedInfo={};
 
   below_412px:boolean=false;
 
@@ -75,16 +87,22 @@ export class SubscriptionsComponent implements OnInit {
 
              if(res.length > 0) {
 
+               this.subscribedInfo=res;
+
+               console.log(res);
+
                this.hasSubscriptions=true;
 
                for(let i=0; i < res.length; i++) {
 
                    // MAKING THE CALL TO THE API FOR DETAILS ABOUT THE PARTICULAR TV SHOW
 
-                   this.tv.getShowDetail(parseInt(res[i])).subscribe((res:any) => {
+                   this.tv.getShowDetail(parseInt(res[i].show_id)).subscribe((res:any) => {
 
                         this.setTvShows(res, i);
                    })
+
+
                }
 
                this.load=false;
@@ -146,5 +164,61 @@ export class SubscriptionsComponent implements OnInit {
           this.tv.subscribedTvShows.push(tvshow);
 
        })          
+  }
+
+
+  // VIEWING DETAILS ABOUT THE SUBSCRIBED TO TV SHOWS
+
+  viewInfo(details:any) {
+
+    this.displayViewInfo=true;
+
+    this.toggleOverlay.emit(true);
+
+     for(let i=0; i < this.subscribedInfo.length; i++) {
+
+        if(parseInt(details.id) == this.subscribedInfo[i].show_id) {
+
+            this.currentlyViewedInfo=this.subscribedInfo[i];
+
+            this.currentlyViewedInfo['id']=parseInt(details.id);
+
+            this.currentlyViewedInfo['slug']=details.name;
+
+            break;
+        }
+     }
+  }
+
+
+  // CLOSING THE VIEW NEXT EPISODE DIALOG
+
+  closeInfoDialog() {
+
+    this.displayViewInfo=false;
+
+    this.toggleOverlay.emit(false);
+  }
+
+
+  // OPENING THE UNSUBSCRIBE DIALOG
+
+  triggerUnSubscribeDialog(event:any):void {
+
+      this.toggleOverlay.emit(true);
+
+      this.displayUnsubscribeDialog=true;
+
+      this.details=event;
+  }
+
+
+  // CLOSING THE UNSUBSCRIBE DIALOG
+
+  closeDialog() {
+
+     this.toggleOverlay.emit(false);
+
+     this.displayUnsubscribeDialog=false;
   }
 }

@@ -2,6 +2,12 @@
 @import url('https://fonts.googleapis.com/css?family=Quicksand');
 @import url('https://fonts.googleapis.com/css?family=Raleway');
 
+
+:host
+{
+	display:flex;
+}
+
 a
 {
 	color:#000;
@@ -19,9 +25,28 @@ a
  	z-index:-3;
  } 
 
+ div.tvshow.subscribed
+ {
+ 	margin-right:10px;
+ }
+
 .subscription
  {
- 	margin-bottom:55px;
+ 	position:relative;
+ 	top:5px;
+ 	display:flex;
+ 	width:20px;
+ 	margin-right:50px;
+ 	flex-flow: column;
+ 	align-items: center;
+ 	/*top:2px;
+ 	left:101%;*/
+ }
+
+
+ .subscription img
+ {
+ 	cursor:pointer;
  }
 
  p

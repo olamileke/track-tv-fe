@@ -41,6 +41,7 @@ import { SimilarShowComponent } from './similar-show/similar-show.component';
 import { ActorComponent } from './actor/actor.component';
 import { EpisodeInfoComponent } from './episode-info/episode-info.component';
 import { UnSubscribeComponent } from './un-subscribe/un-subscribe.component';
+import { ViewSubscribedInfoComponent } from './view-subscribed-info/view-subscribed-info.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { UnSubscribeComponent } from './un-subscribe/un-subscribe.component';
     SimilarShowComponent,
     ActorComponent,
     EpisodeInfoComponent,
-    UnSubscribeComponent
+    UnSubscribeComponent,
+    ViewSubscribedInfoComponent
   ],
   imports: [
     BrowserModule,

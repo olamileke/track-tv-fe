@@ -280,6 +280,22 @@ export class HomeComponent implements OnInit {
      }
   }
 
+  // TOGGLING THE OVERLAY WHEN THE USER WANTS TO UNSUBSCRIBE FROM THE SUBSCRIPTIONS PAGE
+
+  toggleImageOverlay(condition:any):boolean {
+
+      if(condition) {
+
+        this.renderer.addClass(this.imageOverlay.nativeElement, 'active');
+        this.renderer.addClass(this.loggedInContainer.nativeElement, 'hidden');
+
+        return true;
+      }
+
+        this.renderer.removeClass(this.imageOverlay.nativeElement, 'active');
+        this.renderer.removeClass(this.loggedInContainer.nativeElement, 'hidden');
+  }
+
 
 }
 					

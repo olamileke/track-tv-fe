@@ -24,12 +24,16 @@
 :host.shadow
 {
 	box-shadow:0 10px 10px rgba(0,0,0,0.06);
-	padding:0 6vw 15px 6vw;
+	padding-bottom:15px;
+}
+
+:host.shadow p.title
+{
+	margin-left:6vw;
 }
 
 p.title
 { 
-	/*display: none;*/
 	margin:0;
 	font-family:'Raleway', sans-serif;
 	font-size:2em; 
@@ -42,10 +46,15 @@ p.title a
 	text-decoration: none;
 }
 
+:host.shadow div
+{
+	margin-right:4vw;
+}
+
 div
 {
 	position:relative;
-	left:-20%;
+	left:-12%;
 }
 
 ul
@@ -90,16 +99,6 @@ ul.searchResults p
 {
 	margin:0;
 }
-/*
-span.arrow
-{
-	position:absolute;
-	top:-12px;
-	border:10px solid rgba(0,0,0,0.06);
-	border-left-color:transparent;
-	border-right-color:transparent;
-	border-top-color:transparent;
-}*/
 
 ul.searchResults span
 {
