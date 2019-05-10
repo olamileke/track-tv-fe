@@ -24,7 +24,7 @@ export class UserService {
 
   subscribedIDs=[];
 
-  // subscribedInfo=[];
+  subscribedInfo=[];
 
   constructor(private http:HttpClient, private config:ConfigService, 
               private notification:NotificationsService, private tv:TvService) { }

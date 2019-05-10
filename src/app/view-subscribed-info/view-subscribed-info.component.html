@@ -1,16 +1,16 @@
 
 <p class='name'>{{ details.name }}</p>
 
-<p class='timesubscribed'>You subscribed 21 days ago</p>
+<p class='timesubscribed'>You subscribed {{ getTimeFromSubscribed(details.created_at) }}</p>
 
 <div class='info' [class.extra]='displayReadMore'>
-	<p>Season {{ details.next_episode_season }} Episode {{ details.next_episode_season }}</p>
+	<p>Season {{ details.next_episode_season }} Episode {{ details.next_episode_number }}</p>
 
 	<span>{{ summary }}</span>
 </div>
 
 <div class='buttons'>
-	<a routerLink="/show/{{ details.id }}/{{ details.slug }}" *ngIf='displayReadMore'>Read More</a>
+	<a routerLink="/show/{{ details.id }}/{{ details.slug }}" *ngIf='displayReadMore'>more</a>
 
-	<button (click)='emitCloseEvent()'>Close</button>
+	<button (click)='emitCloseEvent()'>close</button>
 </div>

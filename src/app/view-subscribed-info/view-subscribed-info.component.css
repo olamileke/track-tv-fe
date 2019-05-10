@@ -75,7 +75,7 @@ div.buttons
 
 a,button
 {
-	padding:6px 4px;
+	padding:6px;
 	font-family:'Quicksand', sans-serif;
 	border-radius:5px;
 	background:#fff;
@@ -89,9 +89,10 @@ a
 	color:#fff;
 	background:#50C878;
 	margin-right:10px;
-	width:80px;
+	width:43px;
 	font-size:0.8em;
 	padding:6px 4px;
+	border:1px solid rgba(0,0,0,0.17);
 	box-sizing:border-box;
 }
 

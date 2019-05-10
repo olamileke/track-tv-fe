@@ -268,7 +268,7 @@ export class TvShowDetailComponent implements OnInit {
   }
 
 
-  // SETTING THE VALUE OF THE CAST PROPERTY
+  // GETTING THE CAST OF THE TV SHOW
 
   setCast(cast) {
 
@@ -363,6 +363,8 @@ export class TvShowDetailComponent implements OnInit {
           this.userservice.subscribedIDs.push(parseInt(id));
 
           this.tv.subscribedTvShows.push(this.composeTvShowObject(this.response));
+
+          this.userservice.subscribedInfo.push(this.composeShowInfo());
         })
 
         return true;
@@ -375,6 +377,9 @@ export class TvShowDetailComponent implements OnInit {
       this.renderer.addClass(this.container.nativeElement, 'hidden');
 
   }  
+
+
+  // CREATING THE TV SHOW OBJECT TO ADD TO THE SUBSCRIBED TV SHOWS ARRAY WHEN THE USER SUBSCRIBES TO IT
 
   composeTvShowObject(res:any):any {
 
@@ -394,6 +399,38 @@ export class TvShowDetailComponent implements OnInit {
             res.in_production,'');
 
     return tvshow;
+  }
+
+
+  composeShowInfo() {
+
+    let showInfo={'about_episode':this.TvShow.overview, 'name':this.TvShow.name, 'next_episode_air_date':this.next_episode.air_date,
+                  'next_episode_number':this.next_episode.episode_number, 'next_episode_season':this.next_episode.season_number,
+                   show_id:this.TvShow.id, created_at:this.getCurrentTime()};
+
+    return showInfo;
+  }
+
+
+  // OBTAINING THE CURRENT TIME IN Y-M-D H:M:S
+
+  getCurrentTime():string {
+
+     let date=new Date();
+
+     let year=date.getFullYear();
+
+     let month=(date.getMonth()) + 1;
+
+     let day=date.getDate();
+
+     let hour=(date.getHours()) + 1;
+
+     let minutes=(date.getMinutes()) + 1;
+
+     let seconds=(date.getSeconds()) + 1;
+
+     return `${year}-${month}-${day} ${hour}:${minutes}:${seconds}`;
   }
 
 

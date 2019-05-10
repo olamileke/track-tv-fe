@@ -6,6 +6,8 @@ import { catchError } from 'rxjs/operators';
 
 import { ConfigService } from '../config.service';
 
+import { UserService } from '../user.service';
+
 import { TvService } from '../tv.service';
 
 import { TvShow } from '../tv-show';
@@ -48,7 +50,7 @@ export class SubscriptionsComponent implements OnInit {
   timestamps;
 
   constructor(private elRef:ElementRef, private renderer:Renderer2,
-              private config:ConfigService, private http:HttpClient, private tv:TvService) { }
+              private config:ConfigService, private http:HttpClient, private tv:TvService, private userservice:UserService) { }
 
   ngOnInit() {
 
@@ -89,7 +91,9 @@ export class SubscriptionsComponent implements OnInit {
 
                this.subscribedInfo=res;
 
-               console.log(res);
+               this.userservice.subscribedInfo=res;
+
+               // console.log(res);  
 
                this.hasSubscriptions=true;
 
@@ -126,6 +130,8 @@ export class SubscriptionsComponent implements OnInit {
      else {
 
          this.TvShows=this.tv.subscribedTvShows;
+
+         this.subscribedInfo=this.userservice.subscribedInfo;
 
          this.hasSubscriptions=true;
 
@@ -220,5 +226,13 @@ export class SubscriptionsComponent implements OnInit {
      this.toggleOverlay.emit(false);
 
      this.displayUnsubscribeDialog=false;
+  }
+
+
+  // UNSUBSCRIBE FROM A TV SHOW
+
+  unsubscribe(id:any) {
+
+    alert(id);
   }
 }

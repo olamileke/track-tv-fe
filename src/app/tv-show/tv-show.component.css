@@ -163,7 +163,12 @@ a
  {
  	div.tvshow
  	{
- 		margin-right:0 !important;
+ 		margin-right:0;
+ 	}
+
+ 	.subscription
+ 	{
+ 		margin-right:0;
  	}
 
  	div.popularity
@@ -178,19 +183,3 @@ a
  	}
  }
 
-
- @media(max-width:412px)
-{
-	/*iv.tvshow
-	{
-		height:350px;
-		width:350px;
-		flex-flow:column;
-	}
-
-	div.picture
-	{
-		height:50%;
-		width:100%;
-	}*/
-}
