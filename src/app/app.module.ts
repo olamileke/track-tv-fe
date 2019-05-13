@@ -42,6 +42,8 @@ import { ActorComponent } from './actor/actor.component';
 import { EpisodeInfoComponent } from './episode-info/episode-info.component';
 import { UnSubscribeComponent } from './un-subscribe/un-subscribe.component';
 import { ViewSubscribedInfoComponent } from './view-subscribed-info/view-subscribed-info.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
+import { PasswordChangeComponent } from './password-change/password-change.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +67,9 @@ import { ViewSubscribedInfoComponent } from './view-subscribed-info/view-subscri
     ActorComponent,
     EpisodeInfoComponent,
     UnSubscribeComponent,
-    ViewSubscribedInfoComponent
+    ViewSubscribedInfoComponent,
+    PasswordResetComponent,
+    PasswordChangeComponent
   ],
   imports: [
     BrowserModule,

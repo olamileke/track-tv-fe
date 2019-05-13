@@ -88,9 +88,34 @@ export class AuthService {
   // ACTIVATING THE USER
 
   activateAccount(token:string):Observable<User[]> {
-    const URL=`http://localhost:8000/api/account/activate/${token}`;
+
+    const URL=this.config.baseURL+`/api/account/activate/${token}`;
 
     return this.http.post<User[]>(URL, this.headers);
+  }
+
+
+  sendPasswordResetMail(data:any) {
+
+    const URL=this.config.baseURL+'/api/sendresetmail';
+
+    return this.http.post(URL, data, this.headers);
+  }
+
+
+  checkPasswordResetToken(token:string) {
+
+    const URL=this.config.baseURL+`/api/checkresettoken/${token}`;
+
+    return this.http.post(URL,this.headers);
+  }
+
+
+  resetPassword(token:string, data:any) {
+
+    const URL=this.config.baseURL+`/api/resetpassword/${token}`;
+
+    return this.http.post(URL, data, this.headers);
   }
 
 
