@@ -49,12 +49,13 @@ p.title a
 :host.shadow div
 {
 	margin-right:4vw;
+	left:-12% !important;
 }
 
 div
 {
 	position:relative;
-	left:-12%;
+	left:-24%;
 }
 
 ul
@@ -351,9 +352,25 @@ img
 		top:20px;
 	}
 
+	:host.shadow p.title
+	{
+		margin-left:0;
+	}
+
+	:host.shadow div
+	{
+		margin-right:0;
+	}
+
 	p.title
 	{
+		position:relative;
 		margin-top:-5px;
+	}
+
+	div
+	{
+		left:-35%;
 	}
 
 	ul.searchResults

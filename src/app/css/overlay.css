@@ -1,4 +1,4 @@
-div.overlay, div.image-upload-overlay, div.dialog-overlay
+div.overlay, div.image-upload-overlay, div.dialog-overlay, div.loading-overlay
 {
 	position:fixed;
 	top:0;
@@ -11,6 +11,41 @@ div.overlay, div.image-upload-overlay, div.dialog-overlay
 	z-index:-1;
 }
 
+
+div.loading-overlay
+{
+	background:rgba(255, 255, 255, 0.5);
+	z-index:9999;
+	opacity:1;
+	display:flex;
+	align-items:center;
+	justify-content: center;
+}
+
+div.loading-overlay div.load
+{
+	/*top:calc((100% - 120px)/2);*/
+	width:40px;
+	height:40px;
+	border-radius:50%;
+	border:3px solid rgba(250, 190, 88, 1);
+	border-left-color:transparent;
+	animation:animate 1.5s linear infinite;
+}
+
+@keyframes animate
+{
+	from
+	{
+		transform:rotate(0deg);
+	}
+
+	to
+	{
+		transform:rotate(360deg);
+	}
+}
+
 div.image-upload-overlay
 {
 	background:rgba(0,0,0,0.6);		
@@ -20,6 +55,11 @@ div.overlay.active, div.image-upload-overlay.active
 {
 	opacity:1;
 	z-index:1;
+}
+
+div.loading-overlay
+{
+	background:rgba(255, 255, 255, 0.7);
 }
 
 div.dialog-overlay.episodeActive

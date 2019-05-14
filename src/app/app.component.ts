@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { UserService } from './user.service';
 
+import { AuthService } from './auth.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -10,14 +12,19 @@ import { UserService } from './user.service';
 export class AppComponent implements OnInit{
   title = 'TrackTv';
 
-  constructor(private userservice:UserService){}
+  constructor(private auth:AuthService, private userservice:UserService){}
 
   ngOnInit(){ 
 
-  	this.userservice.getSubscribedIDs().subscribe((res:any) => {
 
-  		this.userservice.subscribedIDs=res[0];
-  	})
+    if(this.auth.isAuthenticated()) {
+
+      	this.userservice.getSubscribedIDs().subscribe((res:any) => {
+
+      		this.userservice.subscribedIDs=res[0];
+      	})
+
+     }
 
   }
 

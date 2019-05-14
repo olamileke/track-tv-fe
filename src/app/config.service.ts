@@ -22,12 +22,12 @@ export class ConfigService {
 
   get apiToken():string {
 
-    if(sessionStorage.api_token !== null) {
+    if(sessionStorage.api_token != '' && sessionStorage.api_token != undefined) {
 
       return sessionStorage.api_token;
     }
 
-    if(localStorage.api_token !== null) {
+    if(localStorage.api_token != '') {
 
       return localStorage.api_token;
     }
@@ -38,15 +38,17 @@ export class ConfigService {
 
   get profileImage():string {
 
-    if(sessionStorage.profileImage !== null) {
+    if(sessionStorage.profileImage != '' && sessionStorage.profileImage != undefined ) {
 
       return sessionStorage.profileImage;
     }
 
-    if(localStorage.profileImage !== null) {
+    if(localStorage.profileImage != '' && localStorage.profileImage != undefined) {
 
       return localStorage.profileImage;
     }
+
+    return 'http://localhost:8000/Images/Users/anon.jpg';
   }
 
   get baseURL():string {

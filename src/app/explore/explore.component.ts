@@ -70,8 +70,6 @@ export class ExploreComponent implements OnInit {
 
       this.tv.exploredTvShows('explore',rating, numvotes, genreIDs).subscribe((res:any) => {
 
-          console.log(res.results);
-
            this.response=res.results;
 
            for(let i=0; i < res.results.length; i++) {

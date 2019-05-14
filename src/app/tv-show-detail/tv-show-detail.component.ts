@@ -10,6 +10,10 @@ import { NotificationsService } from '../notifications.service';
 
 import { UserService } from '../user.service';
 
+import { throwError } from 'rxjs';
+
+import { catchError } from 'rxjs/operators';
+
 import { Location } from '@angular/common';
 
 import { TvService } from '../tv.service';
@@ -58,6 +62,8 @@ export class TvShowDetailComponent implements OnInit {
   below_768px:boolean=false;
 
   hasSubscribed:boolean=false;
+
+  loading_show:boolean=true;
 
   subloading:boolean=false;;  
 
@@ -147,6 +153,8 @@ export class TvShowDetailComponent implements OnInit {
 
      this.countdown='';
 
+     this.loading_show=true;
+
      this.visitedIDs.push(id);
 
      this.checkSubscribed(id);
@@ -157,7 +165,7 @@ export class TvShowDetailComponent implements OnInit {
 
     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 
-     this.tv.getShowDetail(id, true).subscribe((res:any) => {
+     this.tv.getShowDetail(id, true).pipe(catchError(this.handleError('detail'))).subscribe((res:any) => {
 
          let tvshow=new TvShow(res.id, res.name,res.overview,`http://image.tmdb.org/t/p/w1280${res.backdrop_path}`,
              this.tv.getAirDateString(res.first_air_date),
@@ -167,6 +175,8 @@ export class TvShowDetailComponent implements OnInit {
          this.TvShow=tvshow;
 
          this.response=res;
+
+         this.loading_show=false;
 
          this.next_episode=res.next_episode_to_air;
 
@@ -183,8 +193,6 @@ export class TvShowDetailComponent implements OnInit {
          this.setShowInfo(res);
 
          this.fetchedTvShow=true;
-
-         console.log(res);
      })
   }
 
@@ -350,7 +358,7 @@ export class TvShowDetailComponent implements OnInit {
 
         this.subloading=true;
 
-        this.userservice.subscribe(JSON.stringify(this.showInfo)).subscribe((res:any) => {
+        this.userservice.subscribe(JSON.stringify(this.showInfo)).pipe(catchError(this.handleError())).subscribe((res:any) => {
 
           this.notification.showSuccessMsg('Subscribed successfully');
 
@@ -442,7 +450,7 @@ export class TvShowDetailComponent implements OnInit {
 
        this.subloading=true;
 
-       this.userservice.unsubscribe(parseInt(event)).subscribe((res:any) => {
+       this.userservice.unsubscribe(parseInt(event)).pipe(catchError(this.handleError())).subscribe((res:any) => {
 
          this.notification.showSuccessMsg('Succesfully unsubscribed');
 
@@ -452,6 +460,26 @@ export class TvShowDetailComponent implements OnInit {
 
          this.userservice.deleteSubscriptionID(parseInt(event));
     })
+  }
+
+  // ERROR HANDLER 
+
+  handleError(operation?:string) {
+
+     return (error:any) => {
+
+      this.notification.showErrorMsg('There was a problem processing the request', 'Error');
+
+      this.subloading=false;
+
+      if(operation == 'detail') {
+
+         this.loading_show=false;
+      }
+
+      return throwError(error);
+
+    }
   }
 
 

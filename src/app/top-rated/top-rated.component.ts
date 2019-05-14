@@ -66,8 +66,6 @@ export class TopRatedComponent implements OnInit {
 
     	this.tv.getTopRatedShows('toprated').subscribe((res:any) => {
 
-           console.log(res.results);
-
            this.response=res.results;
 
            for(let i=0; i < res.results.length; i++) {

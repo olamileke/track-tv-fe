@@ -58,7 +58,7 @@ export class HeaderComponent implements OnInit {
 
   count:number;
 
-  name:string=JSON.parse(sessionStorage.profile).name;
+  name:string;
 
   imgsrc:string;
 
@@ -80,11 +80,24 @@ export class HeaderComponent implements OnInit {
 
       this.smallScreen=true;
     }
-    
 
+    this.name=this.checkStorage() == false ? JSON.parse(localStorage.profile).name : JSON.parse(sessionStorage.profile).name;
+   
     this.imgsrc=this.config.profileImage;
   }
 
+
+  // CHECKING SESSION STORAGE FOR USER INFORMATION
+
+  checkStorage():boolean {
+
+      if(sessionStorage.profile == '' || sessionStorage.profile == undefined) {
+
+         return false;
+      }
+
+      return true;
+  }
   
 
   // TOGGLING THE SEARCH BAR DISPLAY ON A SMALL SCREEN (768px and below)
@@ -199,15 +212,12 @@ export class HeaderComponent implements OnInit {
 
      this.auth.logout().subscribe((res:any) => {
 
-        if(res.status === undefined) {
+         this.auth.unSetUserData();
 
-           this.auth.unSetUserData();
+         this.router.navigate(['/login']);
 
-           this.router.navigate(['/login']);
+         this.notification.showSuccessMsg('Logged out successfully');
 
-           this.notification.showSuccessMsg('Logged out successfully');
-
-          }
      })
   }
 

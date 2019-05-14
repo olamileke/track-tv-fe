@@ -8,7 +8,7 @@ import { UserService } from '../user.service';
 
 import { AuthService } from '../auth.service'; 
 
-import { Observable,  of, interval } from 'rxjs';
+import { Observable,  throwError, interval } from 'rxjs';
 
 import { catchError } from 'rxjs/operators';
 
@@ -115,24 +115,16 @@ export class LoginComponent implements OnInit{
 
 	this.renderer.setProperty(this.loginbtn.nativeElement, 'disabled', true);
 	
-	this.userservice.login(JSON.stringify(this.user)).pipe(
-
-			catchError(this.handleError())
-
-		).subscribe((res:User[]) => {
-
-		if(res !== undefined)
-		{
+	this.userservice.login(JSON.stringify(this.user)).pipe(catchError(this.handleError())).subscribe((res:User[]) => {	
+		
 			this.loading=false;
 
       this.router.navigate(['/subscriptions']);
 
       this.notification.showSuccessMsg('Login successful');  
       
-      this.authservice.setUserData(res[0], remember); 
-		}
-
-	})
+      this.authservice.setUserData(res[0], remember); 	
+	  })
   }
 
   // ERROR HANDLER
@@ -143,7 +135,7 @@ export class LoginComponent implements OnInit{
 
   		if(error.status == 0)
   		{
-  			this.notification.showErrorMsg('Problem connecting to the server', 'Try again');  			
+  			this.notification.showErrorMsg('There was a problem processing the request', 'Error');  			
   		}
 
   		if(error.status == 401)
@@ -156,13 +148,11 @@ export class LoginComponent implements OnInit{
   			this.notification.showErrorMsg('Please activate your account');
   		}
 
-      console.log(error);
-
   		this.loading=false;
 
-		this.renderer.setProperty(this.loginbtn.nativeElement, 'disabled', false);
+	  	this.renderer.setProperty(this.loginbtn.nativeElement, 'disabled', false);
 
-  		return of(result as T);
+  		return throwError(result as T);
   	}	
   }
 

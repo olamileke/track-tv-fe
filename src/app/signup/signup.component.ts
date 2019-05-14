@@ -6,7 +6,7 @@ import { NotificationsService } from '../notifications.service';
 
 import { UserService } from '../user.service';
 
-import { of } from 'rxjs';
+import { throwError } from 'rxjs';
 
 import { catchError , tap } from'rxjs/operators';
 
@@ -75,17 +75,11 @@ export class SignupComponent implements OnInit {
 
     this.loading=true;
 
-    this.userservice.signup(JSON.stringify(this.user)).pipe(
-               catchError(this.handleError())
-             )
-           .subscribe((res:User[]) => {
-
-               if(res !== undefined)
-               {
-                    this.loading=false;
-                    this.notification.showSuccessMsg('Please check your email', 'Registration successful');
-               }
-            });
+    this.userservice.signup(JSON.stringify(this.user)).pipe(catchError(this.handleError())) .subscribe((res:User[]) => {
+                            
+        this.loading=false;
+        this.notification.showSuccessMsg('Please check your email', 'Registration successful');   
+     });
   }
 
 
@@ -97,16 +91,14 @@ export class SignupComponent implements OnInit {
 
         if(error.status == 0)
         {
-           this.notification.showErrorMsg('Problem connecting to the server', 'Try again');
+           this.notification.showErrorMsg('There was a problem processing the request', 'Error');
 
            this.loading=false;
 
            this.renderer.setProperty(this.signupbtn.nativeElement, "disabled", false);
         }
 
-        console.log(error);
-
-        return of(result as T);
+        return throwError(result as T);
       }
   }
 

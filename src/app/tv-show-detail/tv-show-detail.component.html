@@ -45,6 +45,11 @@
 
 		</div>
 
+		<div class='loading-overlay' *ngIf='loading_show'>
+
+			<div class='load'></div>
+		</div>
+
 		<app-episode-info *ngIf='showEpisodeInfo' [episode]="next_episode"></app-episode-info>
 		<app-un-subscribe *ngIf='displayUnsubscribeDialog' [details]='details' (close)='closeDialog()' (unsubscribe)='unsubscribe($event)'></app-un-subscribe>
 

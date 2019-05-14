@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '../auth.service';
 
-import { of } from 'rxjs';
+import { throwError } from 'rxjs';
 
 import { catchError } from 'rxjs/operators';
 
@@ -48,14 +48,19 @@ export class PasswordResetComponent implements OnInit {
 
   	return (error:any) => {
 
+      if(error.status == 0) {
+
+        this.notification.showErrorMsg('There was a problem processing the request', 'Error');
+      }
+
   		if(error.status == 404) {
 
   			this.notification.showErrorMsg('No user exists for that email address');
   		}
 
-  		console.log(error);
+      this.loading=false;
 
-  		return of(error);
+  		return throwError(error);
   	}
   }
 

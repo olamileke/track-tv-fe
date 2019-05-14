@@ -54,7 +54,7 @@ export class UserService {
 
     const URL=this.config.baseURL+"/api/subscribe?api_token="+this.config.apiToken;
 
-    return this.http.post<any>(URL, data, this.headers).pipe(catchError(this.handleError()));
+    return this.http.post<any>(URL, data, this.headers);
 
   } 
 
@@ -65,7 +65,7 @@ export class UserService {
 
     const URL=`${this.config.baseURL}/api/unsubscribe/${id}?api_token=${this.config.apiToken}`;
 
-    return this.http.post<any>(URL,this.headers).pipe(catchError(this.handleError()));
+    return this.http.post<any>(URL,this.headers);
   }
 
 

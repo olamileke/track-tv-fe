@@ -34,7 +34,7 @@ div.no-subscriptions i.em
 	font-size:3.2em;
 }
 
-div.loader
+div.loader, div.unsub-loader
 {
 	position:relative;
 	top:calc((100% - 120px)/2);
@@ -44,6 +44,13 @@ div.loader
 	border:3px solid rgba(250, 190, 88, 1);
 	border-left-color:transparent;
 	animation:animate 1.5s linear infinite;
+}
+
+div.unsub-loader
+{
+	position:fixed;
+	left:calc((100vw - 40px)/2);
+	z-index:9999;
 }
 
 @keyframes animate

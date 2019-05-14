@@ -66,8 +66,6 @@ export class GenreComponent implements OnInit {
 
   	 this.tv.getByGenre(this.genreId, 'genre').subscribe((res:any) => {
 
-  	 	   console.log(res.results);
-
            this.response=res.results;
 
            for(let i=0; i < res.results.length; i++) {

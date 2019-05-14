@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { User } from './user';
 
-import { Observable, of } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
 import { catchError } from 'rxjs/operators';
 
@@ -47,7 +47,7 @@ export class AuthService {
 
         localStorage.api_token=user.api_token;
 
-        localStorage.image=user.avatar;
+        localStorage.profileImage=user.avatar == null ? '' : user.avatar;
 
         return true;
      }
@@ -56,7 +56,7 @@ export class AuthService {
 
      sessionStorage.api_token=user.api_token;
 
-     sessionStorage.profileImage=user.avatar;
+     sessionStorage.profileImage=user.avatar == null ? '' : user.avatar;;
 
      return true;
   }
@@ -66,7 +66,7 @@ export class AuthService {
 
   unSetUserData():boolean {
 
-    if(sessionStorage.profile !== null) {
+    if(sessionStorage.profile != '' && sessionStorage.profile != undefined) {
 
       sessionStorage.profile='';
 
@@ -81,7 +81,7 @@ export class AuthService {
 
     localStorage.api_token='';
 
-    localStorage.image='';
+    localStorage.profileImage='';
 
   }
 
@@ -142,7 +142,7 @@ export class AuthService {
         this.notification.showErrorMsg('Internal Server Error', '500');
       }
 
-      return of(error);
+      return throwError(error);
     }
   }
 

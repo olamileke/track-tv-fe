@@ -3,9 +3,9 @@
 {
 	position:fixed;
 	top:17vh;
-	width:400px;
+	width:330px;
 	border-radius:5px;
-	left:calc((100vw - 400px)/2);
+	left:calc((100vw - 330px)/2);
 	background:#fff;
 	z-index:10;
 	display:flex;
@@ -42,7 +42,7 @@ div.buttons
 	top:5px;
 	display:flex;
 	justify-content: space-between;
-	width:30%;
+	width:36%;
 }
 
 button

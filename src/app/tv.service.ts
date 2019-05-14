@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Observable, of } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
 import { catchError } from 'rxjs/operators';
 
@@ -50,9 +50,7 @@ export class TvService {
       URL=`https://api.themoviedb.org/3/tv/${id}?api_key=${this.config.apiKey}&append_to_response=similar,credits`;
     }
 
-    console.log(URL);
-
-    return this.http.get(URL).pipe(catchError(this.handleError()));
+    return this.http.get(URL);
 
   }
 
@@ -185,13 +183,11 @@ export class TvService {
 
   handleError(tab?:string) {
 
-    return (error:any):Observable<any>  => {
-
-      console.log(error);
+    return (error:any) => {
 
       if(error.status ==  0) {
 
-          this.notification.showErrorMsg('Please check your internet connection');
+          this.notification.showErrorMsg('There was a problem processing the request', 'Error');
       }
 
       if(error.status == 429) {
@@ -201,7 +197,7 @@ export class TvService {
 
       this.setErrorProperty(tab);
 
-      return of(error);
+      return throwError(error);
 
     }
   }

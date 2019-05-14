@@ -79,7 +79,7 @@ export class HomeComponent implements OnInit {
 
     setTimeout(() => {
 
-       if(this.config.profileImage.includes('anon.png')){
+       if(this.config.profileImage !== undefined && this.config.profileImage.includes('anon.png')){
 
           this.imageUpload=this.interactions.toggleImageUploadComponent(this.renderer, this.imageOverlay.nativeElement, this.imageUpload);
         }
@@ -90,6 +90,11 @@ export class HomeComponent implements OnInit {
     // KNOWING WHICH COMPONENT TO DISPLAY
 
     const tab=this.activatedroute.snapshot.paramMap.get('tab') === null ? this.activatedroute.snapshot.paramMap.get('genre') : this.activatedroute.snapshot.paramMap.get('tab');
+
+    if(this.auth.isAuthenticated() && tab == null) {
+
+       this.router.navigate(['/subscriptions']);
+    }
 
     this.determineComponent(tab);
 
@@ -104,28 +109,32 @@ export class HomeComponent implements OnInit {
 
   determineComponent(component:string):boolean{
 
-     if(document.URL.includes('genre')) {
+    if(component !== null) {
 
-         if(this.checkObject(this.genres, component.toLowerCase())) {
+       if(document.URL.includes('genre')) {
 
-            this.conditions.genre=true;
+           if(this.checkObject(this.genres, component.toLowerCase())) {
 
-            this.genre=component.charAt(0).toUpperCase() + component.slice(1).toLowerCase();
+              this.conditions.genre=true;
 
-            this.genreId=this.genres[component.toLowerCase()];
+              this.genre=component.charAt(0).toUpperCase() + component.slice(1).toLowerCase();
 
-          }
-           
-           return true;
+              this.genreId=this.genres[component.toLowerCase()];
+
+            }
+             
+             return true;
+
+       }
+
+       if(this.checkObject(this.conditions, component.toLowerCase())) {
+
+           this.conditions[component.toLowerCase()]=true;
+       }
+
+       return true;
 
      }
-
-     if(this.checkObject(this.conditions, component.toLowerCase())) {
-
-         this.conditions[component.toLowerCase()]=true;
-     }
-
-     return true;
   }
 
   // CHECKING IF A PROPERTY IS PRESENT IN AN OBJECT

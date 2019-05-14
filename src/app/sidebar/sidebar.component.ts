@@ -41,7 +41,7 @@ export class SidebarComponent implements OnInit{
 
   hideGenres:boolean=true;
 
-  name:string=JSON.parse(sessionStorage.profile).name;
+  name:string;
 
   below_500_px:boolean=false;
 
@@ -66,6 +66,8 @@ export class SidebarComponent implements OnInit{
   ngOnInit() {
 
     let tab=document.URL.split('4200/')[1];
+
+    this.name=this.checkStorage() == false ? JSON.parse(localStorage.profile).name : JSON.parse(sessionStorage.profile).name;
 
     // SETTING THE ACTIVE TAB WHEN THE USER RELOADS THE PAGE (WHEN LOGGED IN)
 
@@ -102,6 +104,18 @@ export class SidebarComponent implements OnInit{
       this.below_500_px=true;
     }
 
+  }
+
+  // CHECKING SESSION STORAGE FOR USER INFORMATION
+
+  checkStorage():boolean {
+
+      if(sessionStorage.profile == '' || sessionStorage.profile == undefined) {
+
+         return false;
+      }
+
+      return true;
   }
 
 
@@ -203,17 +217,13 @@ export class SidebarComponent implements OnInit{
 
     logout() {
 
-        this.auth.logout().subscribe((res:any) => {
+        this.auth.logout().subscribe((res:any) => {           
 
-           if(res.status === undefined) {
+         this.auth.unSetUserData();
 
-             this.auth.unSetUserData();
+         this.router.navigate(['/login']);
 
-             this.router.navigate(['/login']);
-
-             this.notification.showSuccessMsg('Logged out successfully');
-
-           }
+         this.notification.showSuccessMsg('Logged out successfully');         
        })
     }
 

@@ -63,14 +63,12 @@ export class PasswordChangeComponent implements OnInit {
 
   	 	return of(error);
   	 }
-  }
-  
+  }  
 
 
   // TOGGLING THE PASSWORD'S VISIBILITY
 
   toggleShowPassword(){
-
 
     if(this.showPasswordEye.nativeElement.classList.contains('fa-eye'))
     {

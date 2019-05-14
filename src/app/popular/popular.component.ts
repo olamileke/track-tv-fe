@@ -69,8 +69,6 @@ export class PopularComponent implements OnInit {
 
     					this.response=res.results;
 
-              console.log(res.results);
-
     					for(let i=0; i < res.results.length; i++) {
 
                   this.setTvShows(i);                			

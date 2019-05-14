@@ -4,3 +4,8 @@ body
 	padding:0 !important;
 	overflow-x: hidden;
 }
+
+a
+{
+	outline:0;
+}

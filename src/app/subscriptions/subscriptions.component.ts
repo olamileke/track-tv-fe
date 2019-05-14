@@ -2,9 +2,13 @@ import { Component, OnInit, Output, HostListener, ElementRef, Renderer2, EventEm
 
 import { HttpClient } from '@angular/common/http';
 
-import { catchError } from 'rxjs/operators';
+import { of, throwError } from 'rxjs';
+
+import { catchError  } from 'rxjs/operators';
 
 import { ConfigService } from '../config.service';
+
+import { NotificationsService } from '../notifications.service';
 
 import { UserService } from '../user.service';
 
@@ -39,6 +43,8 @@ export class SubscriptionsComponent implements OnInit {
 
   load:boolean=true;
 
+  unsubscribe_loader:boolean=false;
+
   details={};
 
   subscribedInfo=[];
@@ -50,7 +56,8 @@ export class SubscriptionsComponent implements OnInit {
   timestamps;
 
   constructor(private elRef:ElementRef, private renderer:Renderer2,
-              private config:ConfigService, private http:HttpClient, private tv:TvService, private userservice:UserService) { }
+              private config:ConfigService, private http:HttpClient,
+              private tv:TvService, private userservice:UserService, private notification:NotificationsService) { }
 
   ngOnInit() {
 
@@ -70,6 +77,8 @@ export class SubscriptionsComponent implements OnInit {
         if(this.tv.errorsubscription) {
 
             this.load=false;
+
+            this.hasSubscriptions=true;
 
             clearInterval(interval);
         }
@@ -92,8 +101,6 @@ export class SubscriptionsComponent implements OnInit {
                this.subscribedInfo=res;
 
                this.userservice.subscribedInfo=res;
-
-               // console.log(res);  
 
                this.hasSubscriptions=true;
 
@@ -229,10 +236,59 @@ export class SubscriptionsComponent implements OnInit {
   }
 
 
+  // DELETING THE TV SHOW FROM THE DOM AFTER THE USER HAS UNSUBSCRIBED FROM IT
+
+  removeTvShow(id:number) {
+
+    for(let i=0; i < this.TvShows.length; i++) {
+
+      if(this.TvShows[i].id == id) {
+
+        this.TvShows.splice(i ,1);
+
+        break;
+      }
+    }
+
+  }
+
+
   // UNSUBSCRIBE FROM A TV SHOW
 
   unsubscribe(id:any) {
 
-    alert(id);
+     this.displayUnsubscribeDialog=false;
+
+     this.unsubscribe_loader=true;
+
+     this.userservice.unsubscribe(parseInt(id)).pipe(catchError(this.handleError())).subscribe((res:any) => {
+
+
+         this.toggleOverlay.emit(false);
+
+         this.unsubscribe_loader=false;
+
+         this.userservice.deleteSubscriptionID(parseInt(id));
+
+         this.removeTvShow(parseInt(id));
+
+         this.notification.showSuccessMsg('Successfully unsubscribed');
+
+     })
+  }
+
+
+  handleError() {
+
+    return (error:any) => {
+
+      this.notification.showErrorMsg('There was a problem processing the request', 'Error');
+
+      this.toggleOverlay.emit(false);
+
+      this.unsubscribe_loader=false;
+
+      return throwError(error);
+    }
   }
 }
