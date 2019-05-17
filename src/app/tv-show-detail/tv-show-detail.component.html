@@ -14,7 +14,7 @@
 			<img [src]='TvShow.imgpath'>
 			<div class='details'>
 				<p class='title'>
-				   <span class='name'>{{ TvShow.name }}</span>
+				   {{ TvShow.name }}
 				   <button *ngIf='TvShow.in_production' (click)='subscribe()' #actionbtn>
 				   		<div *ngIf='!hasSubscribed'>subscribe</div>
 				   		<div *ngIf='hasSubscribed'><i class='fa fa-check'></i> subscribed</div>

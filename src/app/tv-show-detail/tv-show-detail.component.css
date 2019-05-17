@@ -310,14 +310,15 @@ img.back
 		padding-left:5px;
 	}
 
+	p.title button, p.title span.ended
+	{
+		top:3px;
+		left:75%;
+	}
+
 	p.title span.ended
 	{
 		left:calc(100% - 120px);
-	}	
-
-	p.title button
-	{
-		left:calc(100% - 135px);
 	}
 
 	div.countdown
@@ -357,15 +358,18 @@ img.back
 	{
 		left:5px;
 		font-size:1.3em;
+		text-align: center;
 	}
 
 	div.cast
 	{
+		justify-content: center;
 		border:none;
 	}
 
 	div.similarShows
 	{
+		justify-content: center;
 		position:relative;
 		display:flex;
 		flex-wrap:wrap;
@@ -378,6 +382,8 @@ img.back
 		font-family:'Noto Sans TC', sans-serif !important;
 		width:100%;
 		padding:0 0 5px 5px;
+		padding-left:0;
+		text-align: center;
 	}
 }
 
@@ -388,11 +394,50 @@ img.back
 	{
 		height:43vh;
 	}	
+/*
+	p.title button, p.title span.ended
+	{
+		left:90%;
+	}*/
 
-	p.title span.ended,
+	div.content p.title
+	{
+		width:80%;
+	}
+
+	p.title span.ended
+	{
+		left:84%;
+	}
+
 	p.title button
 	{
-		top:1px;
-		left:calc(100% - 120px);
+		top:-1px;
+		left:87%;
+	}
+
+	p.title button div
+	{
+		display:flex;
+	}
+
+	p.title i.fa-check
+	{
+		margin-top:3px;
+	}
+}
+
+
+@media(max-width:360px)
+{	
+	div.content p.title
+	{
+		width:65%;
+	}
+
+	p.title button
+	{
+		top:3px;
+		left:90%;
 	}
 }

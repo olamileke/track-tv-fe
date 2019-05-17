@@ -65,7 +65,9 @@ export class PopularComponent implements OnInit {
 
     if(this.tv.returnPopularShows.length == 0) {
 
-    	this.tv.getPopularShows('popular').subscribe((res:any) => {
+      const page=this.getPageNumber();
+
+    	this.tv.getPopularShows('popular', page).subscribe((res:any) => {
 
     					this.response=res.results;
 
@@ -92,6 +94,26 @@ export class PopularComponent implements OnInit {
         clearInterval(interval);
 
       }
+  }
+
+
+  // RETURNING THE PAGE OF THE RESULTS TO DISPLAY TO THE USER
+
+  getPageNumber():number {
+
+     let number=Math.round(Math.random() * 20);
+
+     if(number == 0) {
+
+       return 1;
+     }
+
+     if(number == 20) {
+
+       return 19;
+     }
+
+     return number;
   }
 
 

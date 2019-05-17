@@ -6,6 +6,10 @@ import { AuthService } from '../auth.service';
 
 import { Router } from '@angular/router';
 
+import { UserService } from '../user.service';
+
+import { TvService } from '../tv.service';
+
 import { NotificationsService } from '../notifications.service';
 
 @Component({
@@ -61,7 +65,8 @@ export class SidebarComponent implements OnInit{
 
   constructor(private elRef:ElementRef, private renderer:Renderer2,
               private config:ConfigService, private auth:AuthService,
-              private notification:NotificationsService, private router:Router) { }
+              private notification:NotificationsService, private router:Router,
+              private userservice:UserService, private tv:TvService) { }
 
   ngOnInit() {
 
@@ -222,6 +227,12 @@ export class SidebarComponent implements OnInit{
          this.auth.unSetUserData();
 
          this.router.navigate(['/login']);
+
+         this.userservice.subscribedIDs=[];
+
+         this.userservice.subscribedInfo=[];
+
+         this.tv.subscribedTvShows=[];
 
          this.notification.showSuccessMsg('Logged out successfully');         
        })

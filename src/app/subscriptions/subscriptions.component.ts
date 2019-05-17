@@ -51,7 +51,7 @@ export class SubscriptionsComponent implements OnInit {
 
   currentlyViewedInfo={};
 
-  below_412px:boolean=false;
+  below_450px:boolean=false;
 
   timestamps;
 
@@ -64,9 +64,9 @@ export class SubscriptionsComponent implements OnInit {
     this.config.scrollHandler(this.renderer, this.elRef);  
 
 
-    if(screen.width <= 412) {
+    if(screen.width <= 450) {
 
-      this.below_412px=true;
+      this.below_450px=true;
     }
 
 
@@ -155,7 +155,7 @@ export class SubscriptionsComponent implements OnInit {
 
      this.tv.getShowDetail(res.id).subscribe((res:any) => { 
 
-         if(!this.below_412px) {
+         if(!this.below_450px) {
 
               var tvshow=new TvShow(res.id, res.name,res.overview,
               `http://image.tmdb.org/t/p/w1280${res.poster_path}`,
@@ -262,7 +262,6 @@ export class SubscriptionsComponent implements OnInit {
      this.unsubscribe_loader=true;
 
      this.userservice.unsubscribe(parseInt(id)).pipe(catchError(this.handleError())).subscribe((res:any) => {
-
 
          this.toggleOverlay.emit(false);
 

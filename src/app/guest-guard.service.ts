@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 
 import { NotificationsService } from './notifications.service';
 
-import { CanActivate } from '@angular/router';
+import { CanActivate, Router } from '@angular/router';
 
 
 @Injectable({
@@ -12,7 +12,7 @@ import { CanActivate } from '@angular/router';
 })
 export class GuestGuardService implements CanActivate{
 
-  constructor(private authservice:AuthService, private notification:NotificationsService) { }
+  constructor(private authservice:AuthService, private notification:NotificationsService, private router:Router) { }
 
 
   // DETERMINING IF THE USER IS AUTHENTICATED OR NOT AND IF HE IS PREVENTING ACCESS TO THE ROUTE
@@ -25,6 +25,8 @@ export class GuestGuardService implements CanActivate{
   	}
   	
   	this.notification.showInfoMsg('Access Denied');
+
+    this.router.navigate(['/subscriptions']);
 
   	return false;
   }	

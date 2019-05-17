@@ -5,9 +5,11 @@
 
 
 <div *ngIf='!mediumScreen && !smallScreen' #search class='search'>
-	<input type="text" name="" placeholder='Find your favourite Tv Series' (input)='searchTvSeries($event.target.value)'> 
+	<input type="text" name="" placeholder='Find your favourite Tv Series' (input)='searchTvSeries($event.target.value)' #inputlarge> 
 	<i class='fa fa-search'></i>
 	<img [src]="imgsrc" (click)='toggleOptions()'>
+
+	<button *ngIf='checkInputLength()' (click)='clearSearch()'>clear</button>
 
 	<ul class='searchResults' #searchContainer>
 		<li *ngFor='let tv of searchResults'>
@@ -50,7 +52,10 @@
 </div>
  
 <div class='search-container' *ngIf='showSearch'>
-	<input type="text" name="" placeholder='Find your favourite Tv Series' (input)='searchTvSeries($event.target.value)'> 
+	<input type="text" name="" placeholder='Find your favourite Tv Series' (input)='searchTvSeries($event.target.value)' #inputsmall>
+
+	<button *ngIf='checkInputLength()' (click)='clearSearch()'>clear</button>
+
 	<i class='fa fa-search'></i>
 	<i class='fa fa-angle-left' (click)='toggleSearch()'></i>
 

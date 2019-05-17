@@ -72,7 +72,7 @@ export class AuthService {
 
       sessionStorage.api_token='';
 
-      sessionStorage.image='';
+      sessionStorage.profileImage='';
 
       return true;
     }

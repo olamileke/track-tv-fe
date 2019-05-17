@@ -89,6 +89,8 @@ export class SignupComponent implements OnInit {
 
       return (error:any) => {
 
+        console.log(error);
+
         if(error.status == 0)
         {
            this.notification.showErrorMsg('There was a problem processing the request', 'Error');

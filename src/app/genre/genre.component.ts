@@ -64,7 +64,9 @@ export class GenreComponent implements OnInit {
     }, 500)
 
 
-  	 this.tv.getByGenre(this.genreId, 'genre').subscribe((res:any) => {
+     const page=this.getPageNumber();
+
+  	 this.tv.getByGenre(this.genreId, 'genre',page).subscribe((res:any) => {
 
            this.response=res.results;
 
@@ -78,6 +80,26 @@ export class GenreComponent implements OnInit {
            this.load=false;
   	 })
 
+  }
+
+
+  // RETURNING THE PAGE OF THE RESULTS TO DISPLAY TO THE USER
+
+  getPageNumber():number {
+
+     let number=Math.round(Math.random() * 20);
+
+     if(number == 0) {
+
+       return 1;
+     }
+
+     if(number == 20) {
+
+       return 19;
+     }
+
+     return number;
   }
 
    // SETTING THE FETCHED TV SHOW DATA INTO THE TV SHOWS ARRAY

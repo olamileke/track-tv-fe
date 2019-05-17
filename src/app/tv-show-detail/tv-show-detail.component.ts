@@ -145,6 +145,12 @@ export class TvShowDetailComponent implements OnInit {
 
   fetchShowDetails(id) {
 
+     // ENSURING THAT WHEN THIS VIEW IS DISPLAYED, WE ARE STARTING AT THE TOP OF THE SCREEN
+
+     document.body.scrollTop = 0; // For Safari
+
+     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+
      this.fetchedTvShow=false;
 
      this.hasSubscribed=false;
@@ -226,7 +232,15 @@ export class TvShowDetailComponent implements OnInit {
     }
     else {
 
-      this.similarCount=10;
+      if(screen.width < 500) {
+
+        this.similarCount=9;
+
+      }
+      else {
+
+        this.similarCount=10; 
+      }
     }
   }
 
@@ -241,7 +255,9 @@ export class TvShowDetailComponent implements OnInit {
 
         this.showInfo.name=res.original_name;
 
-        this.showInfo.imagepath=`http://image.tmdb.org/t/p/w1280${res.poster_path}`;
+        this.showInfo.imagepath=`http://image.tmdb.org/t/p/w1280${res.backdrop_path}`;
+
+        this.showInfo.next_episode_title=res.next_episode_to_air.name;
 
         this.showInfo.next_episode_air_date=res.next_episode_to_air.air_date;
 
@@ -357,6 +373,8 @@ export class TvShowDetailComponent implements OnInit {
       if(!this.hasSubscribed){ 
 
         this.subloading=true;
+
+        // alert(this.showInfo.next_episode_title);
 
         this.userservice.subscribe(JSON.stringify(this.showInfo)).pipe(catchError(this.handleError())).subscribe((res:any) => {
 

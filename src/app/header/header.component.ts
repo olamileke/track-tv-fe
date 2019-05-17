@@ -12,6 +12,8 @@ import { TvService } from '../tv.service';
 
 import { AuthService } from '../auth.service';
 
+import { UserService } from '../user.service';
+
 import { NotificationsService } from '../notifications.service';
 
 @Component({
@@ -31,7 +33,11 @@ export class HeaderComponent implements OnInit {
 
   @ViewChild('searchContainer') searchContainer;
 
-  searchResults;
+  @ViewChild('inputlarge') inputlarge;
+
+  @ViewChild('inputsmall') inputsmall;
+
+  searchResults=[];
 
   searchTerms=new Subject<string>();
 
@@ -67,7 +73,7 @@ export class HeaderComponent implements OnInit {
   constructor(private renderer:Renderer2, private elRef:ElementRef,
               private tv:TvService, private config:ConfigService,
               private auth:AuthService, private router:Router, 
-              private notification:NotificationsService) { }
+              private notification:NotificationsService, private userservice:UserService) { }
 
   ngOnInit() {
 
@@ -140,15 +146,7 @@ export class HeaderComponent implements OnInit {
 
       this.searchTerms.next(term);
       
-      this.searchTerms.pipe(
-
-        debounceTime(300),
-
-        distinctUntilChanged(),
-
-        switchMap((term:string) => this.tv.fetchSearchResults(term)),
-
-      ).subscribe((res:any) => {
+      this.searchTerms.pipe(debounceTime(300),distinctUntilChanged(),switchMap((term:string) => this.tv.fetchSearchResults(term))).subscribe((res:any) => {
 
            if(res.results.length > 0 && this.count > 0) {
 
@@ -197,9 +195,7 @@ export class HeaderComponent implements OnInit {
 
     if(!this.showOptions) {
 
-      this.searchResults=[];
-
-      this.renderer.removeClass(this.searchContainer.nativeElement, 'active');
+      this.clearSearch()
     }
 
     this.showOptions=!this.showOptions;
@@ -216,8 +212,13 @@ export class HeaderComponent implements OnInit {
 
          this.router.navigate(['/login']);
 
-         this.notification.showSuccessMsg('Logged out successfully');
+         this.userservice.subscribedIDs=[];
 
+         this.userservice.subscribedInfo=[];
+
+         this.tv.subscribedTvShows=[];
+
+         this.notification.showSuccessMsg('Logged out successfully');
      })
   }
 
@@ -231,6 +232,38 @@ export class HeaderComponent implements OnInit {
      this.searchResults=[];
 
      this.renderer.removeClass(this.searchContainer.nativeElement, 'active');
+   }
+
+
+
+   checkInputLength():boolean {
+
+       if(this.searchResults.length > 0) {
+
+         return true;
+       }
+
+       return false;
+   }
+
+
+   // CLEARING THE SEARCH INPUT
+
+   clearSearch():void {
+
+     this.searchResults=[];
+
+     this.renderer.removeClass(this.searchContainer.nativeElement, 'active');
+
+     if(screen.width > 768) {
+
+       this.renderer.setProperty(this.inputlarge.nativeElement, 'value', ' ');
+
+     }
+     else {
+
+       this.renderer.setProperty(this.inputsmall.nativeElement, 'value', ' ');
+     }
    }
 
 }

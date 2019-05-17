@@ -21,7 +21,7 @@ export class TvShowComponent implements OnInit {
 
   details={};
 
-  below_412px:boolean=false;
+  below_450px:boolean=false;
 
   constructor(private renderer:Renderer2, private elRef:ElementRef) { }
 
@@ -29,9 +29,9 @@ export class TvShowComponent implements OnInit {
 
   ngOnInit() { 
 
-     if(screen.width <= 412) {
+     if(screen.width <= 450) {
 
-      this.below_412px=true;
+      this.below_450px=true;
     }
 
   }

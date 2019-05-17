@@ -83,9 +83,9 @@ export class TvService {
  
   // FETCHING THE POPULAR TV SERIES
 
-  getPopularShows(tab:string):Observable<any> {
+  getPopularShows(tab:string, page:number):Observable<any> {
 
-  	const URL=`https://api.themoviedb.org/3/tv/popular?api_key=${this.config.apiKey}`;
+  	const URL=`https://api.themoviedb.org/3/tv/popular?api_key=${this.config.apiKey}&page=${page}`;
 
   	return this.http.get(URL).pipe(catchError(this.handleError(tab)));
   }
@@ -134,9 +134,9 @@ export class TvService {
 
   /// FETCHING TV SHOWS FILTERED ACCORDING TO GENRE
 
-  getByGenre(id:number, tab:string):Observable<any> {
+  getByGenre(id:number, tab:string, page:number):Observable<any> {
 
-    const URL=`https://api.themoviedb.org/3/discover/tv?with_genres=${id}&api_key=${this.config.apiKey}`;
+    const URL=`https://api.themoviedb.org/3/discover/tv?with_genres=${id}&page=${page}&api_key=${this.config.apiKey}`;
 
     return this.http.get(URL).pipe(catchError(this.handleError(tab)));
 
@@ -149,9 +149,7 @@ export class TvService {
 
     const URL=`https://api.themoviedb.org/3/search/tv?query=${term}&api_key=${this.config.apiKey}`;
 
-    return this.http.get(URL).pipe(
-                    catchError(this.handleError())
-                    );
+    return this.http.get(URL).pipe(catchError(this.handleError()));
   }
 
 
