@@ -1,12 +1,14 @@
 import { Component, OnInit, ViewChild, Renderer2 } from '@angular/core';
 
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { HeaderComponent } from '../header/header.component';
 
 import { InteractionsService } from '../interactions.service';
 
 import { NotificationsService } from '../notifications.service';
+
+import { AuthService } from '../auth.service';
 
 import { UserService } from '../user.service';
 
@@ -59,6 +61,8 @@ export class TvShowDetailComponent implements OnInit {
 
   episodeDate:string;
 
+  genrecount:number=1;
+
   below_768px:boolean=false;
 
   hasSubscribed:boolean=false;
@@ -83,8 +87,8 @@ export class TvShowDetailComponent implements OnInit {
 
   cast;
 
-  constructor(private route:ActivatedRoute, private renderer:Renderer2,
-              private interactions:InteractionsService, private tv:TvService,
+  constructor(private route:ActivatedRoute,private router:Router, private renderer:Renderer2,
+              private interactions:InteractionsService, private tv:TvService,private auth:AuthService,
               private userservice:UserService, private notification:NotificationsService, private location:Location) { }
 
   displayShadow:boolean=true;
@@ -186,7 +190,7 @@ export class TvShowDetailComponent implements OnInit {
 
          this.next_episode=res.next_episode_to_air;
 
-         this.composeDetails(`http://image.tmdb.org/t/p/w1280${res.poster_path}`, res.original_name, id);
+         this.composeDetails(`http://image.tmdb.org/t/p/w1280${res.poster_path}`, res.name, id);
 
          this.determineSimilarCount();
 
@@ -239,9 +243,34 @@ export class TvShowDetailComponent implements OnInit {
       }
       else {
 
-        this.similarCount=10; 
+        this.similarCount=12; 
       }
     }
+  }
+
+
+  returnGenre(genre:string):string {
+
+    if(this.genrecount < this.TvShow.genres.length) {
+
+      this.genrecount++;
+
+      return genre+',';
+    }
+
+    return genre;
+  }
+
+  // RETURNING THE STRING TO USE IN THE LINK TO THE PARTICULAR GENRE
+
+  returnGenreLink(genre:string) {
+
+    if(genre.includes('&')) {
+
+      return genre.split('&')[0].replace(/ /g,'').replace(/-/g, '');
+    }
+
+    return genre;
   }
 
 
@@ -253,7 +282,7 @@ export class TvShowDetailComponent implements OnInit {
 
         this.showInfo.show_id=res.id;
 
-        this.showInfo.name=res.original_name;
+        this.showInfo.name=res.name;
 
         this.showInfo.imagepath=`http://image.tmdb.org/t/p/w1280${res.backdrop_path}`;
 
@@ -266,7 +295,7 @@ export class TvShowDetailComponent implements OnInit {
         this.showInfo.next_episode_season=res.next_episode_to_air.season_number;
 
         this.showInfo.about_episode=res.next_episode_to_air.overview;
-      }
+    }
   }
 
   // SETTING THE SHOW DETAILS IN THE SIMILAR SHOWS PROPERTY
@@ -294,9 +323,25 @@ export class TvShowDetailComponent implements OnInit {
 
   // GETTING THE CAST OF THE TV SHOW
 
-  setCast(cast) {
+  setCast(cast):boolean {
 
-     this.cast=cast.slice(0,8);
+    if(screen.width > 500 && screen.width <= 768) {
+
+       this.cast=cast.slice(0,10);
+
+       return true;
+    }
+
+    if(screen.width <= 500) {
+
+       this.cast=cast.slice(0,9);
+      
+       return true;
+    }
+
+
+    this.cast=cast.slice(0,8);
+
   }
 
   // OBTAINING THE COUNTDOWN STRING TO DISPLAY
@@ -486,9 +531,20 @@ export class TvShowDetailComponent implements OnInit {
 
      return (error:any) => {
 
-      this.notification.showErrorMsg('There was a problem processing the request', 'Error');
-
       this.subloading=false;
+
+      if(error.status == 401) {
+
+        this.router.navigate(['/login']);
+
+        this.auth.unSetUserData();
+
+        this.notification.showInfoMsg('Access Denied');
+      }
+      else {
+
+        this.notification.showErrorMsg('There was a problem processing the request', 'Error');
+      }
 
       if(operation == 'detail') {
 

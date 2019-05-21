@@ -27,6 +27,8 @@ export class SignupComponent implements OnInit {
 
   count:number=0;
 
+  password_invalid:boolean=false;
+
   constructor(private renderer:Renderer2, private userservice:UserService, private notification:NotificationsService) { }
 
   ngOnInit() {
@@ -37,6 +39,15 @@ export class SignupComponent implements OnInit {
   // DETERMINING IF THE EYE IS TO BE DISPLAYED OR NOT
 
   displayShowButton(val:string):boolean {
+
+    if(val.length >= 8) {
+
+      this.password_invalid=true;
+    }
+    else {
+
+      this.password_invalid=false;
+    }
 
   	if(val.length > 0)
   	{

@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css?family=Caveat&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Stylish&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+
+div.container
+{
+	position:absolute;
+	top:0;
+	left:0;
+	width:100vw;
+	height:100vh;
+	display:flex;
+	flex-flow: column;
+	align-items:center;
+	justify-content: center;
+	background:rgba(0,0,0,0.04);
+}
+
+p
+{
+	position:relative;
+	top:-13vh;
+	font-family:'Caveat', Cursive;
+	font-size:6em;
+	margin:0;
+	margin-bottom:1.2vh;
+	color:rgba(0,0,0,0.6);
+}
+
+span
+{
+	position:relative;
+	top:-13vh;
+	font-family:'Caveat', Cursive;
+	font-size:2em;
+	color:rgba(0,0,0,0.7);
+	margin-bottom:2.3vh;
+}
+
+a
+{
+	position:relative;
+	top:-13vh;
+	text-decoration:none;
+	color:rgba(0,0,0,0.7);
+	font-family:'Stylish', sans-serif;
+	padding:6px 7px;
+	border:1px solid rgba( 0,0,0,0.1);
+	border-radius:3px;
+	font-size:1em;
+}
+
+
+@media(max-width:768px)
+{
+	p
+	{
+		top:-10vh;
+	}
+
+	span
+	{
+		top:-10vh;		
+	}
+
+	a
+	{
+		top:-10vh;
+	}
+}
+
+
+@media(max-width:450px)
+{
+	p
+	{
+		font-size:4.3em;
+	}
+
+	span
+	{
+		font-size:1.6em;
+	}
+}
+
+
+@media(max-width:350px)
+{
+	p
+	{
+		font-size:3em;
+	}
+
+	span
+	{
+		font-size:1.2em;
+	}
+
+	a
+	{
+		padding:3px 4px;
+		font-size:0.8em;
+	}
+}

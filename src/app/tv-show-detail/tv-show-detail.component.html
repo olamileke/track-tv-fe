@@ -1,7 +1,7 @@
 
 <div class='container' #container>
 	<app-header [class.shadow]='displayShadow' (displaySideBar)='toggleSideBar()' (tvShow)='fetchShowDetails($event)'></app-header>
-	<app-sidebar (toggleTab)='toggleTab()' *ngIf='is_sidebar_visible' [class.active]='smallScreen'></app-sidebar>
+	<app-sidebar  *ngIf='is_sidebar_visible' [class.active]='smallScreen'></app-sidebar>
 
 	<div class='overlay' #overlay (click)='toggleSideBar()'></div>
 
@@ -26,7 +26,7 @@
 				</p>
 				<p class='date'>{{ TvShow.airdate }} <span><i class='fa fa-star'></i>{{ TvShow.rating}}/10</span></p>
 				<p>
-					<a routerLink='/genre/{{ genre | lowercase }}' *ngFor='let genre of TvShow.genres'>{{ genre }} , </a>
+					<a routerLink='/genre/{{ returnGenreLink(genre) | lowercase }}' *ngFor='let genre of TvShow.genres'> {{ returnGenre(genre) }} </a>
 				</p>
 				<div *ngIf='hasNextEpisode() && below_768px' class='countdown'>
 					<span *ngIf='!isTodayNextEpisode'>Next Episode in <b>{{ countdown }}</b> <button (click)='viewEpisodeInfo()'>View Info</button></span>

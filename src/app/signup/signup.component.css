@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Quicksand");
 @import url("https://fonts.googleapis.com/css?family=Raleway");
 @import url("https://fonts.googleapis.com/css?family=Muli");
+@import url('https://fonts.googleapis.com/css?family=Nunito&display=swap');
 @import url('https://use.fontawesome.com/releases/v5.8.1/css/all.css');
 
 div.container
@@ -16,20 +17,13 @@ div.container
 	justify-content: center;
 }
 
-p.title
-{
-	position:absolute;
-	top:0;
-	left:50px;
-	font-family:'Raleway', sans-serif;
-	font-size:1.5em;
-}
-
 p.title a
 {
-	color:#000;
+	color:rgba(0,0,0,0.5);
+	font-family:'Raleway', sans-serif;
 	text-decoration: none;
 }
+
 
 div.main
 {
@@ -67,8 +61,9 @@ div.info p
 
 div.info span
 {
-	font-family:'Quicksand', sans-serif;
+	font-family:'Nunito', sans-serif;
 	line-height: 1.55;
+	color:rgba(0,0,0,0.5);
 	text-align: center;
 }
 
@@ -109,8 +104,27 @@ form i.toggle.show
 form p
 {
 	margin:0 0 5px 0;
-	font-family:'Quicksand', sans-serif;
+	font-family:'Raleway', sans-serif;
 	color:rgba(0,0,0,0.8);
+}
+
+p.errormsg
+{
+	position:relative;
+	top:-12px;
+	font-size:0.8em;
+	float:left;
+	margin:0;
+	font-family:'Quicksand',sans-serif !important;	
+}
+
+p.title
+{
+	position:absolute;
+	top:0;
+	left:50px;
+	color:rgba(0,0,0,0.7);
+	font-size:1.5em;
 }
 
 form p + a
@@ -157,8 +171,8 @@ button
 	width:50%;
 	padding:0 4px;
 	height:32px;
-	font-family:'Quicksand', sans-serif;
-	font-size:1.03em;
+	font-family:'Raleway', sans-serif;
+	font-size:0.9em;
 	border-radius:3px;
 	cursor:pointer;
 }
@@ -175,14 +189,6 @@ div.loader
 	animation:animate 1s both infinite linear;
 }
 
-
-input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active  {
-    -webkit-box-shadow: 0 0 0 30px white inset !important;
-	/*border:1px solid rgba(0,0,0,0.09 );*/
-}
 
 
 @keyframes animate

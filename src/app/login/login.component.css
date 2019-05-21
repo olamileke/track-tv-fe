@@ -16,33 +16,17 @@ div.container
 div.title
 {
 	position:absolute; 
-	top:15px;
-	left:30px;
+	top:20px;
+	left:45px;
 	font-family:'Raleway', sans-serif;
 	font-size:1.5em;
+	z-index:9999;
 }
 
 div.title a
 {
 	text-decoration: none;
 	color:#fff;
-}
-
-div.title p
-{
-	position:relative;
-	left:calc((100% - 0px)/2);
-	background: orange;
-	height:2px;
-	margin:4px 0 0 0;
-	width:0px;
-}
-
-div.title:hover p
-{
-	left:0;
-	width:100%;
-	transition:all 0.2s ease-in;		
 }
 
 div.overlay
@@ -155,11 +139,6 @@ form button
 	cursor:pointer;
 }
 
-
-input:focus
-{
-	outline:none;
-}
 
 .empty
 {

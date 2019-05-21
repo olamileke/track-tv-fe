@@ -4,6 +4,10 @@ import { HttpClient } from '@angular/common/http';
 
 import { of, throwError } from 'rxjs';
 
+import { Router } from '@angular/router';
+
+import { AuthService } from '../auth.service';
+
 import { catchError  } from 'rxjs/operators';
 
 import { ConfigService } from '../config.service';
@@ -55,8 +59,8 @@ export class SubscriptionsComponent implements OnInit {
 
   timestamps;
 
-  constructor(private elRef:ElementRef, private renderer:Renderer2,
-              private config:ConfigService, private http:HttpClient,
+  constructor(private elRef:ElementRef, private renderer:Renderer2, private auth:AuthService,
+              private config:ConfigService, private http:HttpClient, private router:Router,
               private tv:TvService, private userservice:UserService, private notification:NotificationsService) { }
 
   ngOnInit() {
@@ -281,7 +285,19 @@ export class SubscriptionsComponent implements OnInit {
 
     return (error:any) => {
 
-      this.notification.showErrorMsg('There was a problem processing the request', 'Error');
+      if(error.status == 401) {
+
+        this.router.navigate(['/login']);
+
+        this.auth.unSetUserData();
+
+        this.notification.showInfoMsg('Access Denied');
+      }
+      else {
+
+        this.notification.showErrorMsg('There was a problem processing the request', 'Error');
+
+      }
 
       this.toggleOverlay.emit(false);
 

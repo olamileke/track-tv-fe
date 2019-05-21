@@ -64,5 +64,6 @@ div.loader
 		box-shadow:none;
 		width:100%;
 		left:0;
+		padding-left:0;
 	}
 }

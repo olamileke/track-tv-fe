@@ -11,23 +11,26 @@
 			<i class='far fa-smile'></i>
 			<p>Welcome!</p>
 
-			<span>Kindly fill this form and click Submit to create your account</span>
+			<span>Kindly fill this form and click Signup to create your account</span>
 		</div>
 		<form #signupForm="ngForm" (ngSubmit)="onSubmit()">
 			<p class='heading'>Create Account</p>
 
 			<input type="text" placeholder='Full Name' [(ngModel)]=user.name 
-			name="name" #name="ngModel" [class.empty]="name.touched && name.invalid" autofocus required>
+			name="name" #name="ngModel" autofocus required>
 
 
-			<input type="email" placeholder='Email' [(ngModel)]=user.email #email="ngModel" ngModel email="true" [class.empty]="email.touched && name.invalid" name="email" required>
+			<input type="email" placeholder='Email' [(ngModel)]=user.email #email="ngModel" ngModel email="true" name="email" required>
 
+	
 			<i class='far fa-eye toggle' #eye (click)="toggleShowPassword()"></i>
 
-			<input type="password" (input)="displayShowButton($event.target.value)" [(ngModel)]=user.password name="password" #password="ngModel" [class.empty]="password.touched && password.invalid" #passwordinput placeholder='Password' required>
+			<input type="password" (input)="displayShowButton($event.target.value)" [(ngModel)]=user.password name="password" #password="ngModel" #passwordinput placeholder='Password' required>
 
-			<button type="submit" [disabled]="!signupForm.form.valid" #signupbtn>
-				<div *ngIf="!loading">Submit</div>
+			<p *ngIf='password.dirty && !password_invalid' class='errormsg' style='color:red;'>Password must be 8 or more characters</p>
+
+			<button type="submit" [disabled]="!signupForm.form.valid || !password_invalid" #signupbtn>
+				<div *ngIf="!loading">Signup</div>
 
 				<div class='loader' *ngIf="loading"></div>
 			</button>

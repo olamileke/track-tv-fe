@@ -54,7 +54,14 @@ export class LoginComponent implements OnInit{
 
     this.imageURLs.push(this.imgsrc);
 
-    this.imageCounter.subscribe(n => this.fadeImageIn() );
+    this.imageCounter.subscribe(n => { 
+
+        if(Images.length != this.imageURLs.length) {
+          
+          this.fadeImageIn()
+        }
+
+      } );
   }
 
 
@@ -76,7 +83,7 @@ export class LoginComponent implements OnInit{
 
         setTimeout( () => 
         {
-          
+
           this.renderer.addClass(img, 'top');
 
         }, 1000)
