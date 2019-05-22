@@ -5,15 +5,8 @@
 
 <div class='info' #info>
 	
-	<p *ngIf='!imgLoader' class='msg'>Hey <b>{{ name }}</b>, and welcome once more to TrackTv. Before 
-		you go on however, you would need to add a display picture
+	<p class='msg'>Hey <b>{{ name }}</b>, {{ message }}
 	</p>
-
-
-	<div class='loader-parent' *ngIf='imgLoader'>
-		<div class='loader'  [ngStyle]="{'width':trackFile.message}"></div>
-		<p *ngIf='trackFile.message == "100%"' class='uploaded'>{{ image.name }} has been set as your display picture</p>
-	</div>
 
 	<input type="file" #fileupload (change)='imageSelect($event.target)' hidden>
 

@@ -10,6 +10,8 @@ import { NotificationsService } from '../notifications.service';
 
 import { AuthService } from '../auth.service';
 
+import { ConfigService } from '../config.service';
+
 import { UserService } from '../user.service';
 
 import { throwError } from 'rxjs';
@@ -39,6 +41,8 @@ export class TvShowDetailComponent implements OnInit {
 
   @ViewChild('nextepisodedate') episodeCountdown; 
 
+  @ViewChild('imageOverlay') imageOverlay;
+
   @ViewChild('actionbtn') actionbtn;
 
   @ViewChild('container') container;
@@ -58,6 +62,8 @@ export class TvShowDetailComponent implements OnInit {
   episodeTime:number;
 
   details={};
+
+  imageUpload:boolean=false;
 
   episodeDate:string;
 
@@ -89,7 +95,8 @@ export class TvShowDetailComponent implements OnInit {
 
   constructor(private route:ActivatedRoute,private router:Router, private renderer:Renderer2,
               private interactions:InteractionsService, private tv:TvService,private auth:AuthService,
-              private userservice:UserService, private notification:NotificationsService, private location:Location) { }
+              private userservice:UserService, private notification:NotificationsService,
+              private location:Location, private config:ConfigService) { }
 
   displayShadow:boolean=true;
 
@@ -184,6 +191,8 @@ export class TvShowDetailComponent implements OnInit {
 
          this.TvShow=tvshow;
 
+         this.fetchedTvShow=true;   
+
          this.response=res;
 
          this.loading_show=false;
@@ -201,8 +210,6 @@ export class TvShowDetailComponent implements OnInit {
          this.getCountdown(this.next_episode);
 
          this.setShowInfo(res);
-
-         this.fetchedTvShow=true;
      })
   }
 
@@ -640,6 +647,52 @@ export class TvShowDetailComponent implements OnInit {
 
         this.location.back();
       }
+  }
+
+  // CLOSING THE IMAGE UPLOAD COMPONENT AUTOMATICALLY AFTER UPLOADING A NEW IMAGE
+
+  closeImageUpload(event) {
+
+     this.imageUpload=this.interactions.toggleImageUploadComponent(this.renderer, this.imageOverlay.nativeElement, this.imageUpload, this.container.nativeElement);
+    
+     // if(screen.width > 500) {
+
+     //   this.header.imgsrc=event;
+     // }
+     // else {
+
+     //   this.sidebar.imgsrc=event;
+     // }
+  }
+
+  // THE USER CLOSING THE IMAGE UPLOAD COMPONENT
+
+  closeImageUploadDisplay() {
+
+    if(!this.config.profileImage.includes('anon.png')) {
+
+       this.imageUpload=this.interactions.toggleImageUploadComponent(this.renderer, this.imageOverlay.nativeElement, this.imageUpload, this.container.nativeElement);
+
+    }
+  }
+
+  // DISPLAYING THE IMAGE UPLOAD COMPONENT WHEN THE USER CLICKS THE CHANGE DISPLAY PICTURE OPTION
+
+  toggleImageUpload() {
+
+     if(this.is_sidebar_visible) {
+
+        this.is_sidebar_visible=this.interactions.toggleSideBarVisible(this.is_sidebar_visible, this.renderer, this.overlay.nativeElement, this.container.nativeElement);
+      }
+
+      if(this.smallScreen) {
+
+          this.smallScreen=false;
+
+          this.renderer.removeClass(this.overlay.nativeElement, 'active');          
+      }
+
+     this.imageUpload=this.interactions.toggleImageUploadComponent(this.renderer, this.imageOverlay.nativeElement, this.imageUpload, this.container.nativeElement);
   }
 
 }

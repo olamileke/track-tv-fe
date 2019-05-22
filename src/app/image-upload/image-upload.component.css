@@ -48,11 +48,6 @@ div.info
 	color:rgba(0,0,0,0.7);
 }
 
-div.info.uploaded
-{
-	justify-content: space-around;
-}
-
 div.info p
 {
 	margin-top:10px;
@@ -127,12 +122,12 @@ button.upload
 }
 
 
-@media(max-width:410px)
+@media(max-width:450px)
 {
 	:host
 	{
-		width:310px;
-		left:calc((100vw - 310px)/2);
+		width:90vw;
+		left:5vw;
 	}
 
 	div.img

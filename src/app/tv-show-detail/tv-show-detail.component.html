@@ -1,11 +1,15 @@
 
 <div class='container' #container>
-	<app-header [class.shadow]='displayShadow' (displaySideBar)='toggleSideBar()' (tvShow)='fetchShowDetails($event)'></app-header>
-	<app-sidebar  *ngIf='is_sidebar_visible' [class.active]='smallScreen'></app-sidebar>
+	<app-header [class.shadow]='displayShadow' (displaySideBar)='toggleSideBar()' (imageUpload)='toggleImageUpload()' (tvShow)='fetchShowDetails($event)'></app-header>
+	<app-sidebar  *ngIf='is_sidebar_visible'  (imageUpload)='toggleImageUpload()' [class.active]='smallScreen'></app-sidebar>
+
+	<app-image-upload *ngIf="imageUpload" (closeImgUpload)='closeImageUpload($event)'></app-image-upload>
 
 	<div class='overlay' #overlay (click)='toggleSideBar()'></div>
 
 	<div class='dialog-overlay' #dialog_overlay (click)='closeDialog()'></div>
+
+	<div class='image-upload-overlay' #imageOverlay (click)='closeImageUploadDisplay()'></div>
 
 	<div class='main' #main>
 		
@@ -45,11 +49,6 @@
 
 		</div>
 
-		<div class='loading-overlay' *ngIf='loading_show'>
-
-			<div class='load'></div>
-		</div>
-
 		<app-episode-info *ngIf='showEpisodeInfo' [episode]="next_episode"></app-episode-info>
 		<app-un-subscribe *ngIf='displayUnsubscribeDialog' [details]='details' (close)='closeDialog()' (unsubscribe)='unsubscribe($event)'></app-un-subscribe>
 
@@ -73,6 +72,10 @@
 				<app-similar-show (click)='fetchShowDetails(show.id)' *ngFor='let show of similarShows' [TvShow]='show'></app-similar-show>
 			</div>
 		</div>
+	</div>
+
+	<div class='loading-overlay' *ngIf='loading_show'>
+		<div class='load'></div>
 	</div>
 
 	<img src="../assets/TvShowDetail/backbutton.png" class='back' (click)='goBack()'>

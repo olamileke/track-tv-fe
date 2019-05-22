@@ -6,8 +6,8 @@
 			<p (click)='showOptions()'>{{ name }} <i class='fa fa-caret-down'></i></p>
 
 			<ul class='options' *ngIf='toggleOptions'>
-				<li>Change Picture</li>
-				<li (click)='logout()'>Logout</li>
+				<li (click)='emitImageUpload()'>Change Picture</li>
+				<li (click)='logout()'>Logout <div class='loader' *ngIf='load_logout'></div></li>
 			</ul>
 		</div>
 	</li>	
@@ -22,7 +22,7 @@
     <li [class.active]="tabs.explore"> 
 		<a (click)="emitToggleEvent('explore')" routerLink='/explore' [class.not-active]="!tabs.explore">Explore</a>
 	</li>
-	<li *ngIf='mediumScreen' [ngStyle]="editStyles">
+	<li *ngIf='mediumScreen' [ngStyle]="editStyles" (click)='emitImageUpload()'>
 		Change Display Picture
 	</li>
 	<li *ngIf='mediumScreen' [ngStyle]="editStyles" (click)='logout()'>

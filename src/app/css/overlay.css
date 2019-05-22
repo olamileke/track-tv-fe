@@ -48,7 +48,7 @@ div.loading-overlay div.load
 
 div.image-upload-overlay
 {
-	background:rgba(0,0,0,0.6);		
+	background:rgba(0,0,0,0.85);		
 }
  
 div.overlay.active, div.image-upload-overlay.active

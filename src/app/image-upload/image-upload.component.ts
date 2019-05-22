@@ -4,6 +4,8 @@ import { UserService } from '../user.service';
 
 import { ConfigService } from '../config.service';
 
+import { NotificationsService } from '../notifications.service';
+
 @Component({
   selector: 'app-image-upload',
   templateUrl: './image-upload.component.html',
@@ -17,15 +19,15 @@ export class ImageUploadComponent implements OnInit {
 
   imgSelected:boolean=false;
 
-  imgLoader:boolean=false;
-
-  image:any;
+  image:any; 
 
   interval:any;
 
   trackFile:any;
 
   sessionStorage:boolean;
+
+  message:string;
 
   @ViewChild('fileupload') fileupload;
 
@@ -35,9 +37,19 @@ export class ImageUploadComponent implements OnInit {
 
   @Output() closeImgUpload=new EventEmitter();
 
-  constructor(private userservice:UserService, private renderer:Renderer2, private config:ConfigService) { }
+  constructor(private userservice:UserService, private renderer:Renderer2,
+              private config:ConfigService, private notification:NotificationsService) { }
 
   ngOnInit() {
+
+    if(this.config.profileImage.includes('anon.png')) {
+
+      this.message=`and welcome once more to TrackTv. Before you go on however, you would need to add a display picture`;
+    }
+    else {
+
+      this.message='Want to change your profile picture?'
+    }
 
     this.imgsrc=this.config.profileImage;
 
@@ -76,45 +88,29 @@ export class ImageUploadComponent implements OnInit {
 
     formData.append('imagesize', this.image.size);
 
-  	this.userservice.uploadImage(formData).subscribe(res => { 
+  	this.userservice.uploadImage(formData).subscribe((res:any) => { 
 
-          const resKeys=Object.keys(res);
+          this.imgsrc=res.data;
 
-          if(resKeys.indexOf('status') !== -1) {
+          console.log(res);
 
-            this.trackFile=res;
+          this.notification.showSuccessMsg('Display Picture Uploaded Successfully');
 
-            this.imgLoader=true;
+          this.renderer.addClass(this.buttons.nativeElement, 'uploaded');
 
-            this.renderer.addClass(this.info.nativeElement, 'uploaded');
+           if(this.sessionStorage) {
 
-            this.imgSelected=false;
-          }
+              sessionStorage.profileImage=this.imgsrc;
+            }
+            else {
 
-          // SETTING THE NEW PROFILE IMAGE PATH IN THE BROWSER IF IT IS SUCCESSFUL AND CLOSING THE 
-          // THE IMAGE UPLOAD COMPONENT
+              localStorage.profileImage=this.imgsrc;
+            }
 
-          if(resKeys.indexOf('data') !== -1) {
+          setTimeout(() => {
 
-            this.imgsrc=res.data;
-
-            this.renderer.addClass(this.buttons.nativeElement, 'uploaded');
-
-             if(this.sessionStorage) {
-
-                sessionStorage.profileImage=this.imgsrc;
-              }
-              else {
-
-                localStorage.profileImage=this.imgsrc;
-              }
-
-            setTimeout(() => {
-
-                this.closeImgUpload.emit(this.imgsrc);
-            },2500)
-          }
-
+              this.closeImgUpload.emit(this.imgsrc);
+          },2500)          
       });
   }
 
@@ -124,8 +120,6 @@ export class ImageUploadComponent implements OnInit {
      this.interval=setInterval(() => {
       
         if(this.userservice.errorupload) {
-
-          this.imgLoader=false;
 
           this.userservice.errorupload=false;
 

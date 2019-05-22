@@ -30,14 +30,14 @@
 
 
 <div class='loggedin-container' *ngIf="loggedin" #loggedin>
-	<app-header (displaySideBar)='toggleSideBar()' (clickHome)='toggleTab($event)'></app-header>
+	<app-header (displaySideBar)='toggleSideBar()' (clickHome)='toggleTab($event)' (imageUpload)='toggleImageUpload()'></app-header>
 
 	<div class='overlay' #overlay (click)='closeSidebar()'></div>
 
-	<div class='image-upload-overlay' #imageOverlay></div>
+	<div class='image-upload-overlay' #imageOverlay (click)='closeImageUploadDisplay()'></div>
 
 	<div class='loggedin-main' #loggedinmain >
-		<app-sidebar (toggleTab)='toggleTab($event)' *ngIf='is_sidebar_visible' [class.active]='smallScreen'></app-sidebar>
+		<app-sidebar (toggleTab)='toggleTab($event)' (imageUpload)='toggleImageUpload()' *ngIf='is_sidebar_visible' [class.active]='smallScreen'></app-sidebar>
 		<app-subscriptions (toggleOverlay)='toggleImageOverlay($event)' *ngIf="conditions.subscriptions"></app-subscriptions>
 		<app-popular *ngIf="conditions.popular"></app-popular>
 		<app-top-rated *ngIf="conditions.toprated"></app-top-rated>

@@ -135,8 +135,6 @@ export class AuthService {
 
      return (error:any):Observable<any> => {
 
-      console.log(error);
-
       if(error.status == 500) {
 
         this.notification.showErrorMsg('Internal Server Error', '500');

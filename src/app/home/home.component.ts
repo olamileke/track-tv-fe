@@ -63,6 +63,8 @@ export class HomeComponent implements OnInit {
 
   genreId:Number;
 
+  unsubscribing:boolean=false;
+
   is_sidebar_visible:boolean=true;
 
   // SCREEN 500px AND BELOW
@@ -81,7 +83,7 @@ export class HomeComponent implements OnInit {
 
        if(this.config.profileImage !== undefined && this.config.profileImage.includes('anon.png')){
 
-          this.imageUpload=this.interactions.toggleImageUploadComponent(this.renderer, this.imageOverlay.nativeElement, this.imageUpload);
+          this.imageUpload=this.interactions.toggleImageUploadComponent(this.renderer, this.imageOverlay.nativeElement, this.imageUpload, this.loggedInContainer.nativeElement);
         }
 
     },1500);
@@ -180,8 +182,6 @@ export class HomeComponent implements OnInit {
     }
   }
 
-
-
   conditions={subscriptions:false, popular:false, toprated:false, explore:false, genre:false};
 
   genres={action:'10759', animation:'16', comedy:'35', crime:'80', documentary:'99', drama:'18', family:'10751',
@@ -272,11 +272,11 @@ export class HomeComponent implements OnInit {
   }
   
 
-  // CLOSING THE IMAGE UPLOAD COMPONENT
+  // CLOSING THE IMAGE UPLOAD COMPONENT AUTOMATICALLY AFTER THE USER UPLOADS A NEW PICTURE
 
   closeImageUpload(event) {
 
-     this.imageUpload=this.interactions.toggleImageUploadComponent(this.renderer, this.imageOverlay.nativeElement, this.imageUpload);
+     this.imageUpload=this.interactions.toggleImageUploadComponent(this.renderer, this.imageOverlay.nativeElement, this.imageUpload, this.loggedInContainer.nativeElement);
     
      if(screen.width > 500) {
 
@@ -297,13 +297,45 @@ export class HomeComponent implements OnInit {
         this.renderer.addClass(this.imageOverlay.nativeElement, 'active');
         this.renderer.addClass(this.loggedInContainer.nativeElement, 'hidden');
 
+        this.unsubscribing=true;
+
         return true;
       }
 
         this.renderer.removeClass(this.imageOverlay.nativeElement, 'active');
         this.renderer.removeClass(this.loggedInContainer.nativeElement, 'hidden');
+        this.unsubscribing=false;
   }
 
 
+  // DISPLAYING THE IMAGE UPLOAD COMPONENT WHEN THE USER CLICKS THE CHANGE DISPLAY PICTURE OPTION
+
+  toggleImageUpload() {
+
+     if(this.is_sidebar_visible) {
+
+        this.is_sidebar_visible=this.interactions.toggleSideBarVisible(this.is_sidebar_visible, this.renderer, this.overlay.nativeElement, this.loggedInContainer.nativeElement);
+      }
+
+      if(this.smallScreen) {
+
+          this.smallScreen=false;
+
+          this.renderer.removeClass(this.overlay.nativeElement, 'active');          
+      }
+
+     this.imageUpload=this.interactions.toggleImageUploadComponent(this.renderer, this.imageOverlay.nativeElement, this.imageUpload, this.loggedInContainer.nativeElement);
+  }
+
+  // THE USER CLOSING THE IMAGE UPLOAD COMPONENT
+
+  closeImageUploadDisplay() {
+
+      if(!this.config.profileImage.includes('anon.png') && !this.unsubscribing) {
+
+         this.imageUpload=this.interactions.toggleImageUploadComponent(this.renderer, this.imageOverlay.nativeElement, this.imageUpload, this.loggedInContainer.nativeElement);
+
+      }
+  }
 }
 					

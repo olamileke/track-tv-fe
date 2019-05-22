@@ -4,6 +4,10 @@ import { ConfigService } from '../config.service';
 
 import { AuthService } from '../auth.service';
 
+import { throwError } from 'rxjs';
+
+import { catchError } from 'rxjs/operators';
+
 import { Router } from '@angular/router';
 
 import { UserService } from '../user.service';
@@ -20,6 +24,8 @@ import { NotificationsService } from '../notifications.service';
 export class SidebarComponent implements OnInit{
 
   @Output() toggleTab=new EventEmitter();
+
+  @Output() imageUpload=new EventEmitter();
 
   // DOCKING THE SIDEBAR AND MAKING IT FIXED WHEN THE HEADER DISAPPEARS OUT OF VIEW
 
@@ -52,6 +58,8 @@ export class SidebarComponent implements OnInit{
   mediumScreen:boolean=false;
 
   toggleOptions:boolean=false;
+
+  load_logout:boolean=false;
 
   editStyles={fontSize:'0.9em',fontFamily:'Raleway',color:'rgba(0,0,0,0.5)',width:'100px'};
 
@@ -222,7 +230,9 @@ export class SidebarComponent implements OnInit{
 
     logout() {
 
-        this.auth.logout().subscribe((res:any) => {           
+        this.load_logout=true;
+
+        this.auth.logout().pipe(catchError(this.handleError())).subscribe((res:any) => {           
 
          this.auth.unSetUserData();
 
@@ -239,9 +249,28 @@ export class SidebarComponent implements OnInit{
     }
 
 
+    handleError() {
+
+      return (error:any) => {
+
+         this.notification.showErrorMsg('There was a problem processing your request', 'Error');
+
+         this.load_logout=false;
+
+         return throwError(error);
+      }
+    }
+
+
     showOptions() {
 
       this.toggleOptions=!this.toggleOptions;
+    }
+
+
+    emitImageUpload() {
+
+      this.imageUpload.emit();
     }
 
 }

@@ -304,7 +304,9 @@ ul a.not-active:hover
 		margin:0;
 		font-size:0.8em;
 		color:rgba(0,0,0,0.7);
-		font-family:'Quicksand', sans-serif;		
+		font-family:'Quicksand', sans-serif;
+		display: flex;
+		justify-content: center;		
 	}
 
 	img
@@ -312,5 +314,31 @@ ul a.not-active:hover
 		position:relative;
 		margin:0 0 20px 0;
 		left:calc((100% - 70px)/2);
+	}
+
+	div.loader
+	{
+		position:relative;
+		top:4px;
+		left:12px;
+		width:12px;
+		height:12px;
+		border-radius:50%;
+		border:2px solid rgba(250, 190, 88, 1);
+		border-left-color:transparent;
+		animation:animate 1.5s linear infinite;
+	}
+
+	@keyframes animate
+	{
+		from
+		{
+			transform:rotate(0deg);
+		}
+
+		to
+		{
+			transform:rotate(360deg);
+		}
 	}
 }

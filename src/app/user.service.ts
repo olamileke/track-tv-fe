@@ -4,7 +4,7 @@ import { User } from './user';
 
 import { HttpClient, HttpHeaders, HttpEvent, HttpEventType, HttpErrorResponse } from '@angular/common/http';
 
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
 import { ConfigService } from './config.service';
 
@@ -28,6 +28,16 @@ export class UserService {
 
   constructor(private http:HttpClient, private config:ConfigService, 
               private notification:NotificationsService, private tv:TvService) { }
+
+  // RETURNING THE CURRENTLY LOGGED IN USER OBJECT
+
+  getUser() {
+
+    const URL=`${this.config.baseURL}/api/user?api_token=${this.config.apiToken}`;
+
+    return this.http.get(URL);
+
+  }
 
   // POSTING THE DATA TO THE BACKEND FOR SIGNUP
 
@@ -138,56 +148,13 @@ export class UserService {
 
     const URL=this.config.baseURL+'/api/user/image/upload?api_token='+this.config.apiToken;
 
-    return this.http.post(URL, formData, {
-
-      reportProgress:true, observe:'events'
-    }).pipe(
-
-        map(event => this.getEventMessage(event, formData)),
-
-        catchError(this.handleError())
-       )
+    return this.http.post(URL, formData).pipe(catchError(this.handleError()))
   }    
-
-
-  // RETURNING THE MESSAGE OBJECT AS THE IMAGE IS BEING UPLOADED
-
-  getEventMessage(event:HttpEvent<any>, formData) {
-
-    switch(event.type){
-
-        case HttpEventType.UploadProgress:
-
-            return this.fileUploadProgress(event);
-
-        case HttpEventType.Response:
-
-            return this.apiResponse(event);
-
-        default:
-
-            return {name:formData.get('image')};
-    }
-
-  }
-
-  fileUploadProgress(event) {
-
-    const percentDone=Math.round(100 * event.loaded / event.total);
-
-    return {status:'Progress', message:String(percentDone)+'%'};
-  }
-
-
-  apiResponse(event) {
-
-    return event.body;
-  }
 
 
   // ERROR HANDLER FOR API CALLS TO THE BACKEND  
 
-   handleError() {
+   handleError() {  
 
       return (error:any):any => {
 
@@ -198,12 +165,12 @@ export class UserService {
           this.notification.showErrorMsg('The uploaded image is too large');
         }
 
-        console.log(error);
-
         if(error.status == 406) {
 
           this.notification.showErrorMsg('File format is not supported');
         }
+
+        return throwError(error);
       }
     }
 

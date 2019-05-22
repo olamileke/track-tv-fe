@@ -10,15 +10,19 @@ export class InteractionsService {
 
   // DISPLAYING THE IMAGE UPLOAD COMPONENT
 
- 	toggleImageUploadComponent(renderer:Renderer2, overlay, param:boolean):boolean {
+ 	toggleImageUploadComponent(renderer:Renderer2, overlay, param:boolean, container:any):boolean {
 
   	if(param){
 
    		 renderer.removeClass(overlay, 'active');
+
+       renderer.removeClass(container, 'hidden');
    	}
    	else {
 
-   		 renderer.addClass(overlay, 'active');		   		
+   		 renderer.addClass(overlay, 'active');		
+
+       renderer.addClass(container, 'hidden');
    	}
 
    	param=!param; 

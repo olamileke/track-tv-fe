@@ -2,13 +2,9 @@ import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Router } from '@angular/router';
-
 import { Observable, throwError } from 'rxjs';
 
 import { catchError } from 'rxjs/operators';
-
-import { AuthService } from './auth.service';
 
 import { ConfigService } from './config.service';
 
@@ -41,8 +37,7 @@ export class TvService {
 
   errorgenre:boolean=false;
 
-  constructor(private http:HttpClient, private config:ConfigService, private auth:AuthService,
-              private notification:NotificationsService, private router:Router) {}
+  constructor(private http:HttpClient, private config:ConfigService,private notification:NotificationsService) {}
 
   // FETCHING THE DETAILS OF A PARTICULAR TV SERIES
 
@@ -191,15 +186,6 @@ export class TvService {
       if(error.status ==  0) {
 
           this.notification.showErrorMsg('There was a problem processing the request', 'Error');
-      }
-
-      if(error.status == 401) {
-
-        this.router.navigate(['/login']);
-
-        this.auth.unSetUserData();
-
-        this.notification.showInfoMsg('Access Denied');
       }
 
       if(error.status == 429) {

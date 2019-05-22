@@ -2,7 +2,9 @@ import { Component, OnInit , Output, HostListener, Renderer2, ElementRef, EventE
 
 import { debounceTime, switchMap, distinctUntilChanged } from 'rxjs/operators';
 
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, throwError } from 'rxjs';
+
+import { catchError } from 'rxjs/operators';
 
 import { ConfigService } from '../config.service';
 
@@ -31,6 +33,8 @@ export class HeaderComponent implements OnInit {
 
   @Output() tvShow=new EventEmitter();
 
+  @Output() imageUpload=new EventEmitter();
+
   @ViewChild('searchContainer') searchContainer;
 
   @ViewChild('inputlarge') inputlarge;
@@ -38,6 +42,8 @@ export class HeaderComponent implements OnInit {
   @ViewChild('inputsmall') inputsmall;
 
   searchResults=[];
+
+  load_logout:boolean=false;
 
   searchTerms=new Subject<string>();
 
@@ -206,7 +212,9 @@ export class HeaderComponent implements OnInit {
 
   logout() {
 
-     this.auth.logout().subscribe((res:any) => {
+    this.load_logout=true;
+
+     this.auth.logout().pipe(catchError(this.handleError())).subscribe((res:any) => {
 
          this.auth.unSetUserData();
 
@@ -220,6 +228,20 @@ export class HeaderComponent implements OnInit {
 
          this.notification.showSuccessMsg('Logged out successfully');
      })
+  }
+
+  // ERROR HANDLER FOR LOGOUT
+
+  handleError() {
+
+      return (error:any) => {
+
+        this.load_logout=false;
+
+        this.notification.showErrorMsg('There was a problem processing your request', 'Error');
+
+        return throwError(error);
+      }
   }
 
 
@@ -266,4 +288,13 @@ export class HeaderComponent implements OnInit {
      }
    }
 
+
+   // EMITTING THE EVENT TO THE HIGHER COMPONENT TO DISPLAY THE IMAGE UPLOAD DIALOG 
+
+   emitImageUpload() {
+
+      this.imageUpload.emit();
+
+      this.showOptions=false;
+   }
 }
