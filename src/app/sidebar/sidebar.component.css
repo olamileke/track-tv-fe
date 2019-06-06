@@ -211,7 +211,7 @@ ul a.not-active:hover
 		justify-content: center;
 		background:#3cb371;
 		border-right:1px solid rgba(0,0,0,0.4);
-		z-index:3;
+		z-index:9999;
 		border:1px solid rgba(0,0,0,0.6);
 		transition:left 0.5s ease-out;
 		border:none;
@@ -222,10 +222,26 @@ ul a.not-active:hover
 		left:0;
 	}
 
+	div.genres_parent
+	{
+		position:relative;
+	}
+
+	li.genre
+	{
+		margin-bottom:30px;
+	}
+
+	li.genre.show
+	{
+		margin-bottom:30px !important;
+	}
+
 	div.genres-list
 	{
-		top:0;
-		left:20%;
+		position:absolute;
+		top:20px;
+		left:80px;
 		padding:7px;
 		border:1px solid rgba(0,0,0,0.45);
 		border-radius:5px;
@@ -241,7 +257,7 @@ ul a.not-active:hover
 	}
 
 
-	li:first-child
+	li.first
 	{
 		border-bottom:1px solid #fff;
 		text-align: center;

@@ -85,12 +85,8 @@ export class SubscriptionsComponent implements OnInit {
 
     }, 500)
 
-    // CHECKING IF THE USER HAS TV SHOWS HE HAS SUBSCRIBED TO 
-    // IF HE DOES HAVE TV SHOWS THAT HE HAS SUBSCRIBED TO , I AM THEN MAKING THE CALL
-    // TO THE API TO FETCH THAT PARTICULAR TV SHOWS
-    // IF HE DOES NOT HAVE ANY SUBSCRIBED TO TV SERIES, DISPLAY A MESSAGE
-
-    const URL=`http://localhost:8000/api/getsubscriptions?api_token=${this.config.apiToken}`;
+   
+    const URL=this.config.baseURL+'/api/getsubscriptions?api_token='+this.config.apiToken;
 
      if(this.tv.subscribedTvShows.length == 0) {
 
@@ -106,14 +102,10 @@ export class SubscriptionsComponent implements OnInit {
 
                for(let i=0; i < res.length; i++) {
 
-                   // MAKING THE CALL TO THE API FOR DETAILS ABOUT THE PARTICULAR TV SHOW
-
                    this.tv.getShowDetail(parseInt(res[i].show_id)).subscribe((res:any) => {
 
                         this.setTvShows(res, i);
                    })
-
-
                }
 
                this.load=false;
@@ -127,10 +119,9 @@ export class SubscriptionsComponent implements OnInit {
 
                this.load=false;
 
-               clearInterval(interval);               
+               clearInterval(interval);            
 
              }
-
          });
 
      }

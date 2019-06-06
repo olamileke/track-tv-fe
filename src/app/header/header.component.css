@@ -87,6 +87,7 @@ ul.searchResults
 	padding-left:20px;
 	font-family:'Open Sans', sans-serif;
 	font-size:0.9em;
+	z-index:2;
 	box-sizing:border-box;
 }
 
@@ -113,6 +114,7 @@ ul.searchResults div
 ul.searchResults p
 {
 	margin:0;
+	width:200%;
 }
 
 ul.searchResults span
@@ -158,6 +160,7 @@ ul.options
 	background:#fff;
 	font-size:0.85em;
 	padding:0;
+	z-index:2;
 	color:rgba(0,0,0,0.8);
 }
 
@@ -428,6 +431,11 @@ div.loader
 	{
 		top:57%;
 		left:calc((100vw - 400px)/2);
+	}
+
+	ul.searchResults p
+	{
+		width:100%;
 	}
 
 }

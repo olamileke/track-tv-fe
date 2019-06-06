@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { HeaderComponent } from '../header/header.component';
 
+import { SidebarComponent } from '../sidebar/sidebar.component';
+
 import { InteractionsService } from '../interactions.service';
 
 import { NotificationsService } from '../notifications.service';
@@ -40,6 +42,10 @@ export class TvShowDetailComponent implements OnInit {
   @ViewChild('main') main;
 
   @ViewChild('nextepisodedate') episodeCountdown; 
+
+  @ViewChild( HeaderComponent ) header:HeaderComponent;
+
+  @ViewChild( SidebarComponent ) sidebar:SidebarComponent;
 
   @ViewChild('imageOverlay') imageOverlay;
 
@@ -176,6 +182,8 @@ export class TvShowDetailComponent implements OnInit {
 
      this.checkSubscribed(id);
 
+     this.showInfo={};
+
      // ENSURING THAT WHEN THIS VIEW IS DISPLAYED, WE ARE STARTING AT THE TOP OF THE SCREEN
 
     document.body.scrollTop = 0; // For Safari
@@ -258,14 +266,14 @@ export class TvShowDetailComponent implements OnInit {
 
   returnGenre(genre:string):string {
 
-    if(this.genrecount < this.TvShow.genres.length) {
+    // if(this.genrecount < this.TvShow.genres.length) {
 
-      this.genrecount++;
+    //   this.genrecount++;
 
-      return genre+',';
-    }
+    //   return genre+',';
+    // }
 
-    return genre;
+    return genre+',';
   }
 
   // RETURNING THE STRING TO USE IN THE LINK TO THE PARTICULAR GENRE
@@ -285,7 +293,7 @@ export class TvShowDetailComponent implements OnInit {
 
   setShowInfo(res) {
 
-      if(res.in_production && this.next_episode !== null) {
+      if(res.in_production) {
 
         this.showInfo.show_id=res.id;
 
@@ -293,15 +301,15 @@ export class TvShowDetailComponent implements OnInit {
 
         this.showInfo.imagepath=`http://image.tmdb.org/t/p/w1280${res.backdrop_path}`;
 
-        this.showInfo.next_episode_title=res.next_episode_to_air.name;
+        this.showInfo.next_episode_title=res.next_episode_to_air == null ? null : res.next_episode_to_air.name;
 
-        this.showInfo.next_episode_air_date=res.next_episode_to_air.air_date;
+        this.showInfo.next_episode_air_date=res.next_episode_to_air == null ? null : res.next_episode_to_air.air_date;
 
-        this.showInfo.next_episode_number=res.next_episode_to_air.episode_number;
+        this.showInfo.next_episode_number=res.next_episode_to_air == null ? null : res.next_episode_to_air.episode_number;
 
-        this.showInfo.next_episode_season=res.next_episode_to_air.season_number;
+        this.showInfo.next_episode_season=res.next_episode_to_air == null ? null : res.next_episode_to_air.season_number;
 
-        this.showInfo.about_episode=res.next_episode_to_air.overview;
+        this.showInfo.about_episode=res.next_episode_to_air == null ? null : res.next_episode_to_air.overview;
     }
   }
 
@@ -558,6 +566,8 @@ export class TvShowDetailComponent implements OnInit {
          this.loading_show=false;
       }
 
+      console.log(error);
+
       return throwError(error);
 
     }
@@ -655,14 +665,14 @@ export class TvShowDetailComponent implements OnInit {
 
      this.imageUpload=this.interactions.toggleImageUploadComponent(this.renderer, this.imageOverlay.nativeElement, this.imageUpload, this.container.nativeElement);
     
-     // if(screen.width > 500) {
+     if(screen.width > 500) {
 
-     //   this.header.imgsrc=event;
-     // }
-     // else {
+       this.header.imgsrc=event;
+     }
+     else {
 
-     //   this.sidebar.imgsrc=event;
-     // }
+       this.sidebar.imgsrc=event;
+     }
   }
 
   // THE USER CLOSING THE IMAGE UPLOAD COMPONENT

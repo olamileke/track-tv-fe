@@ -4,15 +4,16 @@
 :host
 {
 	position:absolute;
-	top:25vh;
-	left:calc((100vw - 400px)/2);
+	top:17vh;
+	left:calc((100vw - 360px)/2);
 	background:#fff;
 	z-index:10;
-	width:400px;
+	width:360px;
 	min-height:170px;
 	border-radius: 6px;
 	box-shadow:0 5px 20px rgba(0,0,0,0.3);
 	display:flex;
+	justify-content: center;
 	align-items: center;
 	border:1px solid rgba(0,0,0,0.7);
 	padding:10px 20px;
@@ -21,8 +22,8 @@
 
 div.img
 {
-	width:120px;
-	height:120px;
+	width:105px;
+	height:105px;
 	margin-right:20px;
 }
 
@@ -122,7 +123,7 @@ button.upload
 }
 
 
-@media(max-width:450px)
+@media(max-width:380px)
 {
 	:host
 	{

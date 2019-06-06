@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit{
 
   imageURLs=[];
 
-  remember:boolean;
+  remember:boolean=true;
 
   ngOnInit() {
 

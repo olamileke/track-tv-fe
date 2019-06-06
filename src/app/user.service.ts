@@ -165,9 +165,14 @@ export class UserService {
           this.notification.showErrorMsg('The uploaded image is too large');
         }
 
-        if(error.status == 406) {
+        else if(error.status == 406) {
 
           this.notification.showErrorMsg('File format is not supported');
+        }
+
+        else {
+
+          this.notification.showErrorMsg('There was a problem processing your request', 'Error');
         }
 
         return throwError(error);

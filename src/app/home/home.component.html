@@ -7,7 +7,7 @@
 		
 		<div>
 			<p>TvTracker</p>
-			<span>Stay up to date with your favourite Tv Series</span>
+			<span>Stay up to date with your favourite Tv Shows</span>
 			<a routerLink='/signup' #signupbtn>Get Started</a>
 		</div> 
 	</div> 
@@ -30,7 +30,7 @@
 
 
 <div class='loggedin-container' *ngIf="loggedin" #loggedin>
-	<app-header (displaySideBar)='toggleSideBar()' (clickHome)='toggleTab($event)' (imageUpload)='toggleImageUpload()'></app-header>
+	<app-header (displaySideBar)='toggleSideBar()' (clickHome)='toggleTab($event, true)' (imageUpload)='toggleImageUpload()'></app-header>
 
 	<div class='overlay' #overlay (click)='closeSidebar()'></div>
 

@@ -119,7 +119,6 @@ export class SidebarComponent implements OnInit{
 
   }
 
-  // CHECKING SESSION STORAGE FOR USER INFORMATION
 
   checkStorage():boolean {
 

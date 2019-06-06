@@ -48,15 +48,25 @@ export class ImageUploadComponent implements OnInit {
     }
     else {
 
-      this.message='Want to change your profile picture?'
+      this.message='follow the prompts below to upload your new display picture';
     }
 
     this.imgsrc=this.config.profileImage;
 
-    this.name=JSON.parse(sessionStorage.profile).name === null ? JSON.parse(localStorage.profile).name.split(' ')[1] : JSON.parse(sessionStorage.profile).name.split(' ')[1];  	
+    this.name=this.checkStorage() == false ? JSON.parse(localStorage.profile).name.split(' ')[1] : JSON.parse(sessionStorage.profile).name.split(' ')[1];
 
   	this.sessionStorage=sessionStorage.profile !== null ? this.sessionStorage=true : this.sessionStorage=false;
 
+  }
+
+  checkStorage():boolean {
+
+      if(sessionStorage.profile == '' || sessionStorage.profile == undefined) {
+
+         return false;
+      }
+
+      return true;
   }
 
 
@@ -64,7 +74,7 @@ export class ImageUploadComponent implements OnInit {
 
   	this.fileupload.nativeElement.click();
   }
-
+  
 
   imageSelect(event:any) {
 
@@ -95,8 +105,6 @@ export class ImageUploadComponent implements OnInit {
           console.log(res);
 
           this.notification.showSuccessMsg('Display Picture Uploaded Successfully');
-
-          this.renderer.addClass(this.buttons.nativeElement, 'uploaded');
 
            if(this.sessionStorage) {
 

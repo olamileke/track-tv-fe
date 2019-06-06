@@ -22,7 +22,7 @@
 
 		<input type="password" (input)="displayShowButton($event.target.value)" [(ngModel)]=user.password #password="ngModel" #passwordinput [class.empty]="password.touched && password.invalid" name="password" placeholder="Password" required>
 
-		<p class='login-check'> <input type="checkbox" name="loggedin" (click)="toggleRemember()"> stay logged in </p>
+		<p class='login-check'> <input type="checkbox" name="loggedin" (click)="toggleRemember()" checked> stay logged in </p>
  
 		<button type="submit" [disabled]="!loginForm.form.valid" #loginbtn>
 			<div [hidden]="loading">Login</div>

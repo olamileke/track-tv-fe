@@ -191,11 +191,11 @@ export class HomeComponent implements OnInit {
 
   // TOGGLING THE CURRENTLY VIEWED TAB
 
-  toggleTab(tab:any):boolean {
+  toggleTab(tab:any, close_sidebar:boolean=false):boolean {
 
     // CLOSING THE SIDEBAR WHEN NAVIGATING TO A DIFFERENT COMPONENT WHEN ON A SCREEN BETWEEN 768px AND 500px
 
-    if(screen.width <= 768 && screen.width > 500) {
+    if(screen.width <= 768 && screen.width > 500 && !close_sidebar) {
 
       this.is_sidebar_visible=this.interactions.toggleSideBarVisible(this.is_sidebar_visible, this.renderer, this.overlay.nativeElement, this.loggedInContainer.nativeElement);
 
@@ -327,7 +327,6 @@ export class HomeComponent implements OnInit {
      this.imageUpload=this.interactions.toggleImageUploadComponent(this.renderer, this.imageOverlay.nativeElement, this.imageUpload, this.loggedInContainer.nativeElement);
   }
 
-  // THE USER CLOSING THE IMAGE UPLOAD COMPONENT
 
   closeImageUploadDisplay() {
 
