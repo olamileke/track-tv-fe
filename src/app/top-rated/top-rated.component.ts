@@ -1,10 +1,12 @@
-import { Component, OnInit, HostListener, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, ElementRef, Renderer2 } from '@angular/core';
 
 import { TvShow } from '../tv-show';
 
 import { TvService } from '../tv.service';
 
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+
+import { takeUntil } from 'rxjs/operators';
 
 import { ConfigService } from '../config.service';
 
@@ -13,7 +15,7 @@ import { ConfigService } from '../config.service';
   templateUrl: './top-rated.component.html',
   styleUrls: ['./top-rated.component.css']
 })
-export class TopRatedComponent implements OnInit {
+export class TopRatedComponent implements OnInit, OnDestroy {
 
   // SETTING THE APPROPRIATE STYLING WHEN THE SIDEBAR BECOMES FIXED 
 
@@ -23,6 +25,7 @@ export class TopRatedComponent implements OnInit {
     this.config.scrollHandler(this.renderer, this.elRef);
   }
 
+  private onDestroy$:Subject<void>=new Subject<void>();
 
   TvShows:TvShow[]=[];
 
@@ -64,7 +67,7 @@ export class TopRatedComponent implements OnInit {
 
     if(this.tv.returnTopRatedShows.length == 0) {
 
-    	this.tv.getTopRatedShows('toprated').subscribe((res:any) => {
+    	this.tv.getTopRatedShows('toprated').pipe(takeUntil(this.onDestroy$)).subscribe((res:any) => {
 
            this.response=res.results;
 
@@ -93,11 +96,17 @@ export class TopRatedComponent implements OnInit {
      }
   }
 
+
+  ngOnDestroy() {
+
+      this.onDestroy$.next();
+  }
+
   // SETTING THE FETCHED TV SHOW DATA INTO THE TV SHOWS ARRAY
 
   setTvShows(i:number) {
 
-     this.tv.getShowDetail(this.response[i].id).subscribe((res:any) => { 
+     this.tv.getShowDetail(this.response[i].id).pipe(takeUntil(this.onDestroy$)).subscribe((res:any) => { 
 
            if(!this.below_412px) {
 

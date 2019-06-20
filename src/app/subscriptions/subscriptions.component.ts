@@ -1,10 +1,10 @@
-import { Component, OnInit, Output, HostListener, ElementRef, Renderer2, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, HostListener, ElementRef, Renderer2, EventEmitter } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 
-import { of, throwError } from 'rxjs';
+import { of, throwError, Subject } from 'rxjs';
 
-import { catchError  } from 'rxjs/operators';
+import { catchError, takeUntil  } from 'rxjs/operators';
 
 import { ConfigService } from '../config.service';
 
@@ -21,7 +21,7 @@ import { TvShow } from '../tv-show';
   templateUrl: './subscriptions.component.html',
   styleUrls: ['./subscriptions.component.css']
 })
-export class SubscriptionsComponent implements OnInit {
+export class SubscriptionsComponent implements OnInit, OnDestroy {
 
   // METHOD SETTING THE APPROPRIATE STYLING WHEN THE SIDEBAR BECOMES FIXED
 
@@ -30,6 +30,8 @@ export class SubscriptionsComponent implements OnInit {
 
   	this.config.scrollHandler(this.renderer, this.elRef); 
   }
+
+  private onDestroy$:Subject<void>=new Subject<void>();
 
   TvShows:TvShow[]=[];
 
@@ -90,7 +92,7 @@ export class SubscriptionsComponent implements OnInit {
 
      if(this.tv.subscribedTvShows.length == 0) {
 
-       this.http.get(URL).pipe(catchError(this.tv.handleError('subscription'))).subscribe((res:any) => {
+       this.http.get(URL).pipe(catchError(this.tv.handleError('subscription')), takeUntil(this.onDestroy$)).subscribe((res:any) => {
 
              if(res.length > 0) {
 
@@ -102,7 +104,7 @@ export class SubscriptionsComponent implements OnInit {
 
                for(let i=0; i < res.length; i++) {
 
-                   this.tv.getShowDetail(parseInt(res[i].show_id)).subscribe((res:any) => {
+                   this.tv.getShowDetail(parseInt(res[i].show_id)).pipe(takeUntil(this.onDestroy$)).subscribe((res:any) => {
 
                         this.setTvShows(res, i);
                    })
@@ -140,11 +142,18 @@ export class SubscriptionsComponent implements OnInit {
   }
 
 
+   ngOnDestroy() {
+
+      this.onDestroy$.next();
+    }
+
+
+
    // SETTING THE FETCHED TV SHOW DATA INTO THE TV SHOWS ARRAY
 
   setTvShows(res:any, i:number) {
 
-     this.tv.getShowDetail(res.id).subscribe((res:any) => { 
+     this.tv.getShowDetail(res.id).pipe(takeUntil(this.onDestroy$)).subscribe((res:any) => { 
 
          if(!this.below_450px) {
 
@@ -252,7 +261,7 @@ export class SubscriptionsComponent implements OnInit {
 
      this.unsubscribe_loader=true;
 
-     this.userservice.unsubscribe(parseInt(id)).pipe(catchError(this.handleError())).subscribe((res:any) => {
+     this.userservice.unsubscribe(parseInt(id)).pipe(catchError(this.handleError()), takeUntil(this.onDestroy$)).subscribe((res:any) => {
 
          this.toggleOverlay.emit(false);
 

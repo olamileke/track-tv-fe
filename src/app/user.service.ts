@@ -138,7 +138,7 @@ export class UserService {
 
   get headers() {
 
-    const httpOptions={headers:new HttpHeaders({'Accepts':'application/json','Content-Type':'application/json'})};
+    const httpOptions={headers:new HttpHeaders({'Content-Type':'application/json'})};
 
     return httpOptions;
   }

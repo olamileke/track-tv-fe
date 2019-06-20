@@ -317,20 +317,24 @@ export class TvShowDetailComponent implements OnInit {
 
   setSimilarShows(shows) {
 
-     this.similarShows=[];
+     if(shows.length >= this.similarCount) {
 
-     let i=0;
+         this.similarShows=[];
 
-     while(i < this.similarCount) {
+         let i=0;
 
-       let val=Math.round(Math.random() * (shows.length - 1));
+         while(i < this.similarCount) {
 
-       if(this.similarShows.indexOf(shows[val]) == -1) {
+           let val=Math.round(Math.random() * (shows.length - 1));
 
-          this.similarShows.push(shows[val]);
+           if(this.similarShows.indexOf(shows[val]) == -1) {
 
-          i++;
-       }
+              this.similarShows.push(shows[val]);
+
+              i++;
+           }
+
+         }
 
      }
   }
@@ -391,7 +395,7 @@ export class TvShowDetailComponent implements OnInit {
     if(date.getDate() == day && date.getMonth() == month - 1 && date.getFullYear() == year) {
 
        this.isTodayNextEpisode=true;
-    }   
+    }     
 
     return this.getInterval(`${day} ${montharray[month - 1]}, ${year}`);    
 
@@ -565,8 +569,6 @@ export class TvShowDetailComponent implements OnInit {
 
          this.loading_show=false;
       }
-
-      console.log(error);
 
       return throwError(error);
 

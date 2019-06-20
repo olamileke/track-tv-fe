@@ -5,7 +5,7 @@ import { Injectable, Renderer2, ElementRef } from '@angular/core';
 })
 export class ConfigService {
 
-  private base_url:string='http://localhost:8000';
+  private base_url:string='http://localhost';
 
   constructor() { }
 
@@ -48,7 +48,7 @@ export class ConfigService {
       return localStorage.profileImage;
     }
 
-    return 'http://localhost:8000/Images/Users/anon.jpg';
+    return 'http://localhost/Images/Users/anon.jpg';
   }
 
   get baseURL():string {

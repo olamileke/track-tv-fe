@@ -1,19 +1,21 @@
-import { Component, OnInit, HostListener, ElementRef, Renderer2} from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, ElementRef, Renderer2} from '@angular/core';
 
 import { TvService } from '../tv.service';
 
 import { TvShow } from '../tv-show';
 
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { ConfigService } from '../config.service';
+
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-popular',
   templateUrl: './popular.component.html',
   styleUrls: ['./popular.component.css']
 }) 
-export class PopularComponent implements OnInit {
+export class PopularComponent implements OnInit, OnDestroy {
 
   // SETTING THE APPROPRIATE STYLING WHEN THE SIDEBAR BECOMES FIXED 
 
@@ -22,6 +24,8 @@ export class PopularComponent implements OnInit {
 
     this.config.scrollHandler(this.renderer, this.elRef);
   }
+
+  private onDestroy$:Subject<void>=new Subject<void>();
   
   TvShows:TvShow[]=[]; 
 
@@ -67,7 +71,7 @@ export class PopularComponent implements OnInit {
 
       const page=this.getPageNumber();
 
-    	this.tv.getPopularShows('popular', page).subscribe((res:any) => {
+    	this.tv.getPopularShows('popular', page).pipe(takeUntil(this.onDestroy$)).subscribe((res:any) => {
 
     					this.response=res.results;
 
@@ -97,6 +101,12 @@ export class PopularComponent implements OnInit {
   }
 
 
+  ngOnDestroy() {
+
+      this.onDestroy$.next();
+  }
+
+
   // RETURNING THE PAGE OF THE RESULTS TO DISPLAY TO THE USER
 
   getPageNumber():number {
@@ -121,7 +131,7 @@ export class PopularComponent implements OnInit {
 
   setTvShows(i:number) {
 
-    this.tv.getShowDetail(this.response[i].id).subscribe((res:any) => { 
+    this.tv.getShowDetail(this.response[i].id).pipe(takeUntil(this.onDestroy$)).subscribe((res:any) => { 
 
           if(!this.below_412px) {
 

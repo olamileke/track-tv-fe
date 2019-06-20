@@ -1,10 +1,12 @@
-import { Component, OnInit, Input, HostListener, Renderer2, ElementRef} from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, HostListener, Renderer2, ElementRef} from '@angular/core';
 
 import { TvService } from '../tv.service';
 
-import { interval } from 'rxjs';
+import { interval, Subject } from 'rxjs';
 
 import { TvShow } from '../tv-show';
+
+import { takeUntil } from 'rxjs/operators';
 
 import { ConfigService } from '../config.service';
 
@@ -13,13 +15,15 @@ import { ConfigService } from '../config.service';
   templateUrl: './genre.component.html',
   styleUrls: ['./genre.component.css'],
 })
-export class GenreComponent implements OnInit {
+export class GenreComponent implements OnInit, OnDestroy {
  
   @HostListener('window:scroll', ['$event'])
   scrollHandler() {
 
   	this.config.scrollHandler(this.renderer, this.elRef);
   }
+
+  private onDestroy$:Subject<void>=new Subject<void>();
 
   @Input() genre:string;
 
@@ -66,7 +70,7 @@ export class GenreComponent implements OnInit {
 
      const page=this.getPageNumber();
 
-  	 this.tv.getByGenre(this.genreId, 'genre',page).subscribe((res:any) => {
+  	 this.tv.getByGenre(this.genreId, 'genre',page).pipe(takeUntil(this.onDestroy$)).subscribe((res:any) => {
 
            this.response=res.results;
 
@@ -80,6 +84,12 @@ export class GenreComponent implements OnInit {
            this.load=false;
   	 })
 
+  }
+
+
+  ngOnDestroy() {
+
+      this.onDestroy$.next();
   }
 
 
@@ -106,7 +116,7 @@ export class GenreComponent implements OnInit {
 
   setTvShows(i:number) {
 
-     this.tv.getShowDetail(this.response[i].id).subscribe((res:any) => { 
+     this.tv.getShowDetail(this.response[i].id).pipe(takeUntil(this.onDestroy$)).subscribe((res:any) => { 
 
        if(!this.below_412px) {
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Renderer2 } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Renderer2 } from '@angular/core';
 
 import { User } from '../user';
 
@@ -8,9 +8,9 @@ import { UserService } from '../user.service';
 
 import { AuthService } from '../auth.service'; 
 
-import { Observable,  throwError, interval } from 'rxjs';
+import { Observable, Subject ,throwError, interval } from 'rxjs';
 
-import { catchError } from 'rxjs/operators';
+import { catchError, takeUntil } from 'rxjs/operators';
 
 import { Router } from '@angular/router';
 
@@ -21,7 +21,7 @@ import { Images } from '../loginImages';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(private notification:NotificationsService, private userservice:UserService,
              private renderer:Renderer2, private router:Router, private authservice:AuthService) { }
@@ -35,6 +35,8 @@ export class LoginComponent implements OnInit{
   @ViewChild('passwordinput') passwordinput;
 
   @ViewChild('overlay') overlay;
+
+  private onDestroy$:Subject<void>=new Subject<void>();
 
   user=new User('', '', '');
 
@@ -54,7 +56,7 @@ export class LoginComponent implements OnInit{
 
     this.imageURLs.push(this.imgsrc);
 
-    this.imageCounter.subscribe(n => { 
+    this.imageCounter.pipe(takeUntil(this.onDestroy$)).subscribe(n => { 
 
         if(Images.length != this.imageURLs.length) {
           
@@ -62,6 +64,12 @@ export class LoginComponent implements OnInit{
         }
 
       } );
+  }
+
+
+  ngOnDestroy() {
+
+    this.onDestroy$.next();
   }
 
 
@@ -122,7 +130,7 @@ export class LoginComponent implements OnInit{
 
 	this.renderer.setProperty(this.loginbtn.nativeElement, 'disabled', true);
 	
-	this.userservice.login(JSON.stringify(this.user)).pipe(catchError(this.handleError())).subscribe((res:User[]) => {	
+	this.userservice.login(JSON.stringify(this.user)).pipe(catchError(this.handleError()), takeUntil(this.onDestroy$)).subscribe((res:User[]) => {	
 		
 			this.loading=false;
 

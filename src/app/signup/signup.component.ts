@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Renderer2 } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Renderer2 } from '@angular/core';
 
 import { User } from '../user';
 
@@ -6,22 +6,24 @@ import { NotificationsService } from '../notifications.service';
 
 import { UserService } from '../user.service';
 
-import { throwError } from 'rxjs';
+import { Subject, throwError } from 'rxjs';
 
-import { catchError , tap } from'rxjs/operators';
+import { catchError , tap, takeUntil } from'rxjs/operators'
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html', 
   styleUrls: ['./signup.component.css']
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent implements OnInit, OnDestroy {
 
   @ViewChild('eye') showPasswordEye;
 
   @ViewChild('passwordinput') passwordinput;
 
   @ViewChild('signupbtn') signupbtn;
+
+  private onDestroy$:Subject<void>=new Subject<void>();
 
   loading:boolean=false;
 
@@ -32,6 +34,11 @@ export class SignupComponent implements OnInit {
   constructor(private renderer:Renderer2, private userservice:UserService, private notification:NotificationsService) { }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
+
+    this.onDestroy$.next();
   }
 
   user=new User('', '', '');
@@ -86,7 +93,7 @@ export class SignupComponent implements OnInit {
 
     this.loading=true;
 
-    this.userservice.signup(JSON.stringify(this.user)).pipe(catchError(this.handleError())) .subscribe((res:User[]) => {
+    this.userservice.signup(JSON.stringify(this.user)).pipe(catchError(this.handleError()), takeUntil(this.onDestroy$)) .subscribe((res:User[]) => {
                             
         this.loading=false;
         this.notification.showSuccessMsg('Please check your email', 'Registration successful');   

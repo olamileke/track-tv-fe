@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, Renderer2, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, Renderer2, ElementRef } from '@angular/core';
 
 import { ConfigService } from '../config.service';
 
@@ -6,17 +6,23 @@ import { TvService } from '../tv.service';
 
 import { TvShow } from '../tv-show';
 
+import { Subject } from 'rxjs';
+
+import { takeUntil } from 'rxjs/operators';
+
 @Component({
   selector: 'app-explore',
   templateUrl: './explore.component.html',
   styleUrls: ['./explore.component.css']
 })
-export class ExploreComponent implements OnInit {
+export class ExploreComponent implements OnInit, OnDestroy {
 
   @HostListener('window:scroll',['$event'])
   scrollHandler() {
   	this.config.scrollHandler(this.renderer, this.elRef);
   }
+
+  private onDestroy$:Subject<void>=new Subject<void>();
 
   genres=[10759, 16, 35, 80, 99, 18, 10751, 10762, 9648, 10763, 10764, 10765, 10766, 10767, 10768, 37];
 
@@ -68,7 +74,7 @@ export class ExploreComponent implements OnInit {
 
     if(this.tv.exploreTvShows.length == 0) {
 
-      this.tv.exploredTvShows('explore',rating, numvotes, genreIDs).subscribe((res:any) => {
+      this.tv.exploredTvShows('explore',rating, numvotes, genreIDs).pipe(takeUntil(this.onDestroy$)).subscribe((res:any) => {
 
            this.response=res.results;
 
@@ -96,6 +102,12 @@ export class ExploreComponent implements OnInit {
        clearInterval(interval);
      }
 
+  }
+
+
+  ngOnDestroy() {
+
+    this.onDestroy$.next();
   }
 
   // DETERMINING THE GENRES WHOSE TV SHOWS WILL BE FETCHED
@@ -127,7 +139,7 @@ export class ExploreComponent implements OnInit {
 
   setTvShows(i:number) {
 
-     this.tv.getShowDetail(this.response[i].id).subscribe((res:any) => { 
+     this.tv.getShowDetail(this.response[i].id).pipe(takeUntil(this.onDestroy$)).subscribe((res:any) => { 
 
            if(!this.below_412px) {
 

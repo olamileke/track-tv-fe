@@ -1,10 +1,10 @@
-import { Component, OnInit , Output, HostListener, Renderer2, ElementRef, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit , OnDestroy, Output, HostListener, Renderer2, ElementRef, EventEmitter, ViewChild } from '@angular/core';
 
 import { debounceTime, switchMap, distinctUntilChanged } from 'rxjs/operators';
 
 import { Observable, Subject, throwError } from 'rxjs';
 
-import { catchError } from 'rxjs/operators';
+import { catchError, takeUntil } from 'rxjs/operators';
 
 import { ConfigService } from '../config.service';
 
@@ -40,6 +40,8 @@ export class HeaderComponent implements OnInit {
   @ViewChild('inputlarge') inputlarge;
 
   @ViewChild('inputsmall') inputsmall;
+
+  private onDestroy$:Subject<void>=new Subject<void>();
 
   searchResults=[];
 
@@ -99,6 +101,11 @@ export class HeaderComponent implements OnInit {
   }
 
 
+  ngOnDestroy() {
+
+    this.onDestroy$.next();
+  }
+
   // CHECKING SESSION STORAGE FOR USER INFORMATION
 
   checkStorage():boolean {
@@ -152,7 +159,7 @@ export class HeaderComponent implements OnInit {
 
       this.searchTerms.next(term);
       
-      this.searchTerms.pipe(debounceTime(300),distinctUntilChanged(),switchMap((term:string) => this.tv.fetchSearchResults(term))).subscribe((res:any) => {
+      this.searchTerms.pipe(debounceTime(300),distinctUntilChanged(),switchMap((term:string) => this.tv.fetchSearchResults(term))).pipe(takeUntil(this.onDestroy$)).subscribe((res:any) => {
 
            if(res.results.length > 0 && this.count > 0) {
 
@@ -214,7 +221,7 @@ export class HeaderComponent implements OnInit {
 
     this.load_logout=true;
 
-     this.auth.logout().pipe(catchError(this.handleError())).subscribe((res:any) => {
+     this.auth.logout().pipe(catchError(this.handleError()), takeUntil(this.onDestroy$)).subscribe((res:any) => {
 
          this.auth.unSetUserData();
 
